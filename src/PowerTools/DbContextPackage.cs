@@ -22,6 +22,7 @@ namespace Microsoft.DbContextPackage
     using Microsoft.VisualStudio.Shell.Interop;
     using Configuration = System.Configuration.Configuration;
     using ConfigurationManager = System.Configuration.ConfigurationManager;
+    using VSLangProj;
 
     [PackageRegistration(UseManagedResourcesOnly = true)]
     [InstalledProductRegistration("#110", "#112", "0.9.2", IconResourceID = 400)]
@@ -228,12 +229,45 @@ namespace Microsoft.DbContextPackage
                 (string)_dte2.SelectedItems.Item(1).ProjectItem.Properties.Item("FullPath").Value);
         }
 
-        internal static dynamic GetObjectContext(dynamic context)
+        internal static dynamic GetObjectContext(DbContextPackage dbContextPackage, dynamic context)
         {
-            var objectContextAdapterType
-                = context.GetType().GetInterface("System.Data.Entity.Infrastructure.IObjectContextAdapter");
+
+            const string objectTypeAdapterTypeName = "System.Data.Entity.Infrastructure.IObjectContextAdapter";
+            Type objectContextAdapterType = null;
+            try
+            {
+                Project currentProject = GetActiveProject(dbContextPackage.DTE2);
+                Debug.Assert(currentProject != null);
+
+                var types = from Reference reference in (References)(currentProject.Object as dynamic).References
+                            where reference.Type == prjReferenceType.prjReferenceTypeAssembly && reference.Identity == "EntityFramework"
+                            from t in Assembly.LoadFile(reference.Path).GetTypes()
+                            where t.FullName == objectTypeAdapterTypeName
+                            select t;
+
+                objectContextAdapterType = types.FirstOrDefault();
+                Debug.Assert(objectContextAdapterType != null);
+            }
+            catch (Exception ex)
+            {
+                dbContextPackage.LogError(Strings.UseReferencedEntityFrameworkAssemblyError, ex);
+                objectContextAdapterType = context.GetType().GetInterface(objectTypeAdapterTypeName);
+            }
 
             return objectContextAdapterType.InvokeMember("ObjectContext", BindingFlags.GetProperty, null, context, null);
+        }
+
+        internal static Project GetActiveProject(DTE2 dte)
+        {
+            Project activeProject = null;
+
+            Array activeSolutionProjects = dte.ActiveSolutionProjects as Array;
+            if (activeSolutionProjects != null && activeSolutionProjects.Length > 0)
+            {
+                activeProject = activeSolutionProjects.GetValue(0) as Project;
+            }
+
+            return activeProject;
         }
 
         internal void LogError(string statusMessage, Exception exception)
@@ -571,7 +605,7 @@ namespace Microsoft.DbContextPackage
                 CopyRelatedConfigFile(userConfigDirectory, tempConfigDirectory, file);
             }
 
-            foreach (var configSection in document.Descendants().Where((section)=>section.Attribute("configSource") != null))
+            foreach (var configSection in document.Descendants().Where((section) => section.Attribute("configSource") != null))
             {
                 var configSource = configSection.Attribute("configSource");
                 CopyRelatedConfigFile(userConfigDirectory, tempConfigDirectory, configSource);

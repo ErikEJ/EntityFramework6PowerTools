@@ -43,7 +43,7 @@ namespace Microsoft.DbContextPackage.Handlers
                 var languageOption = selectedItemExtension == FileExtensions.CSharp
                     ? LanguageOption.GenerateCSharpCode
                     : LanguageOption.GenerateVBCode;
-                var objectContext = DbContextPackage.GetObjectContext(context);
+                var objectContext = DbContextPackage.GetObjectContext(_package, context);
                 var baseFileName = contextType.Name;
 
                 if (GetEntityFrameworkVersion(contextType) < new Version(6, 0))
