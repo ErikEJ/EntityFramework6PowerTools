@@ -32,7 +32,7 @@ namespace Microsoft.DbContextPackage.Handlers
                     File.SetAttributes(filePath, FileAttributes.Normal);
                 }
 
-                var objectContext = DbContextPackage.GetObjectContext(context);
+                var objectContext = DbContextPackage.GetObjectContext(_package, context);
 
                 File.WriteAllText(filePath, objectContext.CreateDatabaseScript());
                 File.SetAttributes(filePath, FileAttributes.ReadOnly);

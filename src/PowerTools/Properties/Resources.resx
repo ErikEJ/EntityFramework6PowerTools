@@ -199,6 +199,9 @@
     <value>You are using a version of the Entity Framework that is not supported by the Power Tools. Please upgrade to Entity Framework 4.2 or later.</value>
     <comment>## ExceptionType=InvalidOperationException</comment>
   </data>
+  <data name="UseReferencedEntityFrameworkAssemblyError" xml:space="preserve">
+    <value>Failed to load EntityFramework assembly from currently active project. Using EntityFramerork from EF Tools installed in Visual Studio.</value>
+  </data>
   <data name="ViewContextError" xml:space="preserve">
     <value>An error occurred while trying to build the model for {0}. See the Output window for details.</value>
   </data>

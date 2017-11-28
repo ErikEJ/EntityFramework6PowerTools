@@ -222,6 +222,14 @@ namespace Microsoft.DbContextPackage.Resources
         }
 
         /// <summary>
+        /// A string like "Failed to load EntityFramework assembly from currently active project. Using EntityFramerork from EF Tools installed in Visual Studio."
+        /// </summary>
+        internal static string UseReferencedEntityFrameworkAssemblyError
+        {
+            get { return EntityRes.GetString(EntityRes.UseReferencedEntityFrameworkAssemblyError); }
+        }
+
+        /// <summary>
         /// A string like "An error occurred while trying to build the model for {0}. See the Output window for details."
         /// </summary>
         internal static string ViewContextError(object p0)
@@ -342,6 +350,7 @@ namespace Microsoft.DbContextPackage.Resources
         internal const string ReverseEngineer_SchemaError = "ReverseEngineer_SchemaError";
         internal const string UnknownDirectiveProcessor = "UnknownDirectiveProcessor";
         internal const string UnsupportedVersion = "UnsupportedVersion";
+        internal const string UseReferencedEntityFrameworkAssemblyError = "UseReferencedEntityFrameworkAssemblyError";
         internal const string ViewContextError = "ViewContextError";
         internal const string ViewDdlError = "ViewDdlError";
 
