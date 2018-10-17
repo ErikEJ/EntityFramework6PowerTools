@@ -28,3 +28,6 @@ Index.dat
 Storage.dat
 *.sln.ide
 .vs/
+/MigrationBackup/4dbd1980/PowerTools
+/.idea/.idea.PowerTools
+/MigrationBackup/17048cf7/Tests/PowerTools.Test

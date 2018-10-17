@@ -1,11 +1,13 @@
 ﻿// Copyright (c) Microsoft Open Technologies, Inc. All rights reserved. See License.txt in the project root for license information.
+
+using System;
+using System.IO;
+using Microsoft.DbContextPackage.Resources;
+using Microsoft.DbContextPackage.Utilities;
+using Microsoft.VisualStudio.Shell;
+
 namespace Microsoft.DbContextPackage.Handlers
 {
-    using System;
-    using System.IO;
-    using Microsoft.DbContextPackage.Resources;
-    using Microsoft.DbContextPackage.Utilities;
-
     internal class ViewDdlHandler
     {
         private readonly DbContextPackage _package;
@@ -19,6 +21,7 @@ namespace Microsoft.DbContextPackage.Handlers
 
         public void ViewDdl(dynamic context)
         {
+            ThreadHelper.ThrowIfNotOnUIThread();
             Type contextType = context.GetType();
 
             try
@@ -27,10 +30,7 @@ namespace Microsoft.DbContextPackage.Handlers
                     Path.GetTempPath(),
                     contextType.Name + FileExtensions.Sql);
 
-                if (File.Exists(filePath))
-                {
-                    File.SetAttributes(filePath, FileAttributes.Normal);
-                }
+                if (File.Exists(filePath)) File.SetAttributes(filePath, FileAttributes.Normal);
 
                 var objectContext = DbContextPackage.GetObjectContext(context);
 

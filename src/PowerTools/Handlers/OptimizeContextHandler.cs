@@ -1,26 +1,28 @@
 ﻿// Copyright (c) Microsoft Open Technologies, Inc. All rights reserved. See License.txt in the project root for license information.
+
+using System;
+using System.Collections.Generic;
+using System.Data.Entity.Design;
+using System.Data.Mapping;
+using System.Data.Metadata.Edm;
+using System.Diagnostics;
+using System.IO;
+using System.Linq;
+using System.Reflection;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+using EnvDTE;
+using Microsoft.DbContextPackage.Extensions;
+using Microsoft.DbContextPackage.Resources;
+using Microsoft.DbContextPackage.Utilities;
+using Microsoft.VisualStudio.Shell;
+using Microsoft.VisualStudio.Shell.Design;
+using Microsoft.VisualStudio.Shell.Interop;
+using VSLangProj;
+using Task = System.Threading.Tasks.Task;
+
 namespace Microsoft.DbContextPackage.Handlers
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Data.Entity.Design;
-    using System.Data.Mapping;
-    using System.Data.Metadata.Edm;
-    using System.Diagnostics;
-    using System.IO;
-    using System.Linq;
-    using System.Reflection;
-    using System.Threading.Tasks;
-    using System.Windows.Forms;
-    using EnvDTE;
-    using Microsoft.DbContextPackage.Extensions;
-    using Microsoft.DbContextPackage.Resources;
-    using Microsoft.DbContextPackage.Utilities;
-    using Microsoft.VisualStudio.Shell.Design;
-    using Microsoft.VisualStudio.Shell.Interop;
-    using VSLangProj;
-    using Task = System.Threading.Tasks.Task;
-
     internal class OptimizeContextHandler
     {
         private readonly DbContextPackage _package;
@@ -34,12 +36,13 @@ namespace Microsoft.DbContextPackage.Handlers
 
         public void OptimizeContext(dynamic context)
         {
+            ThreadHelper.ThrowIfNotOnUIThread();
             Type contextType = context.GetType();
 
             try
             {
                 var selectedItem = _package.DTE2.SelectedItems.Item(1);
-                var selectedItemExtension = (string)selectedItem.ProjectItem.Properties.Item("Extension").Value;
+                var selectedItemExtension = (string) selectedItem.ProjectItem.Properties.Item("Extension").Value;
                 var languageOption = selectedItemExtension == FileExtensions.CSharp
                     ? LanguageOption.GenerateCSharpCode
                     : LanguageOption.GenerateVBCode;
@@ -48,25 +51,30 @@ namespace Microsoft.DbContextPackage.Handlers
 
                 if (GetEntityFrameworkVersion(contextType) < new Version(6, 0))
                 {
-                    var mappingCollection = (StorageMappingItemCollection)objectContext.MetadataWorkspace.GetItemCollection(DataSpace.CSSpace);
+                    var mappingCollection =
+                        (StorageMappingItemCollection) objectContext.MetadataWorkspace.GetItemCollection(
+                            DataSpace.CSSpace);
 
                     OptimizeContextEF5(languageOption, baseFileName, mappingCollection, selectedItem);
                 }
                 else
                 {
                     var metadataWorkspace = objectContext.MetadataWorkspace;
-                    var getItemCollection = ((Type)metadataWorkspace.GetType()).GetMethod("GetItemCollection");
-                    var dataSpace = getItemCollection.GetParameters().First().ParameterType;
-                    var mappingCollection = getItemCollection.Invoke(
-                        metadataWorkspace,
-                        new[] { Enum.Parse(dataSpace, "CSSpace") });
+                    var getItemCollection = ((Type) metadataWorkspace.GetType()).GetMethod("GetItemCollection");
+                    if (getItemCollection != null)
+                    {
+                        var dataSpace = getItemCollection.GetParameters().First().ParameterType;
+                        var mappingCollection = getItemCollection.Invoke(
+                            metadataWorkspace,
+                            new[] {Enum.Parse(dataSpace, "CSSpace")});
 
-                    OptimizeContextEF6(
-                        languageOption,
-                        baseFileName,
-                        mappingCollection,
-                        selectedItem,
-                        contextType.FullName);
+                        OptimizeContextEF6(
+                            languageOption,
+                            baseFileName,
+                            mappingCollection,
+                            selectedItem,
+                            contextType.FullName);
+                    }
                 }
             }
             catch (Exception ex)
@@ -77,6 +85,7 @@ namespace Microsoft.DbContextPackage.Handlers
 
         public void OptimizeEdmx(string inputPath)
         {
+            ThreadHelper.ThrowIfNotOnUIThread();
             DebugCheck.NotEmpty(inputPath);
 
             var baseFileName = Path.GetFileNameWithoutExtension(inputPath);
@@ -90,10 +99,10 @@ namespace Microsoft.DbContextPackage.Handlers
                     : LanguageOption.GenerateVBCode;
                 var edmxUtility = new EdmxUtility(inputPath);
 
-                var ef6Reference = ((VSProject)project.Object).References.Cast<Reference>().FirstOrDefault(
+                var ef6Reference = ((VSProject) project.Object).References.Cast<Reference>().FirstOrDefault(
                     r => r.Name.EqualsIgnoreCase("EntityFramework")
-                        && Version.Parse(r.Version) >= new Version(6, 0)
-                        && r.PublicKeyToken.EqualsIgnoreCase("b77a5c561934e089"));
+                         && Version.Parse(r.Version) >= new Version(6, 0)
+                         && r.PublicKeyToken.EqualsIgnoreCase("b77a5c561934e089"));
 
                 if (ef6Reference == null)
                 {
@@ -105,19 +114,18 @@ namespace Microsoft.DbContextPackage.Handlers
                 {
                     var typeService = _package.GetService<DynamicTypeService>();
                     var solution = _package.GetService<SVsSolution, IVsSolution>();
-                    IVsHierarchy hierarchy;
-                    solution.GetProjectOfUniqueName(project.UniqueName, out hierarchy);
+                    solution.GetProjectOfUniqueName(project.UniqueName, out IVsHierarchy hierarchy);
                     var typeResolutionService = typeService.GetTypeResolutionService(hierarchy);
                     var ef6Assembly = typeResolutionService.GetAssembly(
-                        new AssemblyName { Name = ef6Reference.Name, Version = new Version(ef6Reference.Version) });
+                        new AssemblyName {Name = ef6Reference.Name, Version = new Version(ef6Reference.Version)});
 
                     if (ef6Assembly != null)
                     {
-                        string containerName;
-                        var mappingCollection = edmxUtility.GetMappingCollectionEF6(ef6Assembly, out containerName);
+                        var mappingCollection = edmxUtility.GetMappingCollectionEF6(ef6Assembly, out string containerName);
                         var contextTypeName = selectedItem.ProjectItem.GetDefaultNamespace() + "." + containerName;
 
-                        OptimizeContextEF6(languageOption, baseFileName, mappingCollection, selectedItem, contextTypeName);
+                        OptimizeContextEF6(languageOption, baseFileName, mappingCollection, selectedItem,
+                            contextTypeName);
                     }
                     else
                     {
@@ -125,7 +133,6 @@ namespace Microsoft.DbContextPackage.Handlers
 
                         OptimizeContextEF5(languageOption, baseFileName, mappingCollection, selectedItem);
                     }
-
                 }
             }
             catch (Exception ex)
@@ -140,42 +147,47 @@ namespace Microsoft.DbContextPackage.Handlers
             SelectedItem selectedItem,
             Action<string> generateAction)
         {
+            ThreadHelper.ThrowIfNotOnUIThread();
             DebugCheck.NotEmpty(baseFileName);
 
-            var progressTimer = new Timer { Interval = 1000 };
+            var progressTimer = new Timer {Interval = 1000};
 
             try
             {
-                var selectedItemPath = (string)selectedItem.ProjectItem.Properties.Item("FullPath").Value;
+                var selectedItemPath = (string) selectedItem.ProjectItem.Properties.Item("FullPath").Value;
                 var viewsFileName = baseFileName
-                    + ".Views"
-                    + ((languageOption == LanguageOption.GenerateCSharpCode)
-                        ? FileExtensions.CSharp
-                        : FileExtensions.VisualBasic);
+                                    + ".Views"
+                                    + (languageOption == LanguageOption.GenerateCSharpCode
+                                        ? FileExtensions.CSharp
+                                        : FileExtensions.VisualBasic);
                 var viewsPath = Path.Combine(
-                    Path.GetDirectoryName(selectedItemPath),
+                    Path.GetDirectoryName(selectedItemPath) ?? throw new InvalidOperationException(),
                     viewsFileName);
 
                 _package.DTE2.SourceControl.CheckOutItemIfNeeded(viewsPath);
 
                 var progress = 1;
                 progressTimer.Tick += (sender, e) =>
-                    {
-                        _package.DTE2.StatusBar.Progress(true, string.Empty, progress, 100);
-                        progress = progress == 100 ? 1 : progress + 1;
-                        _package.DTE2.StatusBar.Text = Strings.Optimize_Begin(baseFileName);
-                    };
+                {
+                    ThreadHelper.ThrowIfNotOnUIThread();
+                    _package.DTE2.StatusBar.Progress(true, string.Empty, progress, 100);
+                    progress = progress == 100 ? 1 : progress + 1;
+                    _package.DTE2.StatusBar.Text = Strings.Optimize_Begin(baseFileName);
+                };
 
                 progressTimer.Start();
 
+                // TODO: deal with these warnings
+#pragma warning disable VSTHRD105 // Avoid method overloads that assume TaskScheduler.Current
                 Task.Factory.StartNew(
-                        () =>
-                        {
-                            generateAction(viewsPath);
-                        })
+#pragma warning restore VSTHRD105 // Avoid method overloads that assume TaskScheduler.Current
+                        () => { generateAction(viewsPath); })
+#pragma warning disable VSTHRD110 // Observe result of async calls
                     .ContinueWith(
+#pragma warning restore VSTHRD110 // Observe result of async calls
                         t =>
                         {
+                            ThreadHelper.ThrowIfNotOnUIThread();
                             progressTimer.Stop();
                             _package.DTE2.StatusBar.Progress(false);
 
@@ -189,7 +201,8 @@ namespace Microsoft.DbContextPackage.Handlers
                             selectedItem.ProjectItem.ContainingProject.ProjectItems.AddFromFile(viewsPath);
                             _package.DTE2.ItemOperations.OpenFile(viewsPath);
 
-                            _package.DTE2.StatusBar.Text = Strings.Optimize_End(baseFileName, Path.GetFileName(viewsPath));
+                            _package.DTE2.StatusBar.Text =
+                                Strings.Optimize_End(baseFileName, Path.GetFileName(viewsPath));
                         },
                         TaskScheduler.FromCurrentSynchronizationContext());
             }
@@ -208,6 +221,7 @@ namespace Microsoft.DbContextPackage.Handlers
             StorageMappingItemCollection mappingCollection,
             SelectedItem selectedItem)
         {
+            ThreadHelper.ThrowIfNotOnUIThread();
             DebugCheck.NotEmpty(baseFileName);
             DebugCheck.NotNull(mappingCollection);
 
@@ -230,6 +244,7 @@ namespace Microsoft.DbContextPackage.Handlers
             SelectedItem selectedItem,
             string contextTypeName)
         {
+            ThreadHelper.ThrowIfNotOnUIThread();
             DebugCheck.NotEmpty(baseFileName);
 
             OptimizeContextCore(
@@ -238,24 +253,22 @@ namespace Microsoft.DbContextPackage.Handlers
                 selectedItem,
                 viewsPath =>
                 {
-                    var edmSchemaError = ((Type)mappingCollection.GetType()).Assembly
+                    var edmSchemaError = ((Type) mappingCollection.GetType()).Assembly
                         .GetType("System.Data.Entity.Core.Metadata.Edm.EdmSchemaError", true);
                     var listOfEdmSchemaError = typeof(List<>).MakeGenericType(edmSchemaError);
                     var errors = Activator.CreateInstance(listOfEdmSchemaError);
-                    var views = ((Type)mappingCollection.GetType())
-                        .GetMethod("GenerateViews", new[] { listOfEdmSchemaError })
-                        .Invoke(mappingCollection, new[] { errors });
+                    var views = ((Type) mappingCollection.GetType())
+                        .GetMethod("GenerateViews", new[] {listOfEdmSchemaError})
+                        .Invoke(mappingCollection, new[] {errors});
 
-                    foreach (var error in (IEnumerable<dynamic>)errors)
+                    foreach (var error in (IEnumerable<dynamic>) errors)
                     {
-                        if ((int)error.Severity == 1)
-                        {
+                        if ((int) error.Severity == 1)
                             throw new EdmSchemaErrorException(Strings.Optimize_SchemaError(baseFileName));
-                        }
                     }
 
                     var viewGenerator = languageOption == LanguageOption.GenerateVBCode
-                        ? (IViewGenerator)new VBViewGenerator()
+                        ? (IViewGenerator) new VBViewGenerator()
                         : new CSharpViewGenerator();
                     viewGenerator.ContextTypeName = contextTypeName;
                     viewGenerator.MappingHashValue = mappingCollection.ComputeMappingHashValue();
@@ -270,8 +283,8 @@ namespace Microsoft.DbContextPackage.Handlers
             DebugCheck.NotNull(contextType);
 
             while (contextType != null
-                && contextType.FullName != "System.Data.Entity.DbContext"
-                && contextType.Assembly.GetName().Name != "EntityFramework")
+                   && contextType.FullName != "System.Data.Entity.DbContext"
+                   && contextType.Assembly.GetName().Name != "EntityFramework")
             {
                 contextType = contextType.BaseType;
             }

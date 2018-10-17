@@ -1,11 +1,12 @@
 // Copyright (c) Microsoft Open Technologies, Inc. All rights reserved. See License.txt in the project root for license information.
+
+using System.Collections.Generic;
+using System.Linq;
+using System.Xml.Linq;
+using Microsoft.DbContextPackage.Utilities;
+
 namespace Microsoft.DbContextPackage.Extensions
 {
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Xml.Linq;
-    using Microsoft.DbContextPackage.Utilities;
-
     internal static class XContainerExtensions
     {
         // <summary>
@@ -24,7 +25,7 @@ namespace Microsoft.DbContextPackage.Extensions
             return container.Elements()
                 .FirstOrDefault(
                     e => e.Name.LocalName == localName
-                        && namespaces.Contains(e.Name.Namespace));
+                         && namespaces.Contains(e.Name.Namespace));
         }
     }
 }

@@ -1,4 +1,6 @@
 ﻿using System;
+using Microsoft.DbContextPackage.Dialogs;
+using Microsoft.VisualStudio.Shell;
 
 namespace Microsoft.DbContextPackage.Handlers
 {
@@ -13,6 +15,7 @@ namespace Microsoft.DbContextPackage.Handlers
 
         public void ShowDialog()
         {
+            ThreadHelper.ThrowIfNotOnUIThread();
             try
             {
                 var dialog = new AboutDialog(_package);

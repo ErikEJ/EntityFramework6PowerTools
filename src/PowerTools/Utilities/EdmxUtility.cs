@@ -1,26 +1,27 @@
 ﻿// Copyright (c) Microsoft Open Technologies, Inc. All rights reserved. See License.txt in the project root for license information.
+
+using System;
+using System.Collections.Generic;
+using System.Data.Entity.Design;
+using System.Data.Mapping;
+using System.Data.Metadata.Edm;
+using System.IO;
+using System.Reflection;
+using System.Xml;
+using System.Xml.Linq;
+using Microsoft.DbContextPackage.Extensions;
+using Microsoft.DbContextPackage.Resources;
+
 namespace Microsoft.DbContextPackage.Utilities
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Data.Entity.Design;
-    using System.Data.Mapping;
-    using System.Data.Metadata.Edm;
-    using System.IO;
-    using System.Reflection;
-    using System.Xml;
-    using System.Xml.Linq;
-    using Microsoft.DbContextPackage.Extensions;
-    using Microsoft.DbContextPackage.Resources;
-
     internal class EdmxUtility
     {
         private static readonly IEnumerable<XNamespace> EDMX_NAMESPACES = new XNamespace[]
-            {
-                "http://schemas.microsoft.com/ado/2009/11/edmx",
-                "http://schemas.microsoft.com/ado/2008/10/edmx",
-                "http://schemas.microsoft.com/ado/2007/06/edmx"
-            };
+        {
+            "http://schemas.microsoft.com/ado/2009/11/edmx",
+            "http://schemas.microsoft.com/ado/2008/10/edmx",
+            "http://schemas.microsoft.com/ado/2007/06/edmx"
+        };
 
         private readonly string _edmxPath;
 
@@ -40,7 +41,7 @@ namespace Microsoft.DbContextPackage.Utilities
             using (var reader = CreateSectionReader(EdmxSection.Csdl))
             {
                 edmCollection = MetadataItemCollectionFactory.CreateEdmItemCollection(
-                    new[] { reader },
+                    new[] {reader},
                     out errors);
                 errors.HandleErrors(Strings.EdmSchemaError(edmxFileName, EdmxSection.Csdl.SectionName));
             }
@@ -49,7 +50,7 @@ namespace Microsoft.DbContextPackage.Utilities
             using (var reader = CreateSectionReader(EdmxSection.Ssdl))
             {
                 storeCollection = MetadataItemCollectionFactory.CreateStoreItemCollection(
-                    new[] { reader },
+                    new[] {reader},
                     out errors);
                 errors.HandleErrors(Strings.EdmSchemaError(edmxFileName, EdmxSection.Ssdl.SectionName));
             }
@@ -58,10 +59,10 @@ namespace Microsoft.DbContextPackage.Utilities
             using (var reader = CreateSectionReader(EdmxSection.Msl))
             {
                 mappingCollection = MetadataItemCollectionFactory.CreateStorageMappingItemCollection(
-                        edmCollection,
-                        storeCollection,
-                        new[] { reader },
-                        out errors);
+                    edmCollection,
+                    storeCollection,
+                    new[] {reader},
+                    out errors);
                 errors.HandleErrors(Strings.EdmSchemaError(edmxFileName, EdmxSection.Msl.SectionName));
             }
 
@@ -85,7 +86,7 @@ namespace Microsoft.DbContextPackage.Utilities
             {
                 edmCollection = Activator.CreateInstance(
                     edmItemCollectionType,
-                    (IEnumerable<XmlReader>)new[] { reader });
+                    (IEnumerable<XmlReader>) new[] {reader});
             }
 
             containerName = null;
@@ -104,7 +105,7 @@ namespace Microsoft.DbContextPackage.Utilities
             {
                 storeCollection = Activator.CreateInstance(
                     storeItemCollectionType,
-                    (IEnumerable<XmlReader>)new[] { reader });
+                    (IEnumerable<XmlReader>) new[] {reader});
             }
 
             dynamic mappingCollection;
@@ -114,7 +115,7 @@ namespace Microsoft.DbContextPackage.Utilities
                     storageMappingItemCollectionType,
                     edmCollection,
                     storeCollection,
-                    (IEnumerable<XmlReader>)new[] { reader });
+                    (IEnumerable<XmlReader>) new[] {reader});
             }
 
             return mappingCollection;
@@ -127,24 +128,12 @@ namespace Microsoft.DbContextPackage.Utilities
             var edmxDocument = XElement.Load(_edmxPath, LoadOptions.SetBaseUri | LoadOptions.SetLineInfo);
 
             var runtime = edmxDocument.Element(EDMX_NAMESPACES, "Runtime");
-            if (runtime == null)
-            {
-                return null;
-            }
 
-            var section = runtime.Element(EDMX_NAMESPACES, edmxSection.SectionName);
-            if (section == null)
-            {
-                return null;
-            }
+            var section = runtime?.Element(EDMX_NAMESPACES, edmxSection.SectionName);
 
-            var rootElement = section.Element(edmxSection.Namespaces, edmxSection.RootElementName);
-            if (rootElement == null)
-            {
-                return null;
-            }
+            var rootElement = section?.Element(edmxSection.Namespaces, edmxSection.RootElementName);
 
-            return rootElement.CreateReader();
+            return rootElement?.CreateReader();
         }
 
         private sealed class EdmxSection
@@ -152,47 +141,47 @@ namespace Microsoft.DbContextPackage.Utilities
             static EdmxSection()
             {
                 Csdl = new EdmxSection
+                {
+                    Namespaces = new XNamespace[]
                     {
-                        Namespaces = new XNamespace[]
-                            {
-                                "http://schemas.microsoft.com/ado/2009/11/edm",
-                                "http://schemas.microsoft.com/ado/2008/09/edm",
-                                "http://schemas.microsoft.com/ado/2006/04/edm"
-                            },
-                        SectionName = "ConceptualModels",
-                        RootElementName = "Schema"
-                    };
+                        "http://schemas.microsoft.com/ado/2009/11/edm",
+                        "http://schemas.microsoft.com/ado/2008/09/edm",
+                        "http://schemas.microsoft.com/ado/2006/04/edm"
+                    },
+                    SectionName = "ConceptualModels",
+                    RootElementName = "Schema"
+                };
                 Msl = new EdmxSection
+                {
+                    Namespaces = new XNamespace[]
                     {
-                        Namespaces = new XNamespace[]
-                            {
-                                "http://schemas.microsoft.com/ado/2009/11/mapping/cs",
-                                "http://schemas.microsoft.com/ado/2008/09/mapping/cs",
-                                "urn:schemas-microsoft-com:windows:storage:mapping:CS"
-                            },
-                        SectionName = "Mappings",
-                        RootElementName = "Mapping"
-                    };
+                        "http://schemas.microsoft.com/ado/2009/11/mapping/cs",
+                        "http://schemas.microsoft.com/ado/2008/09/mapping/cs",
+                        "urn:schemas-microsoft-com:windows:storage:mapping:CS"
+                    },
+                    SectionName = "Mappings",
+                    RootElementName = "Mapping"
+                };
                 Ssdl = new EdmxSection
+                {
+                    Namespaces = new XNamespace[]
                     {
-                        Namespaces = new XNamespace[]
-                            {
-                                "http://schemas.microsoft.com/ado/2009/11/edm/ssdl",
-                                "http://schemas.microsoft.com/ado/2009/02/edm/ssdl",
-                                "http://schemas.microsoft.com/ado/2006/04/edm/ssdl"
-                            },
-                        SectionName = "StorageModels",
-                        RootElementName = "Schema"
-                    };
+                        "http://schemas.microsoft.com/ado/2009/11/edm/ssdl",
+                        "http://schemas.microsoft.com/ado/2009/02/edm/ssdl",
+                        "http://schemas.microsoft.com/ado/2006/04/edm/ssdl"
+                    },
+                    SectionName = "StorageModels",
+                    RootElementName = "Schema"
+                };
             }
 
             private EdmxSection()
             {
             }
 
-            public static EdmxSection Csdl { get; private set; }
-            public static EdmxSection Msl { get; private set; }
-            public static EdmxSection Ssdl { get; private set; }
+            public static EdmxSection Csdl { get; }
+            public static EdmxSection Msl { get; }
+            public static EdmxSection Ssdl { get; }
 
             public IEnumerable<XNamespace> Namespaces { get; private set; }
             public string SectionName { get; private set; }
