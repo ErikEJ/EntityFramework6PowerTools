@@ -1,21 +1,23 @@
 ﻿// Copyright (c) Microsoft Open Technologies, Inc. All rights reserved. See License.txt in the project root for license information.
 
+using System.Collections.Generic;
+using EnvDTE;
+using Microsoft.VisualStudio.Shell;
+
 namespace Microsoft.DbContextPackage.Extensions
 {
-    using System.Collections.Generic;
-    using EnvDTE;
-
     internal static class ProjectItemExtensions
     {
         public static string GetDefaultNamespace(this ProjectItem projectItem)
         {
+            ThreadHelper.ThrowIfNotOnUIThread();
             var project = projectItem.ContainingProject;
             var namespaceParts = new Stack<string>();
 
             var parent = projectItem.Collection.Parent;
             while (parent != project)
             {
-                var parentProjectItem = (ProjectItem)parent;
+                var parentProjectItem = (ProjectItem) parent;
 
                 namespaceParts.Push(parentProjectItem.Name);
 

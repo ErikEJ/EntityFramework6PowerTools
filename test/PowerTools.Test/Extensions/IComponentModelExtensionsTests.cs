@@ -1,10 +1,11 @@
 ﻿// Copyright (c) Microsoft Open Technologies, Inc. All rights reserved. See License.txt in the project root for license information.
+
+using Microsoft.VisualStudio.ComponentModelHost;
+using Moq;
+using Xunit;
+
 namespace Microsoft.DbContextPackage.Extensions
 {
-    using Microsoft.VisualStudio.ComponentModelHost;
-    using Moq;
-    using Xunit;
-
     public class IComponentModelExtensionsTests
     {
         [Fact]

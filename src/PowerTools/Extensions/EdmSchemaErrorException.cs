@@ -1,17 +1,16 @@
 ﻿// Copyright (c) Microsoft Open Technologies, Inc. All rights reserved. See License.txt in the project root for license information.
+
+using System;
+using System.Collections.Generic;
+using System.Data.Metadata.Edm;
+using System.Runtime.Serialization;
+using Microsoft.DbContextPackage.Utilities;
+
 namespace Microsoft.DbContextPackage.Extensions
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Data.Metadata.Edm;
-    using System.Runtime.Serialization;
-    using Microsoft.DbContextPackage.Utilities;
-
     [Serializable]
     public class EdmSchemaErrorException : Exception
     {
-        private readonly IEnumerable<EdmSchemaError> _errors;
-
         public EdmSchemaErrorException()
         {
         }
@@ -24,9 +23,9 @@ namespace Microsoft.DbContextPackage.Extensions
         public EdmSchemaErrorException(string message, IEnumerable<EdmSchemaError> errors)
             : base(message)
         {
-            Check.NotNull(errors, "errors");
+            Check.NotNull(errors, nameof(errors));
 
-            _errors = errors;
+            Errors = errors;
         }
 
         public EdmSchemaErrorException(string message, Exception innerException)
@@ -37,21 +36,18 @@ namespace Microsoft.DbContextPackage.Extensions
         protected EdmSchemaErrorException(SerializationInfo info, StreamingContext context)
             : base(info, context)
         {
-            Check.NotNull(info, "info");
+            Check.NotNull(info, nameof(info));
 
-            _errors = (IEnumerable<EdmSchemaError>)info.GetValue("Errors", typeof(IEnumerable<EdmSchemaError>));
+            Errors = (IEnumerable<EdmSchemaError>) info.GetValue("Errors", typeof(IEnumerable<EdmSchemaError>));
         }
 
-        public IEnumerable<EdmSchemaError> Errors
-        {
-            get { return _errors; }
-        }
+        public IEnumerable<EdmSchemaError> Errors { get; }
 
         public override void GetObjectData(SerializationInfo info, StreamingContext context)
         {
-            Check.NotNull(info, "info");
+            Check.NotNull(info, nameof(info));
 
-            info.AddValue("Errors", _errors);
+            info.AddValue("Errors", Errors);
 
             base.GetObjectData(info, context);
         }
