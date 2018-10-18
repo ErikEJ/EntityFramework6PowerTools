@@ -1,8 +1,9 @@
 ﻿// Copyright (c) Microsoft Open Technologies, Inc. All rights reserved. See License.txt in the project root for license information.
+
+using System;
+
 namespace Microsoft.DbContextPackage
 {
-    using System;
-
     internal static class GuidList
     {
         public const string guidDbContextPackagePkgString = "F0A7D01D-4834-44C3-99B2-5907A0701906";

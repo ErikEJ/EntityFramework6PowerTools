@@ -1,30 +1,33 @@
 ﻿// Copyright (c) Microsoft Open Technologies, Inc. All rights reserved. See License.txt in the project root for license information.
+
+using System;
+using System.Collections.Generic;
+using System.ComponentModel.Design;
+using System.Configuration;
+using System.Diagnostics;
+using System.IO;
+using System.Linq;
+using System.Reflection;
+using System.Runtime.InteropServices;
+using System.Threading;
+using System.Xml.Linq;
+using EnvDTE;
+using EnvDTE80;
+using Microsoft.DbContextPackage.Extensions;
+using Microsoft.DbContextPackage.Handlers;
+using Microsoft.DbContextPackage.Resources;
+using Microsoft.DbContextPackage.Utilities;
+using Microsoft.VisualStudio;
+using Microsoft.VisualStudio.Shell;
+using Microsoft.VisualStudio.Shell.Design;
+using Microsoft.VisualStudio.Shell.Interop;
+using Configuration = System.Configuration.Configuration;
+using ConfigurationManager = System.Configuration.ConfigurationManager;
+using IServiceProvider = Microsoft.VisualStudio.OLE.Interop.IServiceProvider;
+using Task = System.Threading.Tasks.Task;
+
 namespace Microsoft.DbContextPackage
 {
-    using System;
-    using System.Collections.Generic;
-    using System.ComponentModel.Design;
-    using System.Configuration;
-    using System.Diagnostics;
-    using System.IO;
-    using System.Linq;
-    using System.Reflection;
-    using System.Runtime.InteropServices;
-    using System.Threading;
-    using System.Xml.Linq;
-    using EnvDTE;
-    using EnvDTE80;
-    using Microsoft.DbContextPackage.Extensions;
-    using Microsoft.DbContextPackage.Handlers;
-    using Microsoft.DbContextPackage.Resources;
-    using Microsoft.DbContextPackage.Utilities;
-    using Microsoft.VisualStudio;
-    using Microsoft.VisualStudio.Shell;
-    using Microsoft.VisualStudio.Shell.Design;
-    using Microsoft.VisualStudio.Shell.Interop;
-    using Configuration = System.Configuration.Configuration;
-    using ConfigurationManager = System.Configuration.ConfigurationManager;
-
     [PackageRegistration(UseManagedResourcesOnly = true, AllowsBackgroundLoading = true)]
     [InstalledProductRegistration("#110", "#112", "0.9.2", IconResourceID = 400)]
     [ProvideMenuResource("Menus.ctmenu", 1)]
@@ -32,13 +35,12 @@ namespace Microsoft.DbContextPackage
     [ProvideAutoLoad(VSConstants.UICONTEXT.SolutionExistsAndFullyLoaded_string, PackageAutoLoadFlags.BackgroundLoad)]
     public sealed class DbContextPackage : AsyncPackage
     {
+        private readonly AboutHandler _aboutHandler;
         private readonly OptimizeContextHandler _optimizeContextHandler;
+
+        private readonly HashSet<string> _tempFileNames;
         private readonly ViewContextHandler _viewContextHandler;
         private readonly ViewDdlHandler _viewDdlHandler;
-        private readonly AboutHandler _aboutHandler;
-        private HashSet<string> _tempFileNames;
-
-        private DTE2 _dte2;
 
         public DbContextPackage()
         {
@@ -49,21 +51,18 @@ namespace Microsoft.DbContextPackage
             _tempFileNames = new HashSet<string>();
         }
 
-        internal DTE2 DTE2
-        {
-            get { return _dte2; }
-        }
+        internal DTE2 DTE2 { get; private set; }
 
-        protected override async System.Threading.Tasks.Task InitializeAsync(CancellationToken cancellationToken, IProgress<ServiceProgressData> progress)
+        protected override async Task InitializeAsync(CancellationToken cancellationToken,
+            IProgress<ServiceProgressData> progress)
         {
             await base.InitializeAsync(cancellationToken, progress);
 
-            _dte2 = await GetServiceAsync(typeof(DTE)) as DTE2;
+            DTE2 = await GetServiceAsync(typeof(DTE)) as DTE2;
 
-            if (_dte2 == null)
-            {
-                return;
-            }
+            Assumes.Present(DTE2);
+
+            if (DTE2 == null) return;
 
             var oleMenuCommandService
                 = await GetServiceAsync(typeof(IMenuCommandService)) as OleMenuCommandService;
@@ -72,28 +71,37 @@ namespace Microsoft.DbContextPackage
 
             if (oleMenuCommandService != null)
             {
-                var menuCommandID1 = new CommandID(GuidList.guidDbContextPackageCmdSet, (int)PkgCmdIDList.cmdidViewEntityDataModel);
-                var menuItem1 = new OleMenuCommand(OnItemContextMenuInvokeHandler, null, OnItemMenuBeforeQueryStatus, menuCommandID1);
+                var menuCommandID1 = new CommandID(GuidList.guidDbContextPackageCmdSet,
+                    (int) PkgCmdIDList.cmdidViewEntityDataModel);
+                var menuItem1 = new OleMenuCommand(OnItemContextMenuInvokeHandler, null, OnItemMenuBeforeQueryStatus,
+                    menuCommandID1);
 
                 oleMenuCommandService.AddCommand(menuItem1);
 
-                var menuCommandID2 = new CommandID(GuidList.guidDbContextPackageCmdSet, (int)PkgCmdIDList.cmdidViewEntityDataModelXml);
-                var menuItem2 = new OleMenuCommand(OnItemContextMenuInvokeHandler, null, OnItemMenuBeforeQueryStatus, menuCommandID2);
+                var menuCommandID2 = new CommandID(GuidList.guidDbContextPackageCmdSet,
+                    (int) PkgCmdIDList.cmdidViewEntityDataModelXml);
+                var menuItem2 = new OleMenuCommand(OnItemContextMenuInvokeHandler, null, OnItemMenuBeforeQueryStatus,
+                    menuCommandID2);
 
                 oleMenuCommandService.AddCommand(menuItem2);
 
-                var menuCommandID3 = new CommandID(GuidList.guidDbContextPackageCmdSet, (int)PkgCmdIDList.cmdidPrecompileEntityDataModelViews);
-                var menuItem3 = new OleMenuCommand(OnOptimizeContextInvokeHandler, null, OnOptimizeContextBeforeQueryStatus, menuCommandID3);
+                var menuCommandID3 = new CommandID(GuidList.guidDbContextPackageCmdSet,
+                    (int) PkgCmdIDList.cmdidPrecompileEntityDataModelViews);
+                var menuItem3 = new OleMenuCommand(OnOptimizeContextInvokeHandler, null,
+                    OnOptimizeContextBeforeQueryStatus, menuCommandID3);
 
                 oleMenuCommandService.AddCommand(menuItem3);
 
-                var menuCommandID4 = new CommandID(GuidList.guidDbContextPackageCmdSet, (int)PkgCmdIDList.cmdidViewEntityModelDdl);
-                var menuItem4 = new OleMenuCommand(OnItemContextMenuInvokeHandler, null, OnItemMenuBeforeQueryStatus, menuCommandID4);
+                var menuCommandID4 = new CommandID(GuidList.guidDbContextPackageCmdSet,
+                    (int) PkgCmdIDList.cmdidViewEntityModelDdl);
+                var menuItem4 = new OleMenuCommand(OnItemContextMenuInvokeHandler, null, OnItemMenuBeforeQueryStatus,
+                    menuCommandID4);
 
                 oleMenuCommandService.AddCommand(menuItem4);
 
-                var menuCommandID5 = new CommandID(GuidList.guidDbContextPackageCmdSet, (int)PkgCmdIDList.cmdidAbout);
-                var menuItem5 = new OleMenuCommand(OnItemContextMenuInvokeHandler, null, OnItemMenuBeforeQueryStatus, menuCommandID5);
+                var menuCommandID5 = new CommandID(GuidList.guidDbContextPackageCmdSet, (int) PkgCmdIDList.cmdidAbout);
+                var menuItem5 = new OleMenuCommand(OnItemContextMenuInvokeHandler, null, OnItemMenuBeforeQueryStatus,
+                    menuCommandID5);
 
                 oleMenuCommandService.AddCommand(menuItem5);
             }
@@ -101,33 +109,31 @@ namespace Microsoft.DbContextPackage
 
         private void OnItemMenuBeforeQueryStatus(object sender, EventArgs e)
         {
+            ThreadHelper.ThrowIfNotOnUIThread();
+
             OnItemMenuBeforeQueryStatus(
                 sender,
-                new[] { FileExtensions.CSharp, FileExtensions.VisualBasic });
+                new[] {FileExtensions.CSharp, FileExtensions.VisualBasic});
         }
 
         private void OnOptimizeContextBeforeQueryStatus(object sender, EventArgs e)
         {
+            ThreadHelper.ThrowIfNotOnUIThread();
+
             OnItemMenuBeforeQueryStatus(
                 sender,
-                new[] { FileExtensions.CSharp, FileExtensions.VisualBasic, FileExtensions.EntityDataModel });
+                new[] {FileExtensions.CSharp, FileExtensions.VisualBasic, FileExtensions.EntityDataModel});
         }
 
         private void OnItemMenuBeforeQueryStatus(object sender, IEnumerable<string> supportedExtensions)
         {
             DebugCheck.NotNull(supportedExtensions);
 
-            var menuCommand = sender as MenuCommand;
+            if (!(sender is MenuCommand menuCommand)) return;
 
-            if (menuCommand == null)
-            {
-                return;
-            }
+            ThreadHelper.ThrowIfNotOnUIThread();
 
-            if (_dte2.SelectedItems.Count != 1)
-            {
-                return;
-            }
+            if (DTE2.SelectedItems.Count != 1) return;
 
             var extensionValue = GetSelectedItemExtension();
             menuCommand.Visible = supportedExtensions.Contains(extensionValue);
@@ -135,32 +141,25 @@ namespace Microsoft.DbContextPackage
 
         private string GetSelectedItemExtension()
         {
-            var selectedItem = _dte2.SelectedItems.Item(1);
+            ThreadHelper.ThrowIfNotOnUIThread();
+            var selectedItem = DTE2.SelectedItems.Item(1);
 
-            if ((selectedItem.ProjectItem == null)
-                || (selectedItem.ProjectItem.Properties == null))
-            {
+            ThreadHelper.ThrowIfNotOnUIThread();
+
+            if (selectedItem.ProjectItem == null
+                || selectedItem.ProjectItem.Properties == null)
                 return null;
-            }
 
             var extension = selectedItem.ProjectItem.Properties.Item("Extension");
 
-            if (extension == null)
-            {
-                return null;
-            }
-
-            return (string)extension.Value;
+            return (string) extension?.Value;
         }
 
         private void OnItemContextMenuInvokeHandler(object sender, EventArgs e)
         {
-            var menuCommand = sender as MenuCommand;
+            ThreadHelper.ThrowIfNotOnUIThread();
 
-            if (menuCommand == null)
-            {
-                return;
-            }
+            if (!(sender is MenuCommand menuCommand)) return;
 
             if (menuCommand.CommandID.ID == PkgCmdIDList.cmdidAbout)
             {
@@ -168,30 +167,20 @@ namespace Microsoft.DbContextPackage
                 return;
             }
 
-            if (_dte2.SelectedItems.Count != 1)
-            {
-                return;
-            }
+            if (DTE2.SelectedItems.Count != 1) return;
 
             try
             {
-                Type systemContextType;
-                var context = DiscoverUserContextType(out systemContextType);
+                var context = DiscoverUserContextType(out var systemContextType);
 
                 if (context != null)
                 {
                     if (menuCommand.CommandID.ID == PkgCmdIDList.cmdidPrecompileEntityDataModelViews)
-                    {
                         _optimizeContextHandler.OptimizeContext(context);
-                    }
                     else if (menuCommand.CommandID.ID == PkgCmdIDList.cmdidViewEntityModelDdl)
-                    {
                         _viewDdlHandler.ViewDdl(context);
-                    }
                     else
-                    {
                         _viewContextHandler.ViewContext(menuCommand, context, systemContextType);
-                    }
                 }
             }
             catch (TargetInvocationException ex)
@@ -199,8 +188,13 @@ namespace Microsoft.DbContextPackage
                 var innerException = ex.InnerException;
 
                 var remoteStackTraceString =
-                    typeof(Exception).GetField("_remoteStackTraceString", BindingFlags.Instance | BindingFlags.NonPublic)
+                    typeof(Exception).GetField("_remoteStackTraceString",
+                        BindingFlags.Instance | BindingFlags.NonPublic)
                     ?? typeof(Exception).GetField("remote_stack_trace", BindingFlags.Instance | BindingFlags.NonPublic);
+
+                Debug.Assert(remoteStackTraceString != null, nameof(remoteStackTraceString) + " is null");
+                Debug.Assert(innerException != null, nameof(innerException) + " is null");
+                
                 remoteStackTraceString.SetValue(innerException, innerException.StackTrace + "$$RethrowMarker$$");
 
                 throw innerException;
@@ -211,26 +205,23 @@ namespace Microsoft.DbContextPackage
                 {
                     try
                     {
-                        if (File.Exists(file))
-                        {
-                            File.Delete(file);
-                        }
+                        if (File.Exists(file)) File.Delete(file);
                     }
                     catch
                     {
                         //Ignored
                     }
                 }
+
                 _tempFileNames.Clear();
             }
         }
 
         private void OnOptimizeContextInvokeHandler(object sender, EventArgs e)
         {
-            if (_dte2.SelectedItems.Count != 1)
-            {
-                return;
-            }
+            ThreadHelper.ThrowIfNotOnUIThread();
+
+            if (DTE2.SelectedItems.Count != 1) return;
 
             var extensionValue = GetSelectedItemExtension();
 
@@ -242,7 +233,7 @@ namespace Microsoft.DbContextPackage
             }
 
             _optimizeContextHandler.OptimizeEdmx(
-                (string)_dte2.SelectedItems.Item(1).ProjectItem.Properties.Item("FullPath").Value);
+                (string) DTE2.SelectedItems.Item(1).ProjectItem.Properties.Item("FullPath").Value);
         }
 
         internal static dynamic GetObjectContext(dynamic context)
@@ -250,19 +241,21 @@ namespace Microsoft.DbContextPackage
             var objectContextAdapterType
                 = context.GetType().GetInterface("System.Data.Entity.Infrastructure.IObjectContextAdapter");
 
-            return objectContextAdapterType.InvokeMember("ObjectContext", BindingFlags.GetProperty, null, context, null);
+            return objectContextAdapterType.InvokeMember("ObjectContext", BindingFlags.GetProperty, null, context,
+                null);
         }
 
         internal void LogError(string statusMessage, Exception exception)
         {
+            ThreadHelper.ThrowIfNotOnUIThread();
             DebugCheck.NotEmpty(statusMessage);
             DebugCheck.NotNull(exception);
 
             var edmSchemaErrorException = exception as EdmSchemaErrorException;
 
-            _dte2.StatusBar.Text = statusMessage;
+            DTE2.StatusBar.Text = statusMessage;
 
-            var buildOutputWindow = _dte2.ToolWindows.OutputWindow.OutputWindowPanes.Item("Build");
+            var buildOutputWindow = DTE2.ToolWindows.OutputWindow.OutputWindowPanes.Item("Build");
 
             buildOutputWindow.OutputString(Environment.NewLine);
 
@@ -285,130 +278,132 @@ namespace Microsoft.DbContextPackage
 
         private dynamic DiscoverUserContextType(out Type systemContextType)
         {
+            ThreadHelper.ThrowIfNotOnUIThread();
             systemContextType = null;
-            var project = _dte2.SelectedItems.Item(1).ProjectItem.ContainingProject;
+            var project = DTE2.SelectedItems.Item(1).ProjectItem.ContainingProject;
 
             if (!project.TryBuild())
             {
-                _dte2.StatusBar.Text = Strings.BuildFailed;
+                DTE2.StatusBar.Text = Strings.BuildFailed;
 
                 return null;
             }
 
             DynamicTypeService typeService;
             IVsSolution solution;
-            using (var serviceProvider = new ServiceProvider((VisualStudio.OLE.Interop.IServiceProvider)_dte2.DTE))
+            using (var serviceProvider = new ServiceProvider((IServiceProvider) DTE2.DTE))
             {
-                typeService = (DynamicTypeService)serviceProvider.GetService(typeof(DynamicTypeService));
-                solution = (IVsSolution)serviceProvider.GetService(typeof(SVsSolution));
+                typeService = (DynamicTypeService) serviceProvider.GetService(typeof(DynamicTypeService));
+                Assumes.Present(typeService);
+                solution = (IVsSolution) serviceProvider.GetService(typeof(SVsSolution));
+                Assumes.Present(solution);
             }
 
-            IVsHierarchy vsHierarchy;
-            var hr = solution.GetProjectOfUniqueName(_dte2.SelectedItems.Item(1).ProjectItem.ContainingProject.UniqueName, out vsHierarchy);
+            var hr = solution.GetProjectOfUniqueName(
+                DTE2.SelectedItems.Item(1).ProjectItem.ContainingProject.UniqueName, out var vsHierarchy);
 
-            if (hr != ProjectExtensions.S_OK)
-            {
-                throw Marshal.GetExceptionForHR(hr);
-            }
+            if (hr != ProjectExtensions.S_OK) throw Marshal.GetExceptionForHR(hr);
 
             var resolver = typeService.GetTypeResolutionService(vsHierarchy);
 
-            var codeElements = FindClassesInCodeModel(_dte2.SelectedItems.Item(1).ProjectItem.FileCodeModel.CodeElements);
+            var codeElements =
+                FindClassesInCodeModel(DTE2.SelectedItems.Item(1).ProjectItem.FileCodeModel.CodeElements);
 
-            if (codeElements.Any())
+            foreach (var codeElement in codeElements)
             {
-                foreach (var codeElement in codeElements)
+                var userContextType = resolver.GetType(codeElement.FullName);
+
+                if (userContextType != null && IsContextType(userContextType, out systemContextType))
                 {
-                    var userContextType = resolver.GetType(codeElement.FullName);
+                    dynamic contextInfo;
 
-                    if (userContextType != null && IsContextType(userContextType, out systemContextType))
+                    var contextInfoType =
+                        systemContextType.Assembly.GetType("System.Data.Entity.Infrastructure.DbContextInfo");
+                    if (contextInfoType != null)
                     {
-                        dynamic contextInfo;
+                        var startUpProject = GetStartUpProject() ?? project;
+                        Configuration userConfig;
 
-                        var contextInfoType = systemContextType.Assembly.GetType("System.Data.Entity.Infrastructure.DbContextInfo");
-                        if (contextInfoType != null)
+                        try
                         {
-                            var startUpProject = GetStartUpProject() ?? project;
-                            Configuration userConfig;
+                            userConfig = GetUserConfig(startUpProject, systemContextType.Assembly.FullName);
+                        }
+                        catch (Exception ex)
+                        {
+                            LogError(Strings.LoadConfigFailed, ex);
 
-                            try
-                            {
-                                userConfig = GetUserConfig(startUpProject, systemContextType.Assembly.FullName);
-                            }
-                            catch (Exception ex)
-                            {
-                                LogError(Strings.LoadConfigFailed, ex);
+                            return null;
+                        }
 
-                                return null;
-                            }
+                        SetDataDirectory(startUpProject);
 
-                            SetDataDirectory(startUpProject);
+                        var constructor =
+                            contextInfoType.GetConstructor(new[] {typeof(Type), typeof(Configuration)});
 
-                            var constructor = contextInfoType.GetConstructor(new[] { typeof(Type), typeof(Configuration) });
-
-                            if (constructor != null)
-                            {
-                                // Versions 4.3.0 and higher
-                                contextInfo = constructor.Invoke(new object[] { userContextType, userConfig });
-                            }
-                            else
-                            {
-                                constructor = contextInfoType.GetConstructor(new[] { typeof(Type), typeof(ConnectionStringSettingsCollection) });
-                                Debug.Assert(constructor != null);
-
-                                // Versions 4.1.10715 through 4.2.0.0
-                                contextInfo = constructor.Invoke(new object[] { userContextType, userConfig.ConnectionStrings.ConnectionStrings });
-                            }
+                        if (constructor != null)
+                        {
+                            // Versions 4.3.0 and higher
+                            contextInfo = constructor.Invoke(new object[] {userContextType, userConfig});
                         }
                         else
                         {
-                            // Versions 4.1.10331.0 and lower
-                            throw Error.UnsupportedVersion();
+                            constructor = contextInfoType.GetConstructor(new[]
+                                {typeof(Type), typeof(ConnectionStringSettingsCollection)});
+                            Debug.Assert(constructor != null);
+
+                            // Versions 4.1.10715 through 4.2.0.0
+                            contextInfo = constructor.Invoke(new object[]
+                                {userContextType, userConfig.ConnectionStrings.ConnectionStrings});
                         }
+                    }
+                    else
+                    {
+                        // Versions 4.1.10331.0 and lower
+                        throw Error.UnsupportedVersion();
+                    }
 
-                        if (contextInfo.IsConstructible)
+                    if (contextInfo.IsConstructible)
+                    {
+                        DisableDatabaseInitializer(userContextType, systemContextType);
+
+                        try
                         {
-                            DisableDatabaseInitializer(userContextType, systemContextType);
+                            return contextInfo.CreateInstance();
+                        }
+                        catch (Exception exception)
+                        {
+                            LogError(Strings.CreateContextFailed(userContextType.Name), exception);
 
-                            try
-                            {
-                                return contextInfo.CreateInstance();
-                            }
-                            catch (Exception exception)
-                            {
-                                LogError(Strings.CreateContextFailed(userContextType.Name), exception);
-
-                                return null;
-                            }
+                            return null;
                         }
                     }
                 }
             }
 
-            _dte2.StatusBar.Text = Strings.NoContext;
+            DTE2.StatusBar.Text = Strings.NoContext;
 
             return null;
         }
 
         private Project GetStartUpProject()
         {
-            var startupProjectPaths = (object[])_dte2.Solution.SolutionBuild.StartupProjects;
+            ThreadHelper.ThrowIfNotOnUIThread();
+            var startupProjectPaths = (object[]) DTE2.Solution.SolutionBuild.StartupProjects;
 
             if (startupProjectPaths.Length == 1)
             {
-                var startupProjectPath = (string)startupProjectPaths[0];
+                var startupProjectPath = (string) startupProjectPaths[0];
 
                 if (!Path.IsPathRooted(startupProjectPath))
                 {
-                    var solutionPath = Path.GetDirectoryName((string)_dte2.Solution.Properties.Item("Path").Value);
-                    startupProjectPath = Path.Combine(
-                        solutionPath,
-                        startupProjectPath);
+                    var solutionPath = Path.GetDirectoryName((string) DTE2.Solution.Properties.Item("Path").Value);
+                    startupProjectPath = Path.Combine(solutionPath, startupProjectPath);
                 }
 
                 return GetSolutionProjects().Single(
                     p =>
                     {
+                        ThreadHelper.ThrowIfNotOnUIThread();
                         string fullName;
                         try
                         {
@@ -428,9 +423,10 @@ namespace Microsoft.DbContextPackage
 
         private IEnumerable<Project> GetSolutionProjects()
         {
+            ThreadHelper.ThrowIfNotOnUIThread();
             var projects = new Stack<Project>();
 
-            foreach (var project in _dte2.Solution.Projects.Cast<Project>())
+            foreach (var project in DTE2.Solution.Projects.Cast<Project>())
             {
                 projects.Push(project);
             }
@@ -442,24 +438,21 @@ namespace Microsoft.DbContextPackage
                 yield return project;
 
                 if (project.ProjectItems != null)
-                {
                     foreach (var projectItem in project.ProjectItems.Cast<ProjectItem>())
                     {
                         if (projectItem.SubProject != null)
-                        {
                             projects.Push(projectItem.SubProject);
-                        }
                     }
-                }
             }
         }
 
         private Configuration GetUserConfig(Project project, string assemblyFullName)
         {
+            ThreadHelper.ThrowIfNotOnUIThread();
             DebugCheck.NotNull(project);
 
             var userConfigDirectory
-                = (string)project.Properties.Item("FullPath").Value;
+                = (string) project.Properties.Item("FullPath").Value;
 
             var userConfigFilename
                 = Path.Combine(
@@ -483,13 +476,13 @@ namespace Microsoft.DbContextPackage
             FixUpConfig(document, assemblyFullName, userConfigDirectory, tempConfigDirectory);
             var tempFile
                 = Path.Combine(tempConfigDirectory,
-                               "temp.config");
+                    "temp.config");
 
             document.Save(tempFile);
             _tempFileNames.Add(tempFile);
 
             return ConfigurationManager.OpenMappedExeConfiguration(
-                new ExeConfigurationFileMap { ExeConfigFilename = tempFile },
+                new ExeConfigurationFileMap {ExeConfigFilename = tempFile},
                 ConfigurationUserLevel.None);
         }
 
@@ -507,14 +500,12 @@ namespace Microsoft.DbContextPackage
 
         private static IEnumerable<CodeElement> FindClassesInCodeModel(CodeElements codeElements)
         {
+            ThreadHelper.ThrowIfNotOnUIThread();
             DebugCheck.NotNull(codeElements);
 
             foreach (CodeElement codeElement in codeElements)
             {
-                if (codeElement.Kind == vsCMElement.vsCMElementClass)
-                {
-                    yield return codeElement;
-                }
+                if (codeElement.Kind == vsCMElement.vsCMElementClass) yield return codeElement;
 
                 foreach (var element in FindClassesInCodeModel(codeElement.Children))
                 {
@@ -540,7 +531,7 @@ namespace Microsoft.DbContextPackage
                     var boundSetInitializerMethodInfo
                         = setInitializerMethodInfo.MakeGenericMethod(userContextType);
 
-                    boundSetInitializerMethodInfo.Invoke(null, new object[] { null, true });
+                    boundSetInitializerMethodInfo.Invoke(null, new object[] {null, true});
                 }
             }
         }
@@ -563,23 +554,15 @@ namespace Microsoft.DbContextPackage
             }
         }
 
-        private void FixUpConfig(XDocument document, string assemblyFullName, string userConfigDirectory, string tempConfigDirectory)
+        private void FixUpConfig(XDocument document, string assemblyFullName, string userConfigDirectory,
+            string tempConfigDirectory)
         {
             var entityFramework = document.Descendants("entityFramework").FirstOrDefault();
-            if (entityFramework == null)
-            {
-                return;
-            }
+            if (entityFramework == null) return;
 
             var defaultConnectionFactory = entityFramework.Descendants("defaultConnectionFactory").FirstOrDefault();
-            if (defaultConnectionFactory != null)
-            {
-                var type = defaultConnectionFactory.Attribute("type");
-                if (type != null)
-                {
-                    type.SetValue(QualifyAssembly(type.Value, assemblyFullName));
-                }
-            }
+            var type = defaultConnectionFactory?.Attribute("type");
+            type?.SetValue(QualifyAssembly(type.Value, assemblyFullName));
 
             var appSettings = document.Descendants("appSettings").FirstOrDefault();
             if (appSettings != null)
@@ -588,7 +571,8 @@ namespace Microsoft.DbContextPackage
                 CopyRelatedConfigFile(userConfigDirectory, tempConfigDirectory, file);
             }
 
-            foreach (var configSection in document.Descendants().Where((section)=>section.Attribute("configSource") != null))
+            foreach (var configSection in document.Descendants()
+                .Where(section => section.Attribute("configSource") != null))
             {
                 var configSource = configSection.Attribute("configSource");
                 CopyRelatedConfigFile(userConfigDirectory, tempConfigDirectory, configSource);
@@ -599,8 +583,8 @@ namespace Microsoft.DbContextPackage
         {
             if (attr != null)
             {
-                string tempFileName = null;
-                string tempQualifiedFileName = null;
+                string tempFileName;
+                string tempQualifiedFileName;
                 do
                 {
                     tempFileName = Path.GetRandomFileName();
@@ -618,14 +602,10 @@ namespace Microsoft.DbContextPackage
 
         private static string QualifyAssembly(string typeName, string assemblyFullName)
         {
-            var parts = typeName.Split(new[] { ',' }, 2);
+            var parts = typeName.Split(new[] {','}, 2);
             if (parts.Length == 2)
-            {
                 if (parts[1].Trim().EqualsIgnoreCase("EntityFramework"))
-                {
                     return parts[0] + ", " + assemblyFullName;
-                }
-            }
 
             return typeName;
         }
@@ -633,14 +613,14 @@ namespace Microsoft.DbContextPackage
         internal T GetService<T>()
             where T : class
         {
-            return (T)GetService(typeof(T));
+            return (T) GetService(typeof(T));
         }
 
         internal TResult GetService<TService, TResult>()
             where TService : class
             where TResult : class
         {
-            return (TResult)GetService(typeof(TService));
+            return (TResult) GetService(typeof(TService));
         }
     }
 }

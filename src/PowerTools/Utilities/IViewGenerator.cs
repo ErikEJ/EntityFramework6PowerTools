@@ -2,7 +2,7 @@
 
 namespace Microsoft.DbContextPackage.Utilities
 {
-    interface IViewGenerator
+    internal interface IViewGenerator
     {
         string ContextTypeName { get; set; }
         string MappingHashValue { get; set; }

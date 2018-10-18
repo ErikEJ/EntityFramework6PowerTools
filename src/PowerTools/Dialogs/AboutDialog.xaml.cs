@@ -1,8 +1,9 @@
 ﻿using System.Diagnostics;
+using System.Reflection;
 using System.Windows;
-using System;
+using Microsoft.VisualStudio.Shell;
 
-namespace Microsoft.DbContextPackage
+namespace Microsoft.DbContextPackage.Dialogs
 {
     public partial class AboutDialog
     {
@@ -15,8 +16,8 @@ namespace Microsoft.DbContextPackage
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
-        {            
-            Version.Text = "Version " + System.Reflection.Assembly.GetExecutingAssembly().GetName().Version;
+        {
+            Version.Text = "Version " + Assembly.GetExecutingAssembly().GetName().Version;
         }
 
         private void OKButton_Click(object sender, RoutedEventArgs e)
@@ -26,12 +27,14 @@ namespace Microsoft.DbContextPackage
 
         private void CodeplexLink_Click(object sender, RoutedEventArgs e)
         {
+            ThreadHelper.ThrowIfNotOnUIThread();
             _package.DTE2.ItemOperations.Navigate("https://github.com/ErikEJ/EntityFramework6PowerTools");
         }
 
         private void GalleryLink_Click(object sender, RoutedEventArgs e)
         {
-            Process.Start("https://marketplace.visualstudio.com/items?itemName=ErikEJ.EntityFramework6PowerToolsCommunityEdition#review-details");
+            Process.Start(
+                "https://marketplace.visualstudio.com/items?itemName=ErikEJ.EntityFramework6PowerToolsCommunityEdition#review-details");
         }
     }
 }

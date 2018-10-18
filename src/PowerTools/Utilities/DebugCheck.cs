@@ -1,13 +1,16 @@
 ﻿// Copyright (c) Microsoft Open Technologies, Inc. All rights reserved. See License.txt in the project root for license information.
 
+using JetBrains.Annotations;
+using System.Diagnostics;
+
 namespace Microsoft.DbContextPackage.Utilities
 {
-    using System.Diagnostics;
-
-    internal class DebugCheck
+    internal static class DebugCheck
     {
         [Conditional("DEBUG")]
-        public static void NotNull<T>(T value) where T : class
+        [ContractAnnotation("halt <= value : null")]
+        [AssertionMethod]
+        public static void NotNull<T>([NotNull, NoEnumeration]T value) where T : class
         {
             Debug.Assert(value != null);
         }

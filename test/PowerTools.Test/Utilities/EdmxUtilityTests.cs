@@ -1,18 +1,64 @@
 ﻿// Copyright (c) Microsoft Open Technologies, Inc. All rights reserved. See License.txt in the project root for license information.
+
+using System;
+using System.Data.Mapping;
+using System.IO;
+using Microsoft.DbContextPackage.Extensions;
+using Microsoft.DbContextPackage.Resources;
+using Xunit;
+
 namespace Microsoft.DbContextPackage.Utilities
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Data.Mapping;
-    using System.IO;
-    using System.Linq;
-    using System.Text;
-    using Microsoft.DbContextPackage.Extensions;
-    using Microsoft.DbContextPackage.Resources;
-    using Xunit;
-
     public class EdmxUtilityTests
     {
+        private sealed class TempFile : IDisposable
+        {
+            private readonly string _fileName;
+            private bool _disposed;
+
+            public TempFile(string contents)
+            {
+                _fileName = Path.GetTempFileName();
+                File.WriteAllText(_fileName, contents);
+            }
+
+            public string FileName
+            {
+                get
+                {
+                    HandleDisposed();
+
+                    return _fileName;
+                }
+            }
+
+            public void Dispose()
+            {
+                Dispose(true);
+                GC.SuppressFinalize(this);
+            }
+
+            ~TempFile()
+            {
+                Dispose(false);
+            }
+
+            private void Dispose(bool disposing)
+            {
+                if (!_disposed)
+                {
+                    if (!string.IsNullOrWhiteSpace(_fileName)) File.Delete(_fileName);
+
+                    _disposed = true;
+                }
+            }
+
+            private void HandleDisposed()
+            {
+                if (_disposed) throw new ObjectDisposedException(null);
+            }
+        }
+
         [Fact]
         public void GetMappingCollection_returns_mapping()
         {
@@ -151,60 +197,6 @@ namespace Microsoft.DbContextPackage.Utilities
                         Path.GetFileName(edmx.FileName),
                         "ConceptualModels"),
                     ex.Message);
-            }
-        }
-
-        private sealed class TempFile : IDisposable
-        {
-            private readonly string _fileName;
-            private bool _disposed;
-
-            public TempFile(string contents)
-            {
-                _fileName = Path.GetTempFileName();
-                File.WriteAllText(_fileName, contents);
-            }
-
-            ~TempFile()
-            {
-                Dispose(false);
-            }
-
-            public string FileName
-            {
-                get
-                {
-                    HandleDisposed();
-
-                    return _fileName;
-                }
-            }
-
-            public void Dispose()
-            {
-                Dispose(true);
-                GC.SuppressFinalize(this);
-            }
-
-            private void Dispose(bool disposing)
-            {
-                if (!_disposed)
-                {
-                    if (!string.IsNullOrWhiteSpace(_fileName))
-                    {
-                        File.Delete(_fileName);
-                    }
-
-                    _disposed = true;
-                }
-            }
-
-            private void HandleDisposed()
-            {
-                if (_disposed)
-                {
-                    throw new ObjectDisposedException(null);
-                }
             }
         }
     }
