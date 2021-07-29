@@ -22,6 +22,26 @@ If you are looking for Reverse Engineeering tools, I recommend using the ["Code 
 
 A MSDN article about the tool is [available here](https://msdn.microsoft.com/en-us/data/jj593170)
 
+# Preview of EF6 SQL Server provider based on Microsoft.Data.SqlClient
+
+Latest build of this preview package is available from [NuGet](https://www.nuget.org/packages/ErikEJ.EntityFramework.SqlServer/)
+
+In order to use the provider, you can register it in code like this:
+
+````csharp
+    [DbConfigurationType(typeof(System.Data.Entity.SqlServer.MicrosoftSqlDbConfiguration))]
+    public class SchoolContext : DbContext
+    {
+        public SchoolContext() : base()
+        {
+        }
+
+        public DbSet<Student> Students { get; set; }
+    }
+````
+
+Please report any issue and question in the dedicated issue [here](https://github.com/ErikEJ/EntityFramework6PowerTools/issues/82)
+
 # Downloads/builds
 
 **Release**
