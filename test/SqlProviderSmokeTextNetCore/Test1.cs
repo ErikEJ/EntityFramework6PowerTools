@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.Linq;
 using Xunit;
 
 namespace SqlProviderSmokeTest
@@ -18,6 +19,13 @@ namespace SqlProviderSmokeTest
 
                 ctx.Students.Add(stud);
                 ctx.SaveChanges();
+            }
+
+            using (var ctx = new SchoolContext())
+            {
+                var students = ctx.Students.ToList();
+
+                Assert.True(students.Count > 0);
             }
         }
     }
