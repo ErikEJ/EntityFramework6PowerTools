@@ -3,9 +3,8 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using Xunit;
 
-namespace SqlProviderSmokeTextNetFx
+namespace SqlProviderSmokeTest
 {
-
     public class Test1
     {
         [Fact]
@@ -44,6 +43,7 @@ namespace SqlProviderSmokeTextNetFx
         public ICollection<Student> Students { get; set; }
     }
 
+    [DbConfigurationType(typeof(System.Data.Entity.SqlServer.MicrosoftSqlDbConfiguration))]
     public class SchoolContext : DbContext
     {
         public SchoolContext() : base()
@@ -52,14 +52,5 @@ namespace SqlProviderSmokeTextNetFx
 
         public DbSet<Student> Students { get; set; }
         public DbSet<Grade> Grades { get; set; }
-    }
-
-    public class MyConfiguration : DbConfiguration
-    {
-        public MyConfiguration()
-        {
-            SetProviderServices("Microsoft.Data.SqlClient",
-                System.Data.Entity.SqlServer.MicrosoftSqlProviderServices.Instance);
-        }
     }
 }

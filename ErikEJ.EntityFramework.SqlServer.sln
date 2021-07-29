@@ -7,7 +7,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{2AE1B177
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ErikEJ.EntityFramework.SqlServer", "src\ErikEJ.EntityFramework.SqlServer\ErikEJ.EntityFramework.SqlServer.csproj", "{730A8F34-F3AA-4026-BACC-BA75FD3EECC2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SqlProviderSmokeTextNetFx", "test\SqlProviderSmokeTextNetFx\SqlProviderSmokeTextNetFx.csproj", "{810EB9F6-253B-4AC5-95AC-0C4D463244B3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SqlProviderSmokeTestNetFx", "test\SqlProviderSmokeTextNetFx\SqlProviderSmokeTestNetFx.csproj", "{810EB9F6-253B-4AC5-95AC-0C4D463244B3}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SqlProviderSmokeTestNetCore", "test\SqlProviderSmokeTextNetCore\SqlProviderSmokeTestNetCore.csproj", "{7C4A94D0-2D27-4236-B811-737F0BECAB47}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -23,12 +25,17 @@ Global
 		{810EB9F6-253B-4AC5-95AC-0C4D463244B3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{810EB9F6-253B-4AC5-95AC-0C4D463244B3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{810EB9F6-253B-4AC5-95AC-0C4D463244B3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7C4A94D0-2D27-4236-B811-737F0BECAB47}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7C4A94D0-2D27-4236-B811-737F0BECAB47}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7C4A94D0-2D27-4236-B811-737F0BECAB47}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7C4A94D0-2D27-4236-B811-737F0BECAB47}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{810EB9F6-253B-4AC5-95AC-0C4D463244B3} = {2AE1B177-580C-44F1-9514-B3F23F4B1433}
+		{7C4A94D0-2D27-4236-B811-737F0BECAB47} = {2AE1B177-580C-44F1-9514-B3F23F4B1433}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {EE843F86-C2BD-4003-AD9C-632788EFDC1A}
