@@ -40,6 +40,8 @@ In order to use the provider, you can register it in code like this:
     }
 ````
 
+Please report any issue and question in the dedicated issue [here](https://github.com/ErikEJ/EntityFramework6PowerTools/issues/82)
+
 # Downloads/builds
 
 **Release**
