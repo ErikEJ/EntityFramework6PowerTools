@@ -6,9 +6,6 @@ namespace System.Data.Entity.SqlServerCompact.SqlGen
     using System.Data.Common;
     using System.Data.Entity.Core.Common.CommandTrees;
     using System.Data.Entity.Core.Metadata.Edm;
-#if SQLSERVERCOMPACT35
-    using System.Data.Entity.SqlServerCompact.Legacy;
-#endif
     using System.Data.Entity.SqlServerCompact.Resources;
     using System.Data.Entity.SqlServerCompact.Utilities;
     using System.Diagnostics;
@@ -556,7 +553,7 @@ namespace System.Data.Entity.SqlServerCompact.SqlGen
                 Check.NotNull(expression, "expression");
 
                 _commandText.AppendKeyword("not (");
-                expression.Accept(this);
+                expression.Argument.Accept(this);
                 _commandText.Append(")");
             }
 

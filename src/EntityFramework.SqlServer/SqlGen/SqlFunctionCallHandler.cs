@@ -16,7 +16,7 @@ namespace System.Data.Entity.SqlServer.SqlGen
     using System.Text;
 
     // <summary>
-    // Enacapsulates the logic required to translate function calls represented as instances of DbFunctionExpression into SQL.
+    // Encapsulates the logic required to translate function calls represented as instances of DbFunctionExpression into SQL.
     // There are several special cases that modify how the translation should proceed. These include:
     // - 'Special' canonical functions, for which the function name or arguments differ between the EDM canonical function and the SQL function
     // - 'Special' server functions, which are similar to the 'special' canonical functions but sourced by the SQL Server provider manifest
@@ -37,6 +37,9 @@ namespace System.Data.Entity.SqlServer.SqlGen
 
         private static readonly Dictionary<string, string> _dateDiffFunctionNameToDatepartDictionary =
             InitializeDateDiffFunctionNameToDatepartDictionary();
+
+        private static readonly Dictionary<string, FunctionHandler> _hierarchyIdFunctionNameToStaticMethodHandlerDictionary =
+            InitializeHierarchyIdStaticMethodFunctionsDictionary();
 
         private static readonly Dictionary<string, FunctionHandler> _geographyFunctionNameToStaticMethodHandlerDictionary =
             InitializeGeographyStaticMethodFunctionsDictionary();
@@ -154,14 +157,23 @@ namespace System.Data.Entity.SqlServer.SqlGen
         // <summary>
         // All special store functions and their handlers
         // </summary>
+        [SuppressMessage("Microsoft.Maintainability", "CA1502:AvoidExcessiveComplexity")]
         private static Dictionary<string, FunctionHandler> InitializeStoreFunctionHandlers()
         {
-            var functionHandlers = new Dictionary<string, FunctionHandler>(15, StringComparer.Ordinal);
+            var functionHandlers = new Dictionary<string, FunctionHandler>(19, StringComparer.Ordinal);
             functionHandlers.Add("CONCAT", HandleConcatFunction);
             functionHandlers.Add("DATEADD", HandleDatepartDateFunction);
             functionHandlers.Add("DATEDIFF", HandleDatepartDateFunction);
             functionHandlers.Add("DATENAME", HandleDatepartDateFunction);
             functionHandlers.Add("DATEPART", HandleDatepartDateFunction);
+
+            // HierarchyId Static functions
+            functionHandlers.Add(
+                "Parse",
+                (sqlgen, functionExpression) => HandleFunctionDefaultGivenName(sqlgen, functionExpression, "hierarchyid::Parse"));
+            functionHandlers.Add(
+                "GetRoot",
+                (sqlgen, functionExpression) => HandleFunctionDefaultGivenName(sqlgen, functionExpression, "hierarchyid::GetRoot"));
 
             // Spatial functions are mapped to static or instance members of geography/geometry
             // Geography Static functions
@@ -244,6 +256,8 @@ namespace System.Data.Entity.SqlServer.SqlGen
             functionHandlers.Add("CurrentUtcDateTime", HandleCanonicalFunctionCurrentUtcDateTime);
             functionHandlers.Add("CurrentDateTimeOffset", HandleCanonicalFunctionCurrentDateTimeOffset);
             functionHandlers.Add("GetTotalOffsetMinutes", HandleCanonicalFunctionGetTotalOffsetMinutes);
+            functionHandlers.Add("LocalDateTime", HandleCanonicalFunctionLocalDateTime);
+            functionHandlers.Add("UtcDateTime", HandleCanonicalFunctionUtcDateTime);
             functionHandlers.Add("TruncateTime", HandleCanonicalFunctionTruncateTime);
             functionHandlers.Add("CreateDateTime", HandleCanonicalFunctionCreateDateTime);
             functionHandlers.Add("CreateDateTimeOffset", HandleCanonicalFunctionCreateDateTimeOffset);
@@ -278,7 +292,7 @@ namespace System.Data.Entity.SqlServer.SqlGen
         }
 
         // <summary>
-        // Initalizes the mapping from functions to TSql operators
+        // Initializes the mapping from functions to TSql operators
         // for all functions that translate to TSql operators
         // </summary>
         private static Dictionary<string, string> InitializeFunctionNameToOperatorDictionary()
@@ -294,7 +308,7 @@ namespace System.Data.Entity.SqlServer.SqlGen
         }
 
         // <summary>
-        // Initalizes the mapping from names of canonical function for date/time addition
+        // Initializes the mapping from names of canonical function for date/time addition
         // to corresponding dateparts
         // </summary>
         private static Dictionary<string, string> InitializeDateAddFunctionNameToDatepartDictionary()
@@ -313,7 +327,7 @@ namespace System.Data.Entity.SqlServer.SqlGen
         }
 
         // <summary>
-        // Initalizes the mapping from names of canonical function for date/time difference
+        // Initializes the mapping from names of canonical function for date/time difference
         // to corresponding dateparts
         // </summary>
         private static Dictionary<string, string> InitializeDateDiffFunctionNameToDatepartDictionary()
@@ -332,7 +346,26 @@ namespace System.Data.Entity.SqlServer.SqlGen
         }
 
         // <summary>
-        // Initalizes the mapping from names of canonical function that represent static geography methods to their corresponding
+        // Initializes the mapping from names of canonical function that represent static hierarchyid methods to their corresponding
+        // static method name, qualified with the 'hierarchyid::' prefix.
+        // </summary>
+        [SuppressMessage("Microsoft.Maintainability", "CA1502:AvoidExcessiveComplexity")]
+        private static Dictionary<string, FunctionHandler> InitializeHierarchyIdStaticMethodFunctionsDictionary()
+        {
+            var staticHierarchyIdFunctions = new Dictionary<string, FunctionHandler>();
+
+            staticHierarchyIdFunctions.Add(
+                "HierarchyIdGetRoot",
+                (sqlgen, functionExpression) => HandleFunctionDefaultGivenName(sqlgen, functionExpression, "hierarchyid::GetRoot"));
+            staticHierarchyIdFunctions.Add(
+                "HierarchyIdParse",
+                (sqlgen, functionExpression) => HandleFunctionDefaultGivenName(sqlgen, functionExpression, "hierarchyid::Parse"));
+
+            return staticHierarchyIdFunctions;
+        }
+
+        // <summary>
+        // Initializes the mapping from names of canonical function that represent static geography methods to their corresponding
         // static method name, qualified with the 'geography::' prefix.
         // </summary>
         [SuppressMessage("Microsoft.Maintainability", "CA1502:AvoidExcessiveComplexity")]
@@ -395,7 +428,7 @@ namespace System.Data.Entity.SqlServer.SqlGen
         }
 
         // <summary>
-        // Initalizes the mapping from names of canonical function that represent geography instance properties to their corresponding
+        // Initializes the mapping from names of canonical function that represent geography instance properties to their corresponding
         // store property name.
         // </summary>
         private static Dictionary<string, string> InitializeGeographyInstancePropertyFunctionsDictionary()
@@ -412,7 +445,7 @@ namespace System.Data.Entity.SqlServer.SqlGen
         }
 
         // <summary>
-        // Initalizes the mapping of canonical function name to instance method name for geography instance functions that differ in name from the sql server equivalent.
+        // Initializes the mapping of canonical function name to instance method name for geography instance functions that differ in name from the sql server equivalent.
         // </summary>
         private static Dictionary<string, string> InitializeRenamedGeographyInstanceMethodFunctions()
         {
@@ -446,7 +479,7 @@ namespace System.Data.Entity.SqlServer.SqlGen
         }
 
         // <summary>
-        // Initalizes the mapping from names of canonical function that represent static geometry methods to their corresponding
+        // Initializes the mapping from names of canonical function that represent static geometry methods to their corresponding
         // static method name, qualified with the 'geometry::' prefix.
         // </summary>
         [SuppressMessage("Microsoft.Maintainability", "CA1502:AvoidExcessiveComplexity")]
@@ -509,7 +542,7 @@ namespace System.Data.Entity.SqlServer.SqlGen
         }
 
         // <summary>
-        // Initalizes the mapping from names of canonical function that represent geometry instance properties to their corresponding
+        // Initializes the mapping from names of canonical function that represent geometry instance properties to their corresponding
         // store property name.
         // </summary>
         private static Dictionary<string, string> InitializeGeometryInstancePropertyFunctionsDictionary()
@@ -526,7 +559,7 @@ namespace System.Data.Entity.SqlServer.SqlGen
         }
 
         // <summary>
-        // Initalizes the mapping of canonical function name to instance method name for geometry instance functions that differ in name from the sql server equivalent.
+        // Initializes the mapping of canonical function name to instance method name for geometry instance functions that differ in name from the sql server equivalent.
         // </summary>
         private static Dictionary<string, string> InitializeRenamedGeometryInstanceMethodFunctions()
         {
@@ -662,6 +695,11 @@ namespace System.Data.Entity.SqlServer.SqlGen
                 return HandleSpatialCanonicalFunction(sqlgen, functionExpression, spatialTypeKind);
             }
 
+            if (IsHierarchyCanonicalFunction(functionExpression))
+            {
+                return HandleHierarchyIdCanonicalFunction(sqlgen, functionExpression);
+            }
+
             return HandleFunctionDefault(sqlgen, functionExpression);
         }
 
@@ -683,6 +721,33 @@ namespace System.Data.Entity.SqlServer.SqlGen
         {
             return e.Function.IsCanonicalFunction()
                    && _canonicalFunctionHandlers.ContainsKey(e.Function.Name);
+        }
+
+        // <summary>   
+        //     Determines whether the given function is a canonical function the translates   
+        //     to a hierarchy property access or method call.   
+        // </summary>   
+        // <param name="e"> </param>   
+        // <returns> </returns>   
+        private static bool IsHierarchyCanonicalFunction(DbFunctionExpression e)
+        {
+            if (e.Function.IsCanonicalFunction())
+            {
+                if (e.ResultType.IsHierarchyIdType())
+                {
+                    return true;
+                }
+
+                foreach (var functionParameter in e.Function.Parameters)
+                {
+                    if (functionParameter.TypeUsage.IsHierarchyIdType())
+                    {
+                        return true;
+                    }
+                }
+            }
+
+            return false;
         }
 
         // <summary>
@@ -848,6 +913,29 @@ namespace System.Data.Entity.SqlServer.SqlGen
             return HandleSpecialFunction(_storeFunctionHandlers, sqlgen, e);
         }
 
+        private static ISqlFragment HandleHierarchyIdCanonicalFunction(
+            SqlGenerator sqlgen, DbFunctionExpression functionExpression)
+        {
+            FunctionHandler staticFunctionHandler;
+            if (_hierarchyIdFunctionNameToStaticMethodHandlerDictionary.TryGetValue(
+                functionExpression.Function.Name, out staticFunctionHandler))
+            {
+                return staticFunctionHandler(sqlgen, functionExpression);
+            }
+            else
+            {
+                // Default translation pattern is instance method; the instance method name may differ from that of the hierarchyid canonical function   
+                Debug.Assert(
+                    functionExpression.Function.Parameters.Count > 0
+                    && functionExpression.Function.Parameters[0].TypeUsage.IsHierarchyIdType(),
+                    "Instance method function does not have instance parameter?");
+                string effectiveFunctionName = functionExpression.Function.Name;
+
+                return WriteInstanceFunctionCall(
+                    sqlgen, effectiveFunctionName, functionExpression, isPropertyAccess: false);
+            }
+        }
+
         // <summary>
         // Handler for special canonical functions
         // </summary>
@@ -976,26 +1064,26 @@ namespace System.Data.Entity.SqlServer.SqlGen
         // <summary>
         // Handles functions that are translated into TSQL operators.
         // The given function should have one or two arguments.
-        // Functions with one arguemnt are translated into
+        // Functions with one argument are translated into
         // op arg
         // Functions with two arguments are translated into
         // arg0 op arg1
-        // Also, the arguments can be optionaly enclosed in parethesis
+        // Also, the arguments can be optionally enclosed in parethesis
         // </summary>
-        // <param name="parenthesiseArguments"> Whether the arguments should be enclosed in parethesis </param>
-        private static ISqlFragment HandleSpecialFunctionToOperator(SqlGenerator sqlgen, DbFunctionExpression e, bool parenthesiseArguments)
+        // <param name="parenthesizeArguments"> Whether the arguments should be enclosed in parethesis </param>
+        private static ISqlFragment HandleSpecialFunctionToOperator(SqlGenerator sqlgen, DbFunctionExpression e, bool parenthesizeArguments)
         {
             var result = new SqlBuilder();
             Debug.Assert(e.Arguments.Count > 0 && e.Arguments.Count <= 2, "There should be 1 or 2 arguments for operator");
 
             if (e.Arguments.Count > 1)
             {
-                if (parenthesiseArguments)
+                if (parenthesizeArguments)
                 {
                     result.Append("(");
                 }
                 result.Append(e.Arguments[0].Accept(sqlgen));
-                if (parenthesiseArguments)
+                if (parenthesizeArguments)
                 {
                     result.Append(")");
                 }
@@ -1005,12 +1093,12 @@ namespace System.Data.Entity.SqlServer.SqlGen
             result.Append(_functionNameToOperatorDictionary[e.Function.Name]);
             result.Append(" ");
 
-            if (parenthesiseArguments)
+            if (parenthesizeArguments)
             {
                 result.Append("(");
             }
             result.Append(e.Arguments[e.Arguments.Count - 1].Accept(sqlgen));
-            if (parenthesiseArguments)
+            if (parenthesizeArguments)
             {
                 result.Append(")");
             }
@@ -1068,7 +1156,7 @@ namespace System.Data.Entity.SqlServer.SqlGen
             var result = new SqlBuilder();
 
             //
-            // finaly, expand the function name
+            // finally, expand the function name
             //
             WriteFunctionName(result, e.Function);
             result.Append("(");
@@ -1100,12 +1188,48 @@ namespace System.Data.Entity.SqlServer.SqlGen
         }
 
         // <summary>
-        // Handler for canonical funcitons for GetTotalOffsetMinutes.
+        // Handler for canonical functions for GetTotalOffsetMinutes.
         // GetTotalOffsetMinutes(e) --> Datepart(tzoffset, e)
         // </summary>
         private static ISqlFragment HandleCanonicalFunctionGetTotalOffsetMinutes(SqlGenerator sqlgen, DbFunctionExpression e)
         {
             return HandleCanonicalFunctionDatepart(sqlgen, "tzoffset", e);
+        }
+
+        // <summary>
+        // Handler for canonical functions for LocalDateTime.
+        // LocalDateTime(e) --> CAST(e AS DATETIME2)
+        // </summary>
+        private static ISqlFragment HandleCanonicalFunctionLocalDateTime(SqlGenerator sqlgen, DbFunctionExpression e)
+        {
+            sqlgen.AssertKatmaiOrNewer(e);
+            var result = new SqlBuilder();
+            result.Append("CAST (");
+
+            Debug.Assert(e.Arguments.Count == 1, "LocalDateTime translation should have exactly one argument");
+            result.Append(e.Arguments[0].Accept(sqlgen));
+
+            result.Append(" AS DATETIME2)");
+
+            return result;
+        }
+
+        // <summary>
+        // Handler for canonical functions for UtcDateTime.
+        // UtcDateTime(e) --> CONVERT(DATETIME2, e, 1)
+        // </summary>
+        private static ISqlFragment HandleCanonicalFunctionUtcDateTime(SqlGenerator sqlgen, DbFunctionExpression e)
+        {
+            sqlgen.AssertKatmaiOrNewer(e);
+            var result = new SqlBuilder();
+            result.Append("CONVERT (DATETIME2, ");
+
+            Debug.Assert(e.Arguments.Count == 1, "UtcDateTime translation should have exactly one argument");
+            result.Append(e.Arguments[0].Accept(sqlgen));
+
+            result.Append(", 1)");
+
+            return result;
         }
 
         // <summary>
@@ -1274,7 +1398,7 @@ namespace System.Data.Entity.SqlServer.SqlGen
         }
 
         // <summary>
-        // Helper method that wrapps the given expession with a conver to varchar(255)
+        // Helper method that wraps the given expession with a convert to varchar(255)
         // </summary>
         private static void AppendConvertToVarchar(SqlGenerator sqlgen, SqlBuilder result, DbExpression e)
         {
@@ -1285,49 +1409,52 @@ namespace System.Data.Entity.SqlServer.SqlGen
 
         // <summary>
         // TruncateTime(DateTime X)
-        // PreKatmai:    TRUNCATETIME(X) => CONVERT(DATETIME, CONVERT(VARCHAR(255), expression, 102),  102)
-        // Katmai:    TRUNCATETIME(X) => CONVERT(DATETIME2, CONVERT(VARCHAR(255), expression, 102),  102)
+        // PreKatmai:    TRUNCATETIME(X) => DATEADD(d, DATEDIFF(d, 0, expression), 0)
+        // Katmai:       TRUNCATETIME(X) => CAST(CAST(expression AS DATE) as DATETIME2)
         // TruncateTime(DateTimeOffset X)
-        // TRUNCATETIME(X) => CONVERT(datetimeoffset, CONVERT(VARCHAR(255), expression,  102)
-        // + ' 00:00:00 ' +  Right(convert(varchar(255), @arg, 121), 6),  102)
+        // Katmai only: TRUNCATETIME(X) => TODATETIMEOFFSET(CAST(expression AS DATE), DATEPART(tz, expression)))
         // </summary>
         private static ISqlFragment HandleCanonicalFunctionTruncateTime(SqlGenerator sqlgen, DbFunctionExpression e)
         {
             //The type that we need to return is based on the argument type.
-            string typeName = null;
-            var isDateTimeOffset = false;
-
             var typeKind = e.Arguments[0].ResultType.GetPrimitiveTypeKind();
+            var isDateTimeOffset = (typeKind == PrimitiveTypeKind.DateTimeOffset);
 
-            if (typeKind == PrimitiveTypeKind.DateTime)
+            Debug.Assert(isDateTimeOffset || typeKind == PrimitiveTypeKind.DateTime, "Unexpected type to TruncateTime" + typeKind.ToString());
+
+            if (sqlgen.IsPreKatmai && isDateTimeOffset)
             {
-                typeName = sqlgen.IsPreKatmai ? "datetime" : "datetime2";
+                throw new NotSupportedException(Strings.SqlGen_CanonicalFunctionNotSupportedPriorSql10(e.Function.Name));
             }
-            else if (typeKind == PrimitiveTypeKind.DateTimeOffset)
+
+
+            var result = new SqlBuilder();
+            var argumentFragment = e.Arguments[0].Accept(sqlgen);
+
+            if (sqlgen.IsPreKatmai)
             {
-                typeName = "datetimeoffset";
-                isDateTimeOffset = true;
+                result.Append("dateadd(d, datediff(d, 0, ");
+                result.Append(argumentFragment);
+                result.Append("), 0)");
             }
             else
             {
-                Debug.Assert(true, "Unexpected type to TruncateTime" + typeKind.ToString());
+                if (!isDateTimeOffset)
+                {
+                    result.Append("cast(cast(");
+                    result.Append(argumentFragment);
+                    result.Append(" as date) as datetime2)");
+                }
+                else
+                {
+                    result.Append("todatetimeoffset(cast(");
+                    result.Append(argumentFragment);
+                    result.Append(" as date), datepart(tz, ");
+                    result.Append(argumentFragment);
+                    result.Append("))");
+                }
             }
 
-            var result = new SqlBuilder();
-            result.Append("convert (");
-            result.Append(typeName);
-            result.Append(", convert(varchar(255), ");
-            result.Append(e.Arguments[0].Accept(sqlgen));
-            result.Append(", 102) ");
-
-            if (isDateTimeOffset)
-            {
-                result.Append("+ ' 00:00:00 ' +  Right(convert(varchar(255), ");
-                result.Append(e.Arguments[0].Accept(sqlgen));
-                result.Append(", 121), 6)  ");
-            }
-
-            result.Append(",  102)");
             return result;
         }
 
@@ -1361,7 +1488,7 @@ namespace System.Data.Entity.SqlServer.SqlGen
         }
 
         // <summary>
-        // Hanndler for date differencing functions supported only starting from Katmai
+        // Handler for date differencing functions supported only starting from Katmai
         // </summary>
         private static ISqlFragment HandleCanonicalFunctionDateDiffKatmaiOrNewer(SqlGenerator sqlgen, DbFunctionExpression e)
         {
@@ -1759,7 +1886,7 @@ namespace System.Data.Entity.SqlServer.SqlGen
         }
 
         // <summary>
-        // determines if the function requires the return type be enforeced by use of a cast expression
+        // determines if the function requires the return type be enforced by use of a cast expression
         // </summary>
         internal static bool CastReturnTypeToInt64(DbFunctionExpression e)
         {
@@ -1767,7 +1894,7 @@ namespace System.Data.Entity.SqlServer.SqlGen
         }
 
         // <summary>
-        // determines if the function requires the return type be enforeced by use of a cast expression
+        // determines if the function requires the return type be enforced by use of a cast expression
         // </summary>
         internal static bool CastReturnTypeToInt32(SqlGenerator sqlgen, DbFunctionExpression e)
         {
@@ -1781,7 +1908,7 @@ namespace System.Data.Entity.SqlServer.SqlGen
         }
 
         // <summary>
-        // determines if the function requires the return type be enforeced by use of a cast expression
+        // determines if the function requires the return type be enforced by use of a cast expression
         // </summary>
         internal static bool CastReturnTypeToInt16(DbFunctionExpression e)
         {
@@ -1789,7 +1916,7 @@ namespace System.Data.Entity.SqlServer.SqlGen
         }
 
         // <summary>
-        // determines if the function requires the return type be enforeced by use of a cast expression
+        // determines if the function requires the return type be enforced by use of a cast expression
         // </summary>
         internal static bool CastReturnTypeToSingle(DbFunctionExpression e)
         {

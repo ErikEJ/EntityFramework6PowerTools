@@ -9,6 +9,7 @@ namespace System.Data.Entity.SqlServer
     using System.Data.Entity.Core.Common;
     using System.Data.Entity.Core.Common.CommandTrees;
     using System.Data.Entity.Core.Metadata.Edm;
+    using System.Data.Entity.Hierarchy;
     using System.Data.Entity.Infrastructure;
     using System.Data.Entity.Infrastructure.DependencyResolution;
     using System.Data.Entity.Infrastructure.Interception;
@@ -32,7 +33,7 @@ namespace System.Data.Entity.SqlServer
     /// or through code-based registration in <see cref="DbConfiguration" />.
     /// The services resolved are:
     /// Requests for <see cref="IDbConnectionFactory" /> are resolved to a Singleton instance of
-    /// <see cref="System.Data.Entity.Infrastructure.SqlConnectionFactory" /> to create connections to SQL Express by default.
+    /// <see cref="System.Data.Entity.Infrastructure.LocalDbConnectionFactory" /> to create connections to LocalDB by default.
     /// Requests for <see cref="Func{IDbExecutionStrategy}" /> for the invariant name "System.Data.SqlClient"
     /// for any server name are resolved to a delegate that returns a <see cref="DefaultSqlExecutionStrategy" />
     /// to provide a non-retrying policy for SQL Server.
@@ -61,7 +62,7 @@ namespace System.Data.Entity.SqlServer
         // </summary>
         private SqlProviderServices()
         {
-            AddDependencyResolver(new SingletonDependencyResolver<IDbConnectionFactory>(new SqlConnectionFactory()));
+            AddDependencyResolver(new SingletonDependencyResolver<IDbConnectionFactory>(new LocalDbConnectionFactory()));
 
             AddDependencyResolver(
                 new ExecutionStrategyResolver<DefaultSqlExecutionStrategy>(
@@ -663,7 +664,7 @@ namespace System.Data.Entity.SqlServer
                 && value.GetType().IsClass())
             {
                 // If the parameter is being created based on an actual value (typically for constants found in DML expressions) then a DbGeography/DbGeometry
-                // value must be replaced by an an appropriate Microsoft.SqlServer.Types.SqlGeography/SqlGeometry instance. Since the DbGeography/DbGeometry
+                // value must be replaced by an appropriate Microsoft.SqlServer.Types.SqlGeography/SqlGeometry instance. Since the DbGeography/DbGeometry
                 // value may not have been originally created by this SqlClient provider services implementation, just using the ProviderValue is not sufficient.
                 var geographyValue = value as DbGeography;
                 if (geographyValue != null)
@@ -676,6 +677,14 @@ namespace System.Data.Entity.SqlServer
                     if (geometryValue != null)
                     {
                         value = SqlTypesAssemblyLoader.DefaultInstance.GetSqlTypesAssembly().ConvertToSqlTypesGeometry(geometryValue);
+                    }
+                    else
+                    {
+                        var hierarchyIdValue = value as HierarchyId;
+                        if (hierarchyIdValue != null)
+                        {
+                            value = SqlTypesAssemblyLoader.DefaultInstance.GetSqlTypesAssembly().ConvertToSqlTypesHierarchyId(hierarchyIdValue);
+                        }
                     }
                 }
             }
@@ -760,6 +769,12 @@ namespace System.Data.Entity.SqlServer
 
                 case PrimitiveTypeKind.Guid:
                     return SqlDbType.UniqueIdentifier;
+
+                case PrimitiveTypeKind.HierarchyId:
+                    {
+                        udtName = "hierarchyid";
+                        return SqlDbType.Udt;
+                    }
 
                 case PrimitiveTypeKind.Int16:
                     return SqlDbType.SmallInt;

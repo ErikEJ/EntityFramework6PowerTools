@@ -10,7 +10,7 @@ namespace System.Data.Entity.Core.Common
     using System.Xml;
 
     /// <summary>
-    /// Metadata Interface for all CLR types types
+    /// Metadata Interface for all CLR types
     /// </summary>
     public abstract class DbProviderManifest
     {
@@ -175,6 +175,17 @@ namespace System.Data.Entity.Core.Common
         public virtual bool SupportsEscapingLikeArgument(out char escapeCharacter)
         {
             escapeCharacter = default(char);
+            return false;
+        }
+
+        /// <summary>
+        /// Indicates if the provider supports the parameter optimization described in EntityFramework6 GitHub issue #195.
+        /// The default is <c>false</c>. Providers should change this to true only after testing that schema queries (as
+        /// used in the Database First flow) work correctly with this flag.
+        /// </summary>
+        /// <returns><c>True</c> only if the provider supports the parameter optimization.</returns>
+        public virtual bool SupportsParameterOptimizationInSchemaQueries()
+        {
             return false;
         }
 

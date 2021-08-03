@@ -11,7 +11,7 @@ namespace System.Data.Entity.Core.Metadata.Edm
         internal const string TransientNamespace = "Transient";
 
         // max number of primitive types
-        internal const int NumPrimitiveTypes = (int)Edm.PrimitiveTypeKind.GeographyCollection + 1;
+        internal const int NumPrimitiveTypes = (int)Edm.PrimitiveTypeKind.HierarchyId + 1;
 
         // max number of primitive types
         internal const int NumBuiltInTypes = (int)BuiltInTypeKind.TypeUsage + 1;
@@ -21,7 +21,7 @@ namespace System.Data.Entity.Core.Metadata.Edm
 
         // Name of the built in types
         internal const string AssociationEnd = "AssociationEnd";
-        internal const string AssociationSetType = "AssocationSetType";
+        internal const string AssociationSetType = "AssociationSetType";
         internal const string AssociationSetEndType = "AssociationSetEndType";
         internal const string AssociationType = "AssociationType";
         internal const string BaseEntitySetType = "BaseEntitySetType";
@@ -146,6 +146,7 @@ namespace System.Data.Entity.Core.Metadata.Edm
         internal const string GeographyMultiPolygon = "GeographyMultiPolygon";
         internal const string GeographyCollection = "GeographyCollection";
         internal const string Guid = "Guid";
+        internal const string HierarchyId = "HierarchyId";
         internal const string Single = "Single";
         internal const string SByte = "SByte";
         internal const string Int16 = "Int16";
@@ -170,7 +171,7 @@ namespace System.Data.Entity.Core.Metadata.Edm
         internal const string ItemAttributes = "MetadataProperties";
         internal const string Type = "Type";
 
-        // Name of SSDL specifc attributes for SQL Gen
+        // Name of SSDL specific attributes for SQL Gen
         internal const string Schema = "Schema";
         internal const string Table = "Table";
 
@@ -190,7 +191,7 @@ namespace System.Data.Entity.Core.Metadata.Edm
         internal const string ParameterTypeSemantics = "ParameterTypeSemantics";
         internal const string NiladicFunctionAttribute = "NiladicFunctionAttribute";
         internal const string IsComposableFunctionAttribute = "IsComposable";
-        internal const string CommandTextFunctionAttribyte = "CommandText";
+        internal const string CommandTextFunctionAttribute = "CommandText";
         internal const string StoreFunctionNameAttribute = "StoreFunctionNameAttribute";
 
         // <summary>

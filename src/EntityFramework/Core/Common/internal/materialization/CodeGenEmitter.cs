@@ -84,6 +84,8 @@ namespace System.Data.Entity.Core.Common.Internal.Materialization
         internal static readonly MethodInfo Shaper_GetColumnValueWithErrorHandling =
             typeof(Shaper).GetOnlyDeclaredMethod("GetColumnValueWithErrorHandling");
 
+        internal static readonly MethodInfo Shaper_GetHierarchyIdColumnValue = typeof(Shaper).GetOnlyDeclaredMethod("GetHierarchyIdColumnValue");
+        
         internal static readonly MethodInfo Shaper_GetGeographyColumnValue = typeof(Shaper).GetOnlyDeclaredMethod("GetGeographyColumnValue");
         internal static readonly MethodInfo Shaper_GetGeometryColumnValue = typeof(Shaper).GetOnlyDeclaredMethod("GetGeometryColumnValue");
 
@@ -253,9 +255,9 @@ namespace System.Data.Entity.Core.Common.Internal.Materialization
         }
 
         // <summary>
-        // Emits an expression that represnts a NullEntityWrapper instance.
+        // Emits an expression that represents a NullEntityWrapper instance.
         // </summary>
-        // <returns> An expression represnting a wrapped null </returns>
+        // <returns> An expression representing a wrapped null </returns>
         internal static Expression Emit_WrappedNullConstant()
         {
             return Expression.Property(null, EntityWrapperFactory_NullWrapper);
@@ -294,7 +296,7 @@ namespace System.Data.Entity.Core.Common.Internal.Materialization
         // <param name="input"> The expression that creates the entity to be wrapped </param>
         // <param name="keyReader"> Expression to read the entity key </param>
         // <param name="entitySetReader"> Expression to read the entity set </param>
-        // <param name="requestedType"> The type that was actuall requested by the client--may be object </param>
+        // <param name="requestedType"> The type that was actually requested by the client--may be object </param>
         // <param name="identityType"> The type of the identity type of the entity being materialized--never a proxy type </param>
         // <param name="actualType"> The actual type being materialized--may be a proxy type </param>
         // <param name="mergeOption"> Either NoTracking or AppendOnly depending on whether the entity is to be tracked </param>
@@ -620,6 +622,16 @@ namespace System.Data.Entity.Core.Common.Internal.Materialization
                 result = Expression.Call(
                     Shaper_Parameter, Shaper_GetColumnValueWithErrorHandling.MakeGenericMethod(resultType), Expression.Constant(ordinal));
             }
+            return result;
+        }
+
+        // <summary>
+        // Create expression to read a column value of type System.Data.Entity.Hierarchy.HierarchyId by delegating to the DbSpatialServices implementation of the underlying provider
+        // </summary>
+        internal static Expression Emit_Shaper_GetHierarchyIdColumnValue(int ordinal)
+        {
+            // shaper.GetHierarchyIdColumnValue(ordinal)   
+            Expression result = Expression.Call(Shaper_Parameter, Shaper_GetHierarchyIdColumnValue, Expression.Constant(ordinal));
             return result;
         }
 

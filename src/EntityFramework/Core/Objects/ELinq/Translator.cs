@@ -32,7 +32,7 @@ namespace System.Data.Entity.Core.Objects.ELinq
                 _nodeTypes = nodeTypes;
             }
 
-            // Gets LINQ node types this translator should be registed to process.
+            // Gets LINQ node types this translator should be registered to process.
             internal IEnumerable<ExpressionType> NodeTypes
             {
                 get { return _nodeTypes; }
@@ -124,7 +124,7 @@ namespace System.Data.Entity.Core.Objects.ELinq
                 //unwrap System.Enum
                 if (linqType == typeof(Enum))
                 {
-                    Debug.Assert(linq.Value != null, "null enum constants should have alredy been taken care of");
+                    Debug.Assert(linq.Value != null, "null enum constants should have already been taken care of");
 
                     linqType = linq.Value.GetType();
                 }
@@ -634,7 +634,9 @@ namespace System.Data.Entity.Core.Objects.ELinq
                             typeof(DateTimeOffset).GetDeclaredProperty("Hour"),
                             typeof(DateTimeOffset).GetDeclaredProperty("Minute"),
                             typeof(DateTimeOffset).GetDeclaredProperty("Second"),
-                            typeof(DateTimeOffset).GetDeclaredProperty("Millisecond")
+                            typeof(DateTimeOffset).GetDeclaredProperty("Millisecond"),
+                            typeof(DateTimeOffset).GetDeclaredProperty("LocalDateTime"),
+                            typeof(DateTimeOffset).GetDeclaredProperty("UtcDateTime"),
                         };
                 }
 
@@ -811,6 +813,14 @@ namespace System.Data.Entity.Core.Objects.ELinq
         private sealed class NewTranslator
             : TypedTranslator<NewExpression>
         {
+            /// <summary>
+            /// List of type pairs that constructor call new XXXX(YYY yyy) could be translated to SQL CAST(yyy AS XXXXX) call
+            /// </summary>
+            private List<Tuple<Type, Type>> _castableTypes = new List<Tuple<Type, Type>>()
+            {
+                new Tuple<Type, Type>(typeof(Guid), typeof(string)),
+            };
+
             internal NewTranslator()
                 : base(ExpressionType.New)
             {
@@ -819,6 +829,13 @@ namespace System.Data.Entity.Core.Objects.ELinq
             protected override DbExpression TypedTranslate(ExpressionConverter parent, NewExpression linq)
             {
                 var memberCount = null == linq.Members ? 0 : linq.Members.Count;
+
+                if (linq.Arguments.Count == 1
+                    && _castableTypes.Any(cast => cast.Item1 == linq.Constructor.DeclaringType && cast.Item2 == linq.Arguments[0].Type))
+                {
+                    return parent.CreateCastExpression(
+                        parent.TranslateExpression(linq.Arguments[0]), linq.Constructor.DeclaringType, linq.Arguments[0].Type);
+                }
 
                 if (null == linq.Constructor
                     ||
