@@ -1,9 +1,6 @@
 // Copyright (c) Microsoft Open Technologies, Inc. All rights reserved. See License.txt in the project root for license information.
-#if SQLSERVERCOMPACT35
-namespace System.Data.Entity.SqlServerCompact.Legacy
-#else
+
 namespace System.Data.Entity.SqlServerCompact
-#endif
 {
     using System.Collections.Concurrent;
     using System.Collections.Generic;
@@ -164,7 +161,7 @@ namespace System.Data.Entity.SqlServerCompact
 
             // Throw an exception if connection is open.
             // We should not close the connection because user could have result sets/data readers associated with this connection.
-            // Thus, it is users responsiblity to close the connection before calling delete database.
+            // Thus, it is users responsibility to close the connection before calling delete database.
             if (DbInterception.Dispatch.Connection.GetState(connection, new DbInterceptionContext())
                 == ConnectionState.Open)
             {
@@ -203,7 +200,7 @@ namespace System.Data.Entity.SqlServerCompact
         }
 
         /// <summary>
-        /// API for creating the databse and schema objects given a StoreItemCollection.
+        /// API for creating the database and schema objects given a StoreItemCollection.
         /// This will do following things:
         /// 1. Create a new database using SqlCeEngine.CreateDatabase().
         /// 2. Generate scripts for creating schema objects.
@@ -318,7 +315,7 @@ namespace System.Data.Entity.SqlServerCompact
 
         #region Private Helpers
 
-        // Private helper for validatingn the SqlCeConnection.
+        // Private helper for validating the SqlCeConnection.
         private void ValidateConnection(DbConnection connection)
         {
             // Check whether it is a valid SqlCeConnection.

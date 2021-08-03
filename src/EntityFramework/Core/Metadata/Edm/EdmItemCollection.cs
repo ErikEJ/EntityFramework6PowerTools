@@ -195,7 +195,7 @@ namespace System.Data.Entity.Core.Metadata.Edm
         }
 
         // <summary>
-        // conventional oc mapping cache, the locking mechanism is provided by AsssemblyCache
+        // conventional oc mapping cache, the locking mechanism is provided by AssemblyCache
         // </summary>
         internal OcAssemblyCache ConventionalOcCache
         {
@@ -382,7 +382,7 @@ namespace System.Data.Entity.Core.Metadata.Edm
                 || edmVersion == XmlConstants.EdmVersionForV1_1
                 || edmVersion == XmlConstants.EdmVersionForV2)
             {
-                return new ReadOnlyCollection<PrimitiveType>(_primitiveTypeMaps.GetTypes().Where(type => !Helper.IsSpatialType(type)).ToList());
+                return new ReadOnlyCollection<PrimitiveType>(_primitiveTypeMaps.GetTypes().Where(type => !Helper.IsSpatialType(type) && !Helper.IsHierarchyIdType(type)).ToList());
             }
 
             if (edmVersion == XmlConstants.EdmVersionForV3)
@@ -426,7 +426,7 @@ namespace System.Data.Entity.Core.Metadata.Edm
         // Guarantees type match of declaration and generated parameters.
         // Guarantees return type match.
         // Throws internal error for functions without definition.
-        // Passes thru exceptions occured during definition generation.
+        // Passes thru exceptions occurred during definition generation.
         // </summary>
         internal DbLambda GetGeneratedFunctionDefinition(EdmFunction function)
         {
@@ -446,7 +446,7 @@ namespace System.Data.Entity.Core.Metadata.Edm
         // Guarantees type match of declaration and generated parameters.
         // Guarantees return type match.
         // Throws internal error for functions without definition.
-        // Passes thru exceptions occured during definition generation.
+        // Passes thru exceptions occurred during definition generation.
         // </summary>
         internal DbLambda GenerateFunctionDefinition(EdmFunction function)
         {

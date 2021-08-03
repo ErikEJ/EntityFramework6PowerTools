@@ -27,11 +27,7 @@ namespace System.Data.Entity.SqlServerCompact
         // </summary>
         internal static readonly SqlCeProviderManifest Instance = new SqlCeProviderManifest(true);
 
-#if SQLSERVERCOMPACT35
-        internal const string ProviderInvariantName = "System.Data.SqlServerCe.3.5";
-#else
         internal const string ProviderInvariantName = "System.Data.SqlServerCe.4.0";
-#endif
 
         internal const string Token40 = "4.0";
 
@@ -50,13 +46,9 @@ namespace System.Data.Entity.SqlServerCompact
         private const string storeSchemaMappingFile =
             "System.Data.Resources.SqlServerCe.Entity.SqlCeProviderServices.StoreSchemaMapping.msl";
 
-#if SQLSERVERCOMPACT35
-        private const string storeSchemaDescriptionFile =
-            "System.Data.Resources.SqlServerCe.Entity.Legacy.SqlCeProviderServices.StoreSchemaDefinition.ssdl";
-#else
         private const string storeSchemaDescriptionFile =
             "System.Data.Resources.SqlServerCe.Entity.SqlCeProviderServices.StoreSchemaDefinition.ssdl";
-#endif
+
         // This SSDL is being used only at design time. And because SqlServerCe 3.5 is not supported after
         // VS2010 we don't need a SqlServerCe 3.5 version of this file.
         private const string storeSchemaDescriptionFileForRDP =
@@ -101,7 +93,7 @@ namespace System.Data.Entity.SqlServerCompact
         // This method should never return null.
         // </summary>
         // <param name="informationType"> The name of the information to be retrieved. </param>
-        // <returns> An XmlReader at the begining of the information requested. </returns>
+        // <returns> An XmlReader at the beginning of the information requested. </returns>
         protected override XmlReader GetDbInformation(string informationType)
         {
             if (informationType == ProviderManifest.StoreSchemaDefinition)
@@ -486,6 +478,15 @@ namespace System.Data.Entity.SqlServerCompact
         public override bool SupportsEscapingLikeArgument(out char escapeCharacter)
         {
             escapeCharacter = LikeEscapeChar;
+            return true;
+        }
+
+        /// <summary>
+        /// Indicates if the provider supports the parameter optimization described in EntityFramework6 GitHub issue #195.
+        /// </summary>
+        /// <returns><c>True</c> since this provider supports the parameter optimization.</returns>
+        public override bool SupportsParameterOptimizationInSchemaQueries()
+        {
             return true;
         }
 

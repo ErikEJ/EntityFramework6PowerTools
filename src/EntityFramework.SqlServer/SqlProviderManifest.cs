@@ -84,6 +84,7 @@ namespace System.Data.Entity.SqlServer
                                          primitiveType.Name.Equals("date", StringComparison.OrdinalIgnoreCase) ||
                                          primitiveType.Name.Equals("datetime2", StringComparison.OrdinalIgnoreCase) ||
                                          primitiveType.Name.Equals("datetimeoffset", StringComparison.OrdinalIgnoreCase) ||
+                                         primitiveType.Name.Equals("hierarchyid", StringComparison.OrdinalIgnoreCase) ||
                                          primitiveType.Name.Equals("geography", StringComparison.OrdinalIgnoreCase) ||
                                          primitiveType.Name.Equals("geometry", StringComparison.OrdinalIgnoreCase)
                         );
@@ -197,7 +198,7 @@ namespace System.Data.Entity.SqlServer
         // This method should never return null.
         // </summary>
         // <param name="informationType"> The name of the information to be retrieved. </param>
-        // <returns> An XmlReader at the begining of the information requested. </returns>
+        // <returns> An XmlReader at the beginning of the information requested. </returns>
         protected override XmlReader GetDbInformation(string informationType)
         {
             if (informationType == StoreSchemaDefinitionVersion3
@@ -364,6 +365,7 @@ namespace System.Data.Entity.SqlServer
                 case "bigint":
                 case "bit":
                 case "uniqueidentifier":
+                case "hierarchyid":
                 case "int":
                 case "geography":
                 case "geometry":
@@ -567,6 +569,9 @@ namespace System.Data.Entity.SqlServer
                 case PrimitiveTypeKind.Guid:
                     return TypeUsage.CreateDefaultTypeUsage(StoreTypeNameToStorePrimitiveType["uniqueidentifier"]);
 
+                case PrimitiveTypeKind.HierarchyId:
+                    return TypeUsage.CreateDefaultTypeUsage(StoreTypeNameToStorePrimitiveType["hierarchyid"]);
+
                 case PrimitiveTypeKind.Double:
                     return TypeUsage.CreateDefaultTypeUsage(StoreTypeNameToStorePrimitiveType["float"]);
 
@@ -756,6 +761,15 @@ namespace System.Data.Entity.SqlServer
 
             bool usedEscapeCharacter;
             return EscapeLikeText(argument, true, out usedEscapeCharacter);
+        }
+
+        /// <summary>
+        /// Indicates if the provider supports the parameter optimization described in EntityFramework6 GitHub issue #195.
+        /// </summary>
+        /// <returns><c>True</c> since this provider supports the parameter optimization.</returns>
+        public override bool SupportsParameterOptimizationInSchemaQueries()
+        {
+            return true;
         }
 
         // <summary>

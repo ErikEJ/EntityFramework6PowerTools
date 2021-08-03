@@ -1,9 +1,6 @@
 // Copyright (c) Microsoft Open Technologies, Inc. All rights reserved. See License.txt in the project root for license information.
-#if SQLSERVERCOMPACT35
-namespace System.Data.Entity.SqlServerCompact.Legacy
-#else
+
 namespace System.Data.Entity.SqlServerCompact
-#endif
 {
     using System.Data.Entity.SqlServerCompact.Resources;
     using System.Diagnostics.CodeAnalysis;
@@ -742,7 +739,7 @@ namespace System.Data.Entity.SqlServerCompact
         }
 
         /// <summary>Returns an integer that represents the specified datepart of the specified date.</summary>
-        /// <returns>The the specified datepart of the specified date.</returns>
+        /// <returns>The specified datepart of the specified date.</returns>
         /// <param name="datePartArg">The part of the date to return the value.</param>
         /// <param name="date">The date.</param>
         [SuppressMessage("Microsoft.Usage", "CA1801:ReviewUnusedParameters", MessageId = "date")]

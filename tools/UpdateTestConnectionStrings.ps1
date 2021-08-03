@@ -5,7 +5,7 @@ Param(
 
 foreach($appConfigPath in "FunctionalTests", "FunctionalTests.Transitional", "FunctionalTests.ProviderAgnostic", "UnitTests", "VBTests")
 {
-	$appConfigPath = "$pwd\test\EntityFramework\$appConfigPath\App.config"
+	$appConfigPath = "$pwd\test\$appConfigPath\App.config"
 	$xml = [xml] (get-content $appConfigPath)
 	$connectionStrings = $xml.configuration.connectionStrings.add
 	foreach ($conStr in $connectionStrings)
@@ -15,8 +15,8 @@ foreach($appConfigPath in "FunctionalTests", "FunctionalTests.Transitional", "Fu
 		{
 			$str = $str.replace("Integrated Security=True;", "")
 			$str = $str.replace("Trusted_Connection=True;", "")
-			$str = $str.replace("Server=.\SQLEXPRESS;", "$newConnectionString")
-			$str = $str.replace("DataSource=.\SQLEXPRESS;", "$newConnectionString")
+			$str = $str.replace("Server=(localdb)\MSSQLLocalDB;", "$newConnectionString")
+			$str = $str.replace("DataSource=(localdb)\MSSQLLocalDB;", "$newConnectionString")
 		}
 		$conStr.connectionString = $str
 	}

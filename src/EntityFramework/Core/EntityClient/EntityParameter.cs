@@ -241,6 +241,8 @@ namespace System.Data.Entity.Core.EntityClient
                 _edmType = value;
             }
         }
+        
+#pragma warning disable CS0114
 
         /// <summary>
         /// Gets or sets the number of digits used to represent the
@@ -283,6 +285,8 @@ namespace System.Data.Entity.Core.EntityClient
                 _scale = value;
             }
         }
+        
+#pragma warning restore CS0114
 
         /// <summary>Gets or sets the value of the parameter.</summary>
         /// <returns>The value of the parameter.</returns>
@@ -612,12 +616,12 @@ namespace System.Data.Entity.Core.EntityClient
             }
             else if (!DbTypeMap.TryGetModelTypeUsage(DbType, out typeUsage))
             {
-                // Spatial types have only DbType 'Object', and cannot be represented in the static type map.
+                // Spatial and HierarchyId types have only DbType 'Object', and cannot be represented in the static type map. 
                 PrimitiveType primitiveParameterType;
                 if (DbType == DbType.Object
                     && Value != null
                     && ClrProviderManifest.Instance.TryGetPrimitiveType(Value.GetType(), out primitiveParameterType)
-                    && Helper.IsSpatialType(primitiveParameterType))
+                    && (Helper.IsSpatialType(primitiveParameterType) || Helper.IsHierarchyIdType(primitiveParameterType))) 
                 {
                     typeUsage = EdmProviderManifest.Instance.GetCanonicalModelTypeUsage(primitiveParameterType.PrimitiveTypeKind);
                 }
