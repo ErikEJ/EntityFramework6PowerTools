@@ -1,0 +1,171 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <RootNamespace>System.Data.Entity.SqlServer</RootNamespace>
+    <GenerateDocumentationFile>True</GenerateDocumentationFile>
+    <TargetFrameworks>net461;netstandard2.1</TargetFrameworks>
+    <Description>EntityFramework.Microsoft.SqlServer.dll</Description>
+    <AssemblyVersion>6.0.0.0</AssemblyVersion>
+    <DefineConstants>$(DefineConstants);SQLSERVER;INTERNALS_INVISIBLE;MDS</DefineConstants>
+	<GenerateTargetFrameworkAttribute>false</GenerateTargetFrameworkAttribute>
+  </PropertyGroup>
+
+  <ItemGroup Condition="'$(TargetFrameworkIdentifier)' == '.NETFramework'">
+    <Reference Include="Microsoft.CSharp" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Include="..\EntityFramework.SqlServer\DbGeographyAdapter.cs" Link="DbGeographyAdapter.cs" />
+    <Compile Include="..\EntityFramework.SqlServer\DbGeometryAdapter.cs" Link="DbGeometryAdapter.cs" />
+    <Compile Include="..\EntityFramework.SqlServer\DefaultSqlExecutionStrategy.cs" Link="DefaultSqlExecutionStrategy.cs" />
+    <Compile Include="..\EntityFramework.SqlServer\Expressions.cs" Link="Expressions.cs" />
+    <Compile Include="..\EntityFramework.SqlServer\GlobalSuppressions.cs" Link="GlobalSuppressions.cs" />
+    <Compile Include="..\EntityFramework.SqlServer\IDbSpatialValue.cs" Link="IDbSpatialValue.cs" />
+    <Compile Include="..\EntityFramework.SqlServer\IDbSpatialValueExtensionMethods.cs" Link="IDbSpatialValueExtensionMethods.cs" />
+    <Compile Include="..\EntityFramework.SqlServer\Properties\AssemblyInfo.cs" Link="Properties\AssemblyInfo.cs" />
+    <Compile Include="..\EntityFramework.SqlServer\Properties\InternalsVisibleTo.cs" Link="Properties\InternalsVisibleTo.cs" />
+    <Compile Include="..\EntityFramework.SqlServer\ServerType.cs" Link="ServerType.cs" />
+    <Compile Include="..\EntityFramework.SqlServer\SqlAzureExecutionStrategy.cs" Link="SqlAzureExecutionStrategy.cs" />
+    <Compile Include="..\EntityFramework.SqlServer\SqlAzureRetriableExceptionDetector.cs" Link="SqlAzureRetriableExceptionDetector.cs" />
+    <Compile Include="..\EntityFramework.SqlServer\SqlDdlBuilder.cs" Link="SqlDdlBuilder.cs" />
+    <Compile Include="..\EntityFramework.SqlServer\SqlFunctions.cs" Link="SqlFunctions.cs" />
+    <Compile Include="..\EntityFramework.SqlServer\SqlGen\BoolWrapper.cs" Link="SqlGen\BoolWrapper.cs" />
+    <Compile Include="..\EntityFramework.SqlServer\SqlGen\DmlFunctionSqlGenerator.cs" Link="SqlGen\DmlFunctionSqlGenerator.cs" />
+    <Compile Include="..\EntityFramework.SqlServer\SqlGen\DmlSqlGenerator.cs" Link="SqlGen\DmlSqlGenerator.cs" />
+    <Compile Include="..\EntityFramework.SqlServer\SqlGen\ISqlFragment.cs" Link="SqlGen\ISqlFragment.cs" />
+    <Compile Include="..\EntityFramework.SqlServer\SqlGen\JoinSymbol.cs" Link="SqlGen\JoinSymbol.cs" />
+    <Compile Include="..\EntityFramework.SqlServer\SqlGen\OptionalColumn.cs" Link="SqlGen\OptionalColumn.cs" />
+    <Compile Include="..\EntityFramework.SqlServer\SqlGen\SkipClause.cs" Link="SqlGen\SkipClause.cs" />
+    <Compile Include="..\EntityFramework.SqlServer\SqlGen\Sql8ConformanceChecker.cs" Link="SqlGen\Sql8ConformanceChecker.cs" />
+    <Compile Include="..\EntityFramework.SqlServer\SqlGen\Sql8ExpressionRewriter.cs" Link="SqlGen\Sql8ExpressionRewriter.cs" />
+    <Compile Include="..\EntityFramework.SqlServer\SqlGen\SqlBuilder.cs" Link="SqlGen\SqlBuilder.cs" />
+    <Compile Include="..\EntityFramework.SqlServer\SqlGen\SqlFunctionCallHandler.cs" Link="SqlGen\SqlFunctionCallHandler.cs" />
+    <Compile Include="..\EntityFramework.SqlServer\SqlGen\SqlGenerator.cs" Link="SqlGen\SqlGenerator.cs" />
+    <Compile Include="..\EntityFramework.SqlServer\SqlGen\SqlSelectClauseBuilder.cs" Link="SqlGen\SqlSelectClauseBuilder.cs" />
+    <Compile Include="..\EntityFramework.SqlServer\SqlGen\SqlSelectStatement.cs" Link="SqlGen\SqlSelectStatement.cs" />
+    <Compile Include="..\EntityFramework.SqlServer\SqlGen\SqlStringBuilder.cs" Link="SqlGen\SqlStringBuilder.cs" />
+    <Compile Include="..\EntityFramework.SqlServer\SqlGen\SqlWriter.cs" Link="SqlGen\SqlWriter.cs" />
+    <Compile Include="..\EntityFramework.SqlServer\SqlGen\Symbol.cs" Link="SqlGen\Symbol.cs" />
+    <Compile Include="..\EntityFramework.SqlServer\SqlGen\SymbolPair.cs" Link="SqlGen\SymbolPair.cs" />
+    <Compile Include="..\EntityFramework.SqlServer\SqlGen\SymbolTable.cs" Link="SqlGen\SymbolTable.cs" />
+    <Compile Include="..\EntityFramework.SqlServer\SqlGen\SymbolUsageManager.cs" Link="SqlGen\SymbolUsageManager.cs" />
+    <Compile Include="..\EntityFramework.SqlServer\SqlGen\TopClause.cs" Link="SqlGen\TopClause.cs" />
+    <Compile Include="..\EntityFramework.SqlServer\SqlHierarchyIdFunctions.cs" Link="SqlHierarchyIdFunctions.cs" />
+    <Compile Include="..\EntityFramework.SqlServer\SqlProviderManifest.cs" Link="SqlProviderManifest.cs" />
+    <Compile Include="..\EntityFramework.SqlServer\SqlProviderServices.cs" Link="SqlProviderServices.cs" />
+    <Compile Include="..\EntityFramework.SqlServer\SqlProviderUtilities.cs" Link="SqlProviderUtilities.cs" />
+    <Compile Include="..\EntityFramework.SqlServer\SqlServerMigrationSqlGenerator.cs" Link="SqlServerMigrationSqlGenerator.cs" />
+    <Compile Include="..\EntityFramework.SqlServer\SqlSpatialDataReader.cs" Link="SqlSpatialDataReader.cs" />
+    <Compile Include="..\EntityFramework.SqlServer\SqlSpatialFunctions.cs" Link="SqlSpatialFunctions.cs" />
+    <Compile Include="..\EntityFramework.SqlServer\SqlSpatialServices.cs" Link="SqlSpatialServices.cs" />
+    <Compile Include="..\EntityFramework.SqlServer\SqlTableExistenceChecker.cs" Link="SqlTableExistenceChecker.cs" />
+    <Compile Include="..\EntityFramework.SqlServer\SqlTypesAssembly.cs" Link="SqlTypesAssembly.cs" />
+    <Compile Include="..\EntityFramework.SqlServer\SqlTypesAssemblyLoader.cs" Link="SqlTypesAssemblyLoader.cs" />
+    <Compile Include="..\EntityFramework.SqlServer\SqlVersion.cs" Link="SqlVersion.cs" />
+    <Compile Include="..\EntityFramework.SqlServer\SqlVersionUtils.cs" Link="SqlVersionUtils.cs" />
+    <Compile Include="..\EntityFramework.SqlServer\Utilities\DbExpressionExtensions.cs" Link="Utilities\DbExpressionExtensions.cs" />
+    <Compile Include="..\EntityFramework.SqlServer\Utilities\EdmFunctionExtensions.cs" Link="Utilities\EdmFunctionExtensions.cs" />
+    <Compile Include="..\EntityFramework.SqlServer\Utilities\FuncExtensions.cs" Link="Utilities\FuncExtensions.cs" />
+    <Compile Include="..\EntityFramework.SqlServer\Utilities\IDictionaryExtensions.cs" Link="Utilities\IDictionaryExtensions.cs" />
+    <Compile Include="..\EntityFramework.SqlServer\Utilities\MetdataItemExtensions.cs" Link="Utilities\MetdataItemExtensions.cs" />
+    <Compile Include="..\EntityFramework.SqlServer\Utilities\PrimitiveTypeExtensions.cs" Link="Utilities\PrimitiveTypeExtensions.cs" />
+    <Compile Include="..\EntityFramework.SqlServer\Utilities\SqlDataReaderWrapper.cs" Link="Utilities\SqlDataReaderWrapper.cs" />
+    <Compile Include="..\EntityFramework.SqlServer\Utilities\TypeUsageExtensions.cs" Link="Utilities\TypeUsageExtensions.cs" />
+    <Compile Include="..\EntityFramework\Utilities\TaskExtensions.cs">
+      <Link>Utilities\TaskExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\SharedAssemblyInfo.cs">
+      <Link>Properties\SharedAssemblyInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\SharedAssemblyVersionInfo.cs">
+      <Link>Properties\SharedAssemblyVersionInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\Common\ByteExtensions.cs">
+      <Link>Utilities\ByteExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\Common\TypeExtensions.cs">
+      <Link>Utilities\TypeExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\Common\PropertyInfoExtensions.cs">
+      <Link>Utilities\PropertyInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\Common\Check.cs">
+      <Link>Utilities\Check.cs</Link>
+    </Compile>
+    <Compile Include="..\Common\DatabaseName.cs">
+      <Link>Utilities\DatabaseName.cs</Link>
+    </Compile>
+    <Compile Include="..\Common\DebugCheck.cs">
+      <Link>Utilities\DebugCheck.cs</Link>
+    </Compile>
+    <Compile Include="..\Common\IEnumerableExtensions.cs">
+      <Link>Utilities\IEnumerableExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\Common\StringExtensions.cs">
+      <Link>Utilities\StringExtensions.cs</Link>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Properties\Resources.SqlServer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.SqlServer.tt</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Properties\Resources.SqlServer.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Resources.SqlServer.cs</LastGenOutput>
+      <CustomToolNamespace>System.Data.Entity.SqlServer</CustomToolNamespace>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="Resources\System\Data\SqlClient\System.Data.Resources.SqlClient.SqlProviderServices.StoreSchemaDefinition.ssdl" />
+    <None Remove="Resources\System\Data\SqlClient\System.Data.Resources.SqlClient.SqlProviderServices.StoreSchemaDefinitionVersion3.ssdl" />
+    <None Remove="Resources\System\Data\SqlClient\System.Data.Resources.SqlClient.SqlProviderServices.StoreSchemaDefinitionVersion3_Sql8.ssdl" />
+    <None Remove="Resources\System\Data\SqlClient\System.Data.Resources.SqlClient.SqlProviderServices.StoreSchemaDefinition_Sql8.ssdl" />
+    <None Remove="Resources\System\Data\SqlClient\System.Data.Resources.SqlClient.SqlProviderServices.StoreSchemaMapping.msl" />
+    <None Remove="Resources\System\Data\SqlClient\System.Data.Resources.SqlClient.SqlProviderServices.StoreSchemaMappingVersion3.msl" />
+    <None Remove="Resources\System\Data\SqlClient\System.Data.Resources.SqlClient.SqlProviderServices.ProviderManifest.xml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\System\Data\SqlClient\System.Data.Resources.SqlClient.SqlProviderServices.StoreSchemaDefinition.ssdl">
+      <LogicalName>System.Data.Resources.SqlClient.SqlProviderServices.StoreSchemaDefinition.ssdl</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\System\Data\SqlClient\System.Data.Resources.SqlClient.SqlProviderServices.StoreSchemaDefinitionVersion3.ssdl">
+      <LogicalName>System.Data.Resources.SqlClient.SqlProviderServices.StoreSchemaDefinitionVersion3.ssdl</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\System\Data\SqlClient\System.Data.Resources.SqlClient.SqlProviderServices.StoreSchemaDefinitionVersion3_Sql8.ssdl">
+      <LogicalName>System.Data.Resources.SqlClient.SqlProviderServices.StoreSchemaDefinitionVersion3_Sql8.ssdl</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\System\Data\SqlClient\System.Data.Resources.SqlClient.SqlProviderServices.StoreSchemaDefinition_Sql8.ssdl">
+      <LogicalName>System.Data.Resources.SqlClient.SqlProviderServices.StoreSchemaDefinition_Sql8.ssdl</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\System\Data\SqlClient\System.Data.Resources.SqlClient.SqlProviderServices.StoreSchemaMapping.msl">
+      <LogicalName>System.Data.Resources.SqlClient.SqlProviderServices.StoreSchemaMapping.msl</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\System\Data\SqlClient\System.Data.Resources.SqlClient.SqlProviderServices.StoreSchemaMappingVersion3.msl">
+      <LogicalName>System.Data.Resources.SqlClient.SqlProviderServices.StoreSchemaMappingVersion3.msl</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\System\Data\SqlClient\System.Data.Resources.SqlClient.SqlProviderServices.ProviderManifest.xml">
+      <LogicalName>System.Data.Resources.SqlClient.SqlProviderServices.ProviderManifest.xml</LogicalName>
+    </EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\EntityFramework\EntityFramework.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Data.SqlClient" Version="2.1.3" />
+  </ItemGroup>
+
+</Project>

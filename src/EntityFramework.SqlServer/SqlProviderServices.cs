@@ -18,7 +18,11 @@ namespace System.Data.Entity.SqlServer
     using System.Data.Entity.SqlServer.Resources;
     using System.Data.Entity.SqlServer.SqlGen;
     using System.Data.Entity.SqlServer.Utilities;
+#if MDS
+    using Microsoft.Data.SqlClient;
+#else
     using System.Data.SqlClient;
+#endif
     using System.Diagnostics;
     using System.Diagnostics.CodeAnalysis;
     using System.Globalization;
@@ -52,8 +56,11 @@ namespace System.Data.Entity.SqlServer
         /// the "provider invariant name" used to specify Microsoft SQL Server for ADO.NET and
         /// Entity Framework provider services.
         /// </summary>
+#if MDS
+        public const string ProviderInvariantName = "Microsoft.Data.SqlClient";
+#else
         public const string ProviderInvariantName = "System.Data.SqlClient";
-
+#endif
         private ConcurrentDictionary<string, SqlProviderManifest> _providerManifests =
             new ConcurrentDictionary<string, SqlProviderManifest>();
 

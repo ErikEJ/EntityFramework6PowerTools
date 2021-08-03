@@ -3,7 +3,11 @@
 namespace System.Data.Entity.SqlServer
 {
     using System.Data.Entity.Infrastructure;
+#if MDS
+    using Microsoft.Data.SqlClient;
+#else
     using System.Data.SqlClient;
+#endif    
 
     /// <summary>
     /// An <see cref="IDbExecutionStrategy"/> that retries actions that throw exceptions caused by SQL Azure transient failures.

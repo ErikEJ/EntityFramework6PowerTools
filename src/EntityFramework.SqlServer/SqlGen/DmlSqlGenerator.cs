@@ -9,7 +9,11 @@ namespace System.Data.Entity.SqlServer.SqlGen
     using System.Data.Entity.Core.Metadata.Edm;
     using System.Data.Entity.SqlServer.Resources;
     using System.Data.Entity.SqlServer.Utilities;
+#if MDS
+    using Microsoft.Data.SqlClient;
+#else
     using System.Data.SqlClient;
+#endif
     using System.Diagnostics;
     using System.Globalization;
     using System.Linq;

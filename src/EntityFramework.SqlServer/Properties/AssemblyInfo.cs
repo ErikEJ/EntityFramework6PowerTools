@@ -2,4 +2,8 @@
 
 using System.Reflection;
 
+#if MDS
+[assembly: AssemblyDefaultAlias("EntityFramework.Microsoft.SqlServer.dll")]
+#else
 [assembly: AssemblyDefaultAlias("EntityFramework.SqlServer.dll")]
+#endif

@@ -17,7 +17,11 @@ namespace System.Data.Entity.SqlServer
     using System.Data.Entity.SqlServer.Resources;
     using System.Data.Entity.SqlServer.SqlGen;
     using System.Data.Entity.SqlServer.Utilities;
+#if MDS
+    using Microsoft.Data.SqlClient;
+#else
     using System.Data.SqlClient;
+#endif
     using System.Diagnostics;
     using System.Diagnostics.CodeAnalysis;
     using System.Globalization;
@@ -269,7 +273,11 @@ namespace System.Data.Entity.SqlServer
         /// <returns> An empty connection for the current provider. </returns>
         protected virtual DbConnection CreateConnection()
         {
+#if MDS
+            return DbConfiguration.DependencyResolver.GetService<DbProviderFactory>("Microsoft.Data.SqlClient").CreateConnection();
+#else
             return DbConfiguration.DependencyResolver.GetService<DbProviderFactory>("System.Data.SqlClient").CreateConnection();
+#endif
         }
 
         /// <summary>

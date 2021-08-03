@@ -43,6 +43,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EntityFramework.SqlServer.I
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EntityFramework.SqlServerCompact.InternalsVisibleTo", "src\EntityFramework.SqlServerCompact\EntityFramework.SqlServerCompact.InternalsVisibleTo.csproj", "{0E08516E-89A5-4C72-BBE2-59AFCD4EF55D}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EntityFramework.Microsoft.SqlServer", "src\EntityFramework.Microsoft.SqlServer\EntityFramework.Microsoft.SqlServer.csproj", "{BF69BA0F-16CF-42FC-8B76-93744EB95660}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -105,6 +107,10 @@ Global
 		{0E08516E-89A5-4C72-BBE2-59AFCD4EF55D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0E08516E-89A5-4C72-BBE2-59AFCD4EF55D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0E08516E-89A5-4C72-BBE2-59AFCD4EF55D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BF69BA0F-16CF-42FC-8B76-93744EB95660}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BF69BA0F-16CF-42FC-8B76-93744EB95660}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BF69BA0F-16CF-42FC-8B76-93744EB95660}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BF69BA0F-16CF-42FC-8B76-93744EB95660}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

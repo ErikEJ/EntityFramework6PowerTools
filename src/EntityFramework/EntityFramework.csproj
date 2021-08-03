@@ -7,6 +7,7 @@
     <Description>EntityFramework.dll</Description>
     <AssemblyVersion>6.0.0.0</AssemblyVersion>
     <DefineConstants>$(DefineConstants);INTERNALS_INVISIBLE</DefineConstants>
+	<GenerateTargetFrameworkAttribute>false</GenerateTargetFrameworkAttribute>	  
   </PropertyGroup>
 
   <ItemGroup Condition="'$(TargetFrameworkIdentifier)' == '.NETFramework'">
