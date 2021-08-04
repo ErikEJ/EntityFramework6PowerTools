@@ -369,7 +369,7 @@ namespace Microsoft.DbContextPackage
 
             DynamicTypeService typeService;
             IVsSolution solution;
-            using (var serviceProvider = new ServiceProvider((VisualStudio.OLE.Interop.IServiceProvider)_dte2.DTE))
+            using (var serviceProvider = new ServiceProvider((VisualStudio.OLE.Interop.IServiceProvider)(DTE2)_dte2.DTE))
             {
                 typeService = (DynamicTypeService)serviceProvider.GetService(typeof(DynamicTypeService));
                 Assumes.Present(typeService);

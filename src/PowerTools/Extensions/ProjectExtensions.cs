@@ -9,6 +9,7 @@ namespace Microsoft.DbContextPackage.Extensions
     using System.Linq;
     using System.Runtime.InteropServices;
     using EnvDTE;
+    using EnvDTE80;
     using Microsoft.DbContextPackage.Utilities;
     using Microsoft.VisualStudio.ComponentModelHost;
     using Microsoft.VisualStudio.Shell;
@@ -33,7 +34,8 @@ namespace Microsoft.DbContextPackage.Extensions
             }
 
             Directory.CreateDirectory(Path.GetDirectoryName(path));
-            project.DTE.SourceControl.CheckOutItemIfNeeded(path);
+            var dte2 = (DTE2)project.DTE;
+            dte2.SourceControl.CheckOutItemIfNeeded(path);
             File.WriteAllText(path, contents);
 
             return project.ProjectItems.AddFromFile(path);
@@ -108,7 +110,7 @@ namespace Microsoft.DbContextPackage.Extensions
             ThreadHelper.ThrowIfNotOnUIThread();
             DebugCheck.NotNull(project);
 
-            var dte = project.DTE;
+            var dte = (DTE2)project.DTE;
             var configuration = dte.Solution.SolutionBuild.ActiveConfiguration.Name;
 
             dte.Solution.SolutionBuild.BuildProject(configuration, project.UniqueName, true);
@@ -161,7 +163,7 @@ namespace Microsoft.DbContextPackage.Extensions
             DebugCheck.NotNull(project);
 
             IVsSolution solution;
-            using (var serviceProvider = new ServiceProvider((IServiceProvider)project.DTE))
+            using (var serviceProvider = new ServiceProvider((IServiceProvider)(DTE2)project.DTE))
             {
                 solution = (IVsSolution)serviceProvider.GetService(typeof(IVsSolution));
                 Assumes.Present(solution);
