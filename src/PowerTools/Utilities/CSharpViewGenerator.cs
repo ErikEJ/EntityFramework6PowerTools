@@ -62,7 +62,7 @@ namespace Edm_EntityMappingGeneratedViews
     /// <summary>
     /// Implements a mapping view cache.
     /// </summary>
-    [GeneratedCode(""Entity Framework 6 Power Tools"", ""0.9.2.0"")]
+    [GeneratedCode(""Entity Framework 6 Power Tools"", ""0.9.5.0"")]
     internal sealed class ViewsForBaseEntitySets");
             
             #line 26 "C:\git\aspnet\EntityFramework6\src\PowerTools\Utilities\CSharpViewGenerator.tt"
