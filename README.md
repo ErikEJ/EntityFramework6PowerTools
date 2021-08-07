@@ -18,9 +18,7 @@ When right-clicking on an Entity Data Model .edmx  file, the following context m
 When right-clicking a project, the following menu function is available:
 1. Customize Reverse Engineer Templates
 
-If you are looking for Reverse Engineeering tools, I recommend using the ["Code First from Database" feature](http://www.entityframeworktutorial.net/code-first/code-first-from-existing-database.aspx) that is included with the standard Visual Studio tooling for EF 6.
-
-A MSDN article about the tool is [available here](https://msdn.microsoft.com/en-us/data/jj593170)
+If you are looking for Reverse Engineering tools, I recommend using the ["Code First from Database" feature](http://www.entityframeworktutorial.net/code-first/code-first-from-existing-database.aspx) that is included with the standard Visual Studio tooling for EF 6.
 
 # Preview of EF6 SQL Server provider based on Microsoft.Data.SqlClient
 
@@ -50,9 +48,7 @@ The Power Tools will remain in "beta" status.
 
 Download the latest released version from [Visual Studio MarketPlace](https://marketplace.visualstudio.com/items?itemName=ErikEJ.EntityFramework6PowerToolsCommunityEdition)
 
-Or just install from Tools, Extensions and Updates in Visual Studio! ![](https://github.com/ErikEJ/SqlCeToolbox/blob/master/img/ext.png)
-
-**Daily build**
+Or just install from Tools, Extensions and Updates in Visual Studio! ![](https://github.com/ErikEJ/SqlCeToolbox/blob/master/img/e86.August*Dail1 build**
 
 You can download the daily build from [VSIX Gallery](https://www.vsixgallery.com/extensions/F0A7D01D-4834-44C3-99B2-5907A0701906/extension.vsix). 
 
@@ -65,6 +61,10 @@ There are lots of ways to contribute, including testing out nighty builds, repor
 If you encounter a bug or have a feature request, please use the [Issue Tracker](https://github.com/ErikEJ/EntityFramework6PowerTools/issues/new).
 
 # Release Notes
+
+## Release 0.9.86 (August, 2021)
+
+* Added support for Visual Studio 2022
 
 ## Release 0.9.75 (January, 2020)
 
