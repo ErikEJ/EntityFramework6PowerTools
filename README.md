@@ -38,6 +38,16 @@ In order to use the provider, you can register it in code like this:
     }
 ````
 
+You can alos use XML/App.Config based configuration like this:
+
+````xml
+  <entityFramework>
+    <providers>
+      <provider invariantName="Microsoft.Data.SqlClient" type="System.Data.Entity.SqlServer.MicrosoftSqlProviderServices, ErikEJ.EntityFramework.SqlServer" />
+    </providers>
+  </entityFramework>
+````
+
 Please report any issue and question in the dedicated issue [here](https://github.com/ErikEJ/EntityFramework6PowerTools/issues/82)
 
 # Downloads/builds
