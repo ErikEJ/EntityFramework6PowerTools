@@ -48,7 +48,7 @@ You can also use XML/App.Config based configuration like this:
   </entityFramework>
 ````
 
-Please report any issue and question in the dedicated issue [here](https://github.com/ErikEJ/EntityFramework6PowerTools/issues/82)
+Please report any issues and questions in the dedicated issue [here](https://github.com/ErikEJ/EntityFramework6PowerTools/issues/82)
 
 # Downloads/builds
 
