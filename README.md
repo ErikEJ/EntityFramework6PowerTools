@@ -38,7 +38,7 @@ In order to use the provider, you can register it in code like this:
     }
 ````
 
-You can alos use XML/App.Config based configuration like this:
+You can also use XML/App.Config based configuration like this:
 
 ````xml
   <entityFramework>
