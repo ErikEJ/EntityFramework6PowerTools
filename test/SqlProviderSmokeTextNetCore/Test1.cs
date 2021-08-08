@@ -11,9 +11,9 @@ namespace SqlProviderSmokeTest
         [Fact]
         public void SmokeTest1()
         {
-            // https://www.entityframeworktutorial.net/code-first/simple-code-first-example.aspx
+            var connectionString = "Data Source=.\\SQLEXPRESS;Initial Catalog=School;Integrated Security=True";
 
-            using (var ctx = new SchoolContext())
+            using (var ctx = new SchoolContext(connectionString))
             {
                 var stud = new Student() { StudentName = "Bill" };
 
@@ -21,7 +21,7 @@ namespace SqlProviderSmokeTest
                 ctx.SaveChanges();
             }
 
-            using (var ctx = new SchoolContext())
+            using (var ctx = new SchoolContext(connectionString))
             {
                 var students = ctx.Students.ToList();
 
@@ -54,9 +54,8 @@ namespace SqlProviderSmokeTest
     [DbConfigurationType(typeof(System.Data.Entity.SqlServer.MicrosoftSqlDbConfiguration))]
     public class SchoolContext : DbContext
     {
-        public SchoolContext() : base()
-        {
-        }
+        public SchoolContext(string connectionString) : base(connectionString)
+        { }
 
         public DbSet<Student> Students { get; set; }
         public DbSet<Grade> Grades { get; set; }
