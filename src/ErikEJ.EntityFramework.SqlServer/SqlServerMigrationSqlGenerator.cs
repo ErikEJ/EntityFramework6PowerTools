@@ -269,7 +269,7 @@ namespace System.Data.Entity.SqlServer
         /// <returns> An empty connection for the current provider. </returns>
         protected virtual DbConnection CreateConnection()
         {
-            return DbConfiguration.DependencyResolver.GetService<DbProviderFactory>("Microsoft.Data.SqlClient").CreateConnection();
+            return DbConfiguration.DependencyResolver.GetService<DbProviderFactory>(MicrosoftSqlProviderServices.ProviderInvariantName).CreateConnection();
         }
 
         /// <summary>

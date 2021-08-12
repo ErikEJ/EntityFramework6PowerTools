@@ -6,12 +6,12 @@
     public class MicrosoftSqlDbConfiguration : DbConfiguration
     {
         /// <summary>
-        /// Default configuration.
+        /// Default configuration, used for code based configuration of this provider.
         /// </summary>
         public MicrosoftSqlDbConfiguration()
         {
-            SetProviderFactory("Microsoft.Data.SqlClient", Microsoft.Data.SqlClient.SqlClientFactory.Instance);
-            SetProviderServices("Microsoft.Data.SqlClient", MicrosoftSqlProviderServices.Instance);
+            SetProviderFactory(MicrosoftSqlProviderServices.ProviderInvariantName, Microsoft.Data.SqlClient.SqlClientFactory.Instance);
+            SetProviderServices(MicrosoftSqlProviderServices.ProviderInvariantName, MicrosoftSqlProviderServices.Instance);
         }
     }
 }

@@ -12,17 +12,16 @@
     <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>key.snk</AssemblyOriginatorKeyFile>
 
-	  <PackageId>ErikEJ.EntityFramework.SqlServer</PackageId>
-	  <PackageVersion>0.1.1-alpha1</PackageVersion>
-	  <Authors>ErikEJ</Authors>
-	  <Description>SQL Server provider for EF6, using the Microsoft.Data.SqlClient ADO.NET provider.</Description>
-	  <PackageProjectUrl>https://github.com/ErikEJ/EntityFramework6PowerTools</PackageProjectUrl>
-	  <PackageReleaseNotes>Alpha</PackageReleaseNotes>
-	  <PackageLicenseExpression>MIT</PackageLicenseExpression>
-	  <MinClientVersion>5.0</MinClientVersion>
-	  <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-	  <PublishRepositoryUrl>true</PublishRepositoryUrl>
-
+	<PackageId>ErikEJ.EntityFramework.SqlServer</PackageId>
+	<PackageVersion>1.0-rc1</PackageVersion>
+	<Authors>ErikEJ</Authors>
+	<Description>SQL Server provider for EF6, using the Microsoft.Data.SqlClient ADO.NET provider.</Description>
+	<PackageProjectUrl>https://github.com/ErikEJ/EntityFramework6PowerTools</PackageProjectUrl>
+	<PackageReleaseNotes>RC 1</PackageReleaseNotes>
+	<PackageLicenseExpression>MIT</PackageLicenseExpression>
+	<MinClientVersion>5.0</MinClientVersion>
+	<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+	<PublishRepositoryUrl>true</PublishRepositoryUrl>
   </PropertyGroup>
 
   <ItemGroup Condition="'$(TargetFrameworkIdentifier)' == '.NETFramework'">
@@ -112,7 +111,5 @@
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
-
-	
 	
  </Project>
