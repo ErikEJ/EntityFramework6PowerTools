@@ -38,6 +38,8 @@ In order to use the provider, you can register it in code like this:
     }
 ````
 
+If you have multiple classes inheriting from DbContext in your solution, make sure add the DbConfigurationType attribute to all of them.
+
 You can also use XML/App.Config based configuration like this:
 
 ````xml
