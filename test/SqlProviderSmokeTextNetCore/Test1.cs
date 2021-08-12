@@ -1,5 +1,7 @@
-﻿using System;
+﻿using Microsoft.Data.SqlClient;
+using System;
 using System.Collections.Generic;
+using System.Data.Common;
 using System.Data.Entity;
 using System.Linq;
 using Xunit;
@@ -13,8 +15,10 @@ namespace SqlProviderSmokeTest
         {
             var connectionString = "Data Source=.\\SQLEXPRESS;Initial Catalog=School;Integrated Security=True";
 
-            using (var ctx = new SchoolContext(connectionString))
+            using (var ctx = new SchoolContext(new SqlConnection(connectionString)))
             {
+                ctx.Database.ExecuteSqlCommand("SELECT 1");
+
                 var stud = new Student() { StudentName = "Bill" };
 
                 ctx.Students.Add(stud);
@@ -55,6 +59,13 @@ namespace SqlProviderSmokeTest
     public class SchoolContext : DbContext
     {
         public SchoolContext(string connectionString) : base(connectionString)
+        {
+            Database.SetInitializer<SchoolContext>(null);
+            this.Configuration.LazyLoadingEnabled = false;
+            this.Configuration.ProxyCreationEnabled = false;
+        }
+
+        public SchoolContext(SqlConnection connection) : base(connection, true)
         { }
 
         public DbSet<Student> Students { get; set; }
