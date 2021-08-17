@@ -24,7 +24,7 @@ If you are looking for Reverse Engineering tools, I recommend using the ["Code F
 
 Latest build of this preview package is available from [NuGet](https://www.nuget.org/packages/ErikEJ.EntityFramework.SqlServer/)
 
-In order to use the provider, you can register it in code like this:
+In order to use the provider, you can register it in code using an attribute:
 
 ````csharp
     [DbConfigurationType(typeof(System.Data.Entity.SqlServer.MicrosoftSqlDbConfiguration))]
@@ -37,9 +37,12 @@ In order to use the provider, you can register it in code like this:
         public DbSet<Student> Students { get; set; }
     }
 ````
-
 If you have multiple classes inheriting from DbContext in your solution, make sure add the DbConfigurationType attribute to all of them.
 
+Or you can use the SetConfiguration method before any data access calls like this:
+````csharp
+ DbConfiguration.SetConfiguration(new System.Data.Entity.SqlServer.MicrosoftSqlDbConfiguration());
+````
 You can also use XML/App.Config based configuration like this:
 
 ````xml
