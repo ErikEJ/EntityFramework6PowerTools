@@ -58,6 +58,14 @@ You can also use XML/App.Config based configuration:
   </entityFramework>
 ````
 
+If you use an EDMX file, make sure to update the Provider name there:
+
+````xml
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <edmx:Runtime>
+    <edmx:StorageModels>
+      <Schema Namespace="ChinookModel.Store" Provider="Microsoft.Data.SqlClient" >
+````
 Please report any issues and questions in the dedicated issue [here](https://github.com/ErikEJ/EntityFramework6PowerTools/issues/82)
 
 # Downloads/builds
