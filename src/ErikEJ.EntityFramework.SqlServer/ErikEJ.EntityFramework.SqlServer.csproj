@@ -22,8 +22,14 @@
 	<MinClientVersion>5.0</MinClientVersion>
 	<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 	<PublishRepositoryUrl>true</PublishRepositoryUrl>
+	<EmbedUntrackedSources>true</EmbedUntrackedSources>
+	<DebugType>embedded</DebugType>
   </PropertyGroup>
 
+	<PropertyGroup Condition="'$(CI)' == 'True'">
+		<ContinuousIntegrationBuild>true</ContinuousIntegrationBuild>
+	</PropertyGroup>	
+	
   <ItemGroup Condition="'$(TargetFrameworkIdentifier)' == '.NETFramework'">
     <Reference Include="Microsoft.CSharp" />
   </ItemGroup>

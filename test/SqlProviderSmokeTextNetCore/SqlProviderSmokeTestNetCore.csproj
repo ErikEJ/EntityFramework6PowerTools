@@ -6,7 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="ErikEJ.EntityFramework.SqlServer" Version="0.1.1-alpha1" />
+    <PackageReference Include="ErikEJ.EntityFramework.SqlServer" Version="1.0.0-rc1" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.10.0" />
     <PackageReference Include="xunit" Version="2.4.0" />
     <PackageReference Include="xunit.runner.visualstudio" Version="2.4.0" />
