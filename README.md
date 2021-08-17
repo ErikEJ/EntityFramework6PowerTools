@@ -1,6 +1,6 @@
 # Entity Framework 6 Power Tools Community Edition
 
-This is a fork of the "official" [EF 6 repository](https://github.com/aspnet/entityFramework6/), which hosts the Visual Studio 2017 and later version of EF Power Tools. 
+This is a fork of the "official" [EF 6 repository](https://github.com/aspnet/entityFramework6/), which hosts the Visual Studio 2017 and later version of EF Power Tools and also an EF 6 SQL Server provider, that uses the Microsoft.Data.SqlClient ADO.NET provider.  
 
 # What are the Power Tools?
 
