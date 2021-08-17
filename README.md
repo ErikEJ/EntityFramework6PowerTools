@@ -39,11 +39,11 @@ In order to use the provider, you can register it in code using an attribute:
 ````
 If you have multiple classes inheriting from DbContext in your solution, make sure add the DbConfigurationType attribute to all of them.
 
-Or you can use the SetConfiguration method before any data access calls like this:
+Or you can use the SetConfiguration method before any data access calls:
 ````csharp
  DbConfiguration.SetConfiguration(new System.Data.Entity.SqlServer.MicrosoftSqlDbConfiguration());
 ````
-You can also use XML/App.Config based configuration like this:
+You can also use XML/App.Config based configuration:
 
 ````xml
   <entityFramework>
