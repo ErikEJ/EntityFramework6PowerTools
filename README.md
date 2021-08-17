@@ -43,6 +43,11 @@ Or you can use the SetConfiguration method before any data access calls:
 ````csharp
  DbConfiguration.SetConfiguration(new System.Data.Entity.SqlServer.MicrosoftSqlDbConfiguration());
 ````
+Or you can add the following lines to your existing DbConfiguration class:
+````csharp
+SetProviderFactory(MicrosoftSqlProviderServices.ProviderInvariantName, Microsoft.Data.SqlClient.SqlClientFactory.Instance);
+SetProviderServices(MicrosoftSqlProviderServices.ProviderInvariantName, MicrosoftSqlProviderServices.Instance);
+````
 You can also use XML/App.Config based configuration:
 
 ````xml
