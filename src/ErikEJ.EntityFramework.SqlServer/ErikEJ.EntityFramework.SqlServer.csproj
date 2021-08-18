@@ -21,7 +21,7 @@
 	<PackageLicenseExpression>MIT</PackageLicenseExpression>
 	<MinClientVersion>5.0</MinClientVersion>
 	<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-	<PackageReadmeFile>README.md</PackageReadmeFile>
+	<PackageReadmeFile>readme.md</PackageReadmeFile>
 	<PublishRepositoryUrl>true</PublishRepositoryUrl>
 	<EmbedUntrackedSources>true</EmbedUntrackedSources>
 	<DebugType>embedded</DebugType>
