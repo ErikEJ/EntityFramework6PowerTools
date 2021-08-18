@@ -55,7 +55,7 @@ If you use an EDMX file, make sure to update the Provider name there:
 
 ## Code changes
 
-In order to use the provider in an existing solution, some code changes may be required.
+In order to use the provider in an existing solution, a few code changes are required.
 
 `using System.Data.SqlClient;` => `using Microsoft.Data.SqlClient;`
 
