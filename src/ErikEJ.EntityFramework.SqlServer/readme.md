@@ -1,14 +1,17 @@
-# Preview of EF6 SQL Server provider based on Microsoft.Data.SqlClient
+# EF6 SQL Server provider based on Microsoft.Data.SqlClient
 
+This Entity Framework 6 provider is a replacement provider for the built-in SQL Server provider. This provider depends on the modern Microsoft.Data.SqlClient ADO.NET provider, see my [blog post here](https://erikej.github.io/ef6/sqlserver/2021/08/08/ef6-microsoft-data-sqlclient.html) for why that can be desirable.
 
-Latest build of this preview package is available from [NuGet](https://www.nuget.org/packages/ErikEJ.EntityFramework.SqlServer/)
+The latest build of this package is available from [NuGet](https://www.nuget.org/packages/ErikEJ.EntityFramework.SqlServer/)
 
 ## Configuration
 
-In order to use the provider, you can register it in code using an attribute:
+There are variuos ways to configure Entity Framework to use this provider.
+
+You can register teh provider in code using an attribute:
 
 ````csharp
-    [DbConfigurationType(typeof(System.Data.Entity.SqlServer.MicrosoftSqlDbConfiguration))]
+    [DbConfigurationType(typeof(MicrosoftSqlDbConfiguration))]
     public class SchoolContext : DbContext
     {
         public SchoolContext() : base()
@@ -28,6 +31,8 @@ Or you can add the following lines to your existing DbConfiguration class:
 ````csharp
 SetProviderFactory(MicrosoftSqlProviderServices.ProviderInvariantName, Microsoft.Data.SqlClient.SqlClientFactory.Instance);
 SetProviderServices(MicrosoftSqlProviderServices.ProviderInvariantName, MicrosoftSqlProviderServices.Instance);
+// Optional
+SetExecutionStrategy(MicrosoftSqlProviderServices.ProviderInvariantName, () => new MicrosoftSqlAzureExecutionStrategy());
 ````
 You can also use XML/App.Config based configuration:
 
@@ -50,6 +55,12 @@ If you use an EDMX file, make sure to update the Provider name there:
 
 ## Code changes
 
+In order to use the provider in an existing solution, some code changes may be required.
+
 `using System.Data.SqlClient;` => `using Microsoft.Data.SqlClient;`
+
+`SqlAzureExecutionStrategy` => `MicrosoftSqlAzureExecutionStrategy`
+
+## Feedback
 
 Please report any issues and questions in the dedicated issue [here](https://github.com/ErikEJ/EntityFramework6PowerTools/issues/82)
