@@ -8,7 +8,7 @@ The latest build of this package is available from [NuGet](https://www.nuget.org
 
 There are variuos ways to configure Entity Framework to use this provider.
 
-You can register teh provider in code using an attribute:
+You can register the provider in code using an attribute:
 
 ````csharp
     [DbConfigurationType(typeof(MicrosoftSqlDbConfiguration))]
