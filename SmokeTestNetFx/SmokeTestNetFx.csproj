@@ -44,7 +44,7 @@
       <HintPath>..\packages\EntityFramework.6.4.0\lib\net45\EntityFramework.dll</HintPath>
     </Reference>
     <Reference Include="ErikEJ.EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=3f85300590faaa00, processorArchitecture=MSIL">
-      <HintPath>..\packages\ErikEJ.EntityFramework.SqlServer.1.0.0-rc1\lib\net461\ErikEJ.EntityFramework.SqlServer.dll</HintPath>
+      <HintPath>..\packages\ErikEJ.EntityFramework.SqlServer.1.0.0-rc5\lib\net461\ErikEJ.EntityFramework.SqlServer.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Microsoft.Data.SqlClient, Version=2.0.20168.4, Culture=neutral, PublicKeyToken=23ec7fc2d6eaa4a5, processorArchitecture=MSIL">
