@@ -13,11 +13,11 @@
     <AssemblyOriginatorKeyFile>key.snk</AssemblyOriginatorKeyFile>
 
 	<PackageId>ErikEJ.EntityFramework.SqlServer</PackageId>
-	<PackageVersion>1.0.0-rc4</PackageVersion>
+	<PackageVersion>1.0.0-rc5</PackageVersion>
 	<Authors>ErikEJ</Authors>
 	<Description>SQL Server provider for EF6, using the Microsoft.Data.SqlClient ADO.NET provider.</Description>
 	<PackageProjectUrl>https://github.com/ErikEJ/EntityFramework6PowerTools</PackageProjectUrl>
-	<PackageReleaseNotes>Added readme</PackageReleaseNotes>
+	<PackageReleaseNotes>Bug fixes</PackageReleaseNotes>
 	<PackageLicenseExpression>MIT</PackageLicenseExpression>
 	<MinClientVersion>5.0</MinClientVersion>
 	<GeneratePackageOnBuild>true</GeneratePackageOnBuild>

@@ -14,21 +14,24 @@ namespace SqlProviderSmokeTest
         {
             var connectionString = "Data Source=.\\SQLEXPRESS;Initial Catalog=School;Integrated Security=True";
 
-            using (var ctx = new SchoolContext(new SqlConnection(connectionString)))
-            {
-                ctx.Database.ExecuteSqlCommand("SELECT 1");
-
-                var stud = new Student() { StudentName = "Bill" };
-
-                ctx.Students.Add(stud);
-                ctx.SaveChanges();
-            }
-
             using (var ctx = new SchoolContext(connectionString))
             {
                 var students = ctx.Students.ToList();
 
                 Assert.True(students.Count > 0);
+                Assert.True(ctx.Database.Connection as SqlConnection != null);
+            }
+
+            using (var ctx = new SchoolContext(new SqlConnection(connectionString)))
+            {
+                ctx.Database.ExecuteSqlCommand("SELECT 1");
+
+                Assert.True(ctx.Database.Connection as SqlConnection != null);
+
+                var stud = new Student() { StudentName = "Bill" };
+
+                ctx.Students.Add(stud);
+                ctx.SaveChanges();
             }
         }
     }

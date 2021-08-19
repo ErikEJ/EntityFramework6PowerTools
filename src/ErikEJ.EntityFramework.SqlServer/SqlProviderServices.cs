@@ -62,7 +62,7 @@ namespace System.Data.Entity.SqlServer
         // </summary>
         private MicrosoftSqlProviderServices()
         {
-            AddDependencyResolver(new SingletonDependencyResolver<IDbConnectionFactory>(new LocalDbConnectionFactory()));
+            AddDependencyResolver(new SingletonDependencyResolver<IDbConnectionFactory>(new MicrosoftSqlConnectionFactory()));
 
             AddDependencyResolver(
                 new ExecutionStrategyResolver<DefaultSqlExecutionStrategy>(
