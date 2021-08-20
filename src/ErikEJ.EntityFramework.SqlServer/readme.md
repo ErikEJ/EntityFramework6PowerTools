@@ -6,7 +6,7 @@ The latest build of this package is available from [NuGet](https://www.nuget.org
 
 ## Configuration
 
-There are variuos ways to configure Entity Framework to use this provider.
+There are various ways to configure Entity Framework to use this provider.
 
 You can register the provider in code using an attribute:
 
@@ -21,7 +21,7 @@ You can register the provider in code using an attribute:
         public DbSet<Student> Students { get; set; }
     }
 ````
-If you have multiple classes inheriting from DbContext in your solution, make sure add the DbConfigurationType attribute to all of them.
+If you have multiple classes inheriting from DbContext in your solution, add the DbConfigurationType attribute to all of them.
 
 Or you can use the SetConfiguration method before any data access calls:
 ````csharp
@@ -44,7 +44,7 @@ You can also use XML/App.Config based configuration:
   </entityFramework>
 ````
 
-If you use an EDMX file, make sure to update the Provider name there:
+If you use an EDMX file, update the Provider name there:
 
 ````xml
 <edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
@@ -55,7 +55,7 @@ If you use an EDMX file, make sure to update the Provider name there:
 
 ## Code changes
 
-In order to use the provider in an existing solution, a few code changes are required.
+In order to use the provider in an existing solution, a few code changes are required (as needed).
 
 `using System.Data.SqlClient;` => `using Microsoft.Data.SqlClient;`
 

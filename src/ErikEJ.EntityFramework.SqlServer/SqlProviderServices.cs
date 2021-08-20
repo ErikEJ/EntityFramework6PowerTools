@@ -213,7 +213,7 @@ namespace System.Data.Entity.SqlServer
 
         /// <summary>
         /// See issue 2390 - cloning the DesignTimeVisible property on the
-        /// <see cref="T:System.Data.SqlClient.SqlCommand" /> can cause deadlocks.
+        /// <see cref="T:Microsoft.Data.SqlClient.SqlCommand" /> can cause deadlocks.
         /// So here overriding to provide a method that does not clone DesignTimeVisible.
         /// </summary>
         /// <param name="fromDbCommand"> the <see cref="T:System.Data.Common.DbCommand" /> object to clone </param>
