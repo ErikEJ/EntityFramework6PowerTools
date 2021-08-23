@@ -13,7 +13,7 @@
     <AssemblyOriginatorKeyFile>key.snk</AssemblyOriginatorKeyFile>
 
 	<PackageId>ErikEJ.EntityFramework.SqlServer</PackageId>
-	<PackageVersion>1.0.0</PackageVersion>
+	<PackageVersion>6.4.0</PackageVersion>
 	<Authors>ErikEJ</Authors>
 	<Description>SQL Server provider for Entity Framework 6.4, using the Microsoft.Data.SqlClient ADO.NET provider.</Description>
 	<PackageProjectUrl>https://github.com/ErikEJ/EntityFramework6PowerTools</PackageProjectUrl>
