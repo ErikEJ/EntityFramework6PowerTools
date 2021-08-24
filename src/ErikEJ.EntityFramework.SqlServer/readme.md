@@ -1,6 +1,8 @@
-# EF6 SQL Server provider based on Microsoft.Data.SqlClient
+# Entity Framework 6 SQL Server provider based on Microsoft.Data.SqlClient
 
-This Entity Framework 6 provider is a replacement provider for the built-in SQL Server provider. This provider depends on the modern Microsoft.Data.SqlClient ADO.NET provider, see my [blog post here](https://erikej.github.io/ef6/sqlserver/2021/08/08/ef6-microsoft-data-sqlclient.html) for why that can be desirable.
+This Entity Framework 6 provider is a replacement provider for the built-in SQL Server provider. 
+
+This provider depends on the modern Microsoft.Data.SqlClient ADO.NET provider, see my [blog post here](https://erikej.github.io/ef6/sqlserver/2021/08/08/ef6-microsoft-data-sqlclient.html) for why that can be desirable.
 
 The latest build of this package is available from [NuGet](https://www.nuget.org/packages/ErikEJ.EntityFramework.SqlServer/)
 
@@ -25,7 +27,7 @@ If you have multiple classes inheriting from DbContext in your solution, add the
 
 Or you can use the SetConfiguration method before any data access calls:
 ````csharp
- DbConfiguration.SetConfiguration(new System.Data.Entity.SqlServer.MicrosoftSqlDbConfiguration());
+ DbConfiguration.SetConfiguration(new MicrosoftSqlDbConfiguration());
 ````
 Or you can add the following lines to your existing DbConfiguration class:
 ````csharp
@@ -63,4 +65,4 @@ In order to use the provider in an existing solution, a few code changes are req
 
 ## Feedback
 
-Please report any issues and questions in the dedicated issue [here](https://github.com/ErikEJ/EntityFramework6PowerTools/issues/82)
+Please report any issues, questions and suggestion [here](https://github.com/ErikEJ/EntityFramework6PowerTools/issues)
