@@ -39,14 +39,25 @@ SetExecutionStrategy(MicrosoftSqlProviderServices.ProviderInvariantName, () => n
 You can also use XML/App.Config based configuration:
 
 ````xml
-  <entityFramework>
-    <providers>
-      <provider invariantName="Microsoft.Data.SqlClient" type="System.Data.Entity.SqlServer.MicrosoftSqlProviderServices, ErikEJ.EntityFramework.SqlServer" />
-    </providers>
-  </entityFramework>
+<?xml version="1.0" encoding="utf-8"?>
+<configuration>
+	<configSections>
+		<section name="entityFramework" type="System.Data.Entity.Internal.ConfigFile.EntityFrameworkSection, EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" requirePermission="false" />
+	</configSections>
+	<entityFramework>
+		<providers>		
+			<provider invariantName="Microsoft.Data.SqlClient" type="System.Data.Entity.SqlServer.MicrosoftSqlProviderServices, ErikEJ.EntityFramework.SqlServer" />
+		</providers>
+	</entityFramework>
+</configuration>
+````
+If you use App.Config with a .NET Core / .NET 5 or later app, you must register the DbProviderFactory in code once:
+
+````csharp
+DbProviderFactories.RegisterFactory(MicrosoftSqlProviderServices.ProviderInvariantName, Microsoft.Data.SqlClient.SqlClientFactory.Instance);
 ````
 
-If you use an EDMX file, update the Provider name there:
+If you use an EDMX file, update the `Provider` name:
 
 ````xml
 <edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
