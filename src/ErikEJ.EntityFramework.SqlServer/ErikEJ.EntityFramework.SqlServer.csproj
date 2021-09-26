@@ -13,11 +13,11 @@
     <AssemblyOriginatorKeyFile>key.snk</AssemblyOriginatorKeyFile>
 
 	<PackageId>ErikEJ.EntityFramework.SqlServer</PackageId>
-	<PackageVersion>6.4.0</PackageVersion>
+	<PackageVersion>6.4.1-preview1</PackageVersion>
 	<Authors>ErikEJ</Authors>
 	<Description>SQL Server provider for Entity Framework 6.4, using the Microsoft.Data.SqlClient ADO.NET provider.</Description>
 	<PackageProjectUrl>https://github.com/ErikEJ/EntityFramework6PowerTools</PackageProjectUrl>
-	<PackageReleaseNotes>RTW</PackageReleaseNotes>
+	<PackageReleaseNotes>Updated SqlClient</PackageReleaseNotes>
 	<PackageLicenseExpression>MIT</PackageLicenseExpression>
 	<MinClientVersion>5.0</MinClientVersion>
 	<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
@@ -114,7 +114,7 @@
   <ItemGroup>
 	<PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0" PrivateAssets="All"/>	  
     <PackageReference Include="EntityFramework" Version="6.4.0" />
-    <PackageReference Include="Microsoft.Data.SqlClient" Version="2.1.3" />
+    <PackageReference Include="Microsoft.Data.SqlClient" Version="2.1.4" />
   </ItemGroup>
 
   <ItemGroup>
