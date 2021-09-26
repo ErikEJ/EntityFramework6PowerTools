@@ -48,6 +48,10 @@ If you encounter a bug or have a feature request, please use the [Issue Tracker]
 
 # Release Notes
 
+## Release 0.9.126 (September, 2021)
+
+* Removed support for Visual Studio 2022
+
 ## Release 0.9.86 (August, 2021)
 
 * Added support for Visual Studio 2022
