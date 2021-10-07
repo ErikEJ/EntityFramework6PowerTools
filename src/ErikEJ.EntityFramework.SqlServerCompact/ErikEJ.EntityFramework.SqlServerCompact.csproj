@@ -20,12 +20,22 @@
     <PackageReleaseNotes>Initial preview</PackageReleaseNotes>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <MinClientVersion>5.0</MinClientVersion>
-    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>	  
+	<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+
+	<SignAssembly>true</SignAssembly>
+	<AssemblyOriginatorKeyFile>Key.snk</AssemblyOriginatorKeyFile>
+	<AssemblyName>ErikEJ.EntityFramework.SqlServerCompact</AssemblyName>
+	<PublishRepositoryUrl>true</PublishRepositoryUrl>
+	<EmbedUntrackedSources>true</EmbedUntrackedSources>
+	<DebugType>embedded</DebugType>
 	   
   </PropertyGroup>
 
+	<PropertyGroup Condition="'$(CI)' == 'True'">
+		<ContinuousIntegrationBuild>true</ContinuousIntegrationBuild>
+	</PropertyGroup>
 
-  <ItemGroup>
+	<ItemGroup>
     <Compile Include="..\SharedAssemblyInfo.cs">
       <Link>Properties\SharedAssemblyInfo.cs</Link>
     </Compile>
@@ -99,6 +109,7 @@
 	<ItemGroup>
 		<PackageReference Include="EntityFramework" Version="6.4.0" />
 		<PackageReference Include="Microsoft.Windows.Compatibility" Version="3.1.2" />
+		<PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0" PrivateAssets="All"/>
 	</ItemGroup>
 
 	<ItemGroup>
@@ -108,6 +119,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		
 		<None Include=".\Engine\System.Data.SqlServerCe.dll">
 			<Visible>true</Visible>
 			<Pack>true</Pack>
@@ -118,6 +130,7 @@
 			<Pack>true</Pack>
 			<PackagePath>lib\netstandard2.1\amd64</PackagePath>
 		</None>
-	</ItemGroup>	
+		
+	</ItemGroup>
 
 </Project>
