@@ -1,0 +1,123 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <RootNamespace>System.Data.Entity.SqlServerCompact</RootNamespace>
+	<Platform>x64</Platform>
+    <GenerateDocumentationFile>True</GenerateDocumentationFile>
+	<GenerateAssemblyInfo>false</GenerateAssemblyInfo>  
+    <TargetFramework>netstandard2.1</TargetFramework>
+    <Description>Allows SQL Server Compact 4.0 to be used with Entity Framework.</Description>
+    <AssemblyVersion>6.0.0.0</AssemblyVersion>
+    <DefineConstants>$(DefineConstants);SQLSERVERCOMPACT;INTERNALS_INVISIBLE</DefineConstants>
+    <IsPackable>True</IsPackable>
+    <PackageTags>$(PackageTags);SQL Compact;CE</PackageTags>
+
+    <PackageId>ErikEJ.EntityFramework.SqlServerCompact</PackageId>
+    <PackageVersion>6.4.0-preview1</PackageVersion>
+    <Authors>ErikEJ</Authors>
+    <Description>SQL Server Compact x64 provider for Entity Framework 6.4</Description>
+    <PackageProjectUrl>https://github.com/ErikEJ/EntityFramework6PowerTools</PackageProjectUrl>
+    <PackageReleaseNotes>Initial preview</PackageReleaseNotes>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <MinClientVersion>5.0</MinClientVersion>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>	  
+	   
+  </PropertyGroup>
+
+
+  <ItemGroup>
+    <Compile Include="..\SharedAssemblyInfo.cs">
+      <Link>Properties\SharedAssemblyInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\SharedAssemblyVersionInfo.cs">
+      <Link>Properties\SharedAssemblyVersionInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\Common\ByteExtensions.cs">
+      <Link>Utilities\ByteExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\Common\Check.cs">
+      <Link>Utilities\Check.cs</Link>
+    </Compile>
+    <Compile Include="..\Common\DatabaseName.cs">
+      <Link>Utilities\DatabaseName.cs</Link>
+    </Compile>
+    <Compile Include="..\Common\DebugCheck.cs">
+      <Link>Utilities\DebugCheck.cs</Link>
+    </Compile>
+    <Compile Include="..\Common\IEnumerableExtensions.cs">
+      <Link>Utilities\IEnumerableExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\Common\StringExtensions.cs">
+      <Link>Utilities\StringExtensions.cs</Link>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Properties\Resources.SqlServerCompact.cs">
+      <DependentUpon>Resources.SqlServerCompact.tt</DependentUpon>
+      <AutoGen>True</AutoGen>
+    </Compile>
+    <Compile Update="SqlCeMultiCommand.cs">
+      <SubType>Component</SubType>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Properties\Resources.SqlServerCompact.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Resources.SqlServerCompact.cs</LastGenOutput>
+      <CustomToolNamespace>System.Data.Entity.SqlServerCompact</CustomToolNamespace>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="Resources\Microsoft.SqlServerCe.Client.Resources.Entity.SqlCeProviderServices.StoreSchemaDefinition.ssdl" />
+    <None Remove="Resources\System.Data.Resources.SqlServerCe.Entity.SqlCeProviderServices.ProviderManifest.xml" />
+    <None Remove="Resources\System.Data.Resources.SqlServerCe.Entity.SqlCeProviderServices.StoreSchemaDefinition.ssdl" />
+    <None Remove="Resources\System.Data.Resources.SqlServerCe.Entity.SqlCeProviderServices.StoreSchemaMapping.msl" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\Microsoft.SqlServerCe.Client.Resources.Entity.SqlCeProviderServices.StoreSchemaDefinition.ssdl">
+      <LogicalName>Microsoft.SqlServerCe.Client.Resources.Entity.SqlCeProviderServices.StoreSchemaDefinition.ssdl</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\System.Data.Resources.SqlServerCe.Entity.SqlCeProviderServices.ProviderManifest.xml">
+      <LogicalName>System.Data.Resources.SqlServerCe.Entity.SqlCeProviderServices.ProviderManifest.xml</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\System.Data.Resources.SqlServerCe.Entity.SqlCeProviderServices.StoreSchemaDefinition.ssdl">
+      <LogicalName>System.Data.Resources.SqlServerCe.Entity.SqlCeProviderServices.StoreSchemaDefinition.ssdl</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\System.Data.Resources.SqlServerCe.Entity.SqlCeProviderServices.StoreSchemaMapping.msl">
+      <LogicalName>System.Data.Resources.SqlServerCe.Entity.SqlCeProviderServices.StoreSchemaMapping.msl</LogicalName>
+    </EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="EntityFramework" Version="6.4.0" />
+		<PackageReference Include="Microsoft.Windows.Compatibility" Version="3.1.2" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Reference Include="System.Data.SqlServerCe">
+	    <HintPath>Engine\System.Data.SqlServerCe.dll</HintPath>
+	  </Reference>
+	</ItemGroup>
+
+	<ItemGroup>
+		<None Include=".\Engine\System.Data.SqlServerCe.dll">
+			<Visible>true</Visible>
+			<Pack>true</Pack>
+			<PackagePath>lib\netstandard2.1</PackagePath>
+		</None>
+		<None Include=".\Engine\amd64\sqlceme40.dll">
+			<Visible>true</Visible>
+			<Pack>true</Pack>
+			<PackagePath>lib\netstandard2.1\amd64</PackagePath>
+		</None>
+	</ItemGroup>	
+
+</Project>
