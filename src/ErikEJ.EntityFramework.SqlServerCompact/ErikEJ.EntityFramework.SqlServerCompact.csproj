@@ -5,7 +5,7 @@
 	<Platform>x64</Platform>
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
 	<GenerateAssemblyInfo>false</GenerateAssemblyInfo>  
-    <TargetFramework>netstandard2.1</TargetFramework>
+    <TargetFramework>net5.0</TargetFramework>
     <Description>Allows SQL Server Compact 4.0 to be used with Entity Framework.</Description>
     <AssemblyVersion>6.0.0.0</AssemblyVersion>
     <DefineConstants>$(DefineConstants);SQLSERVERCOMPACT;INTERNALS_INVISIBLE</DefineConstants>
@@ -13,9 +13,9 @@
     <PackageTags>$(PackageTags);SQL Compact;CE</PackageTags>
 
     <PackageId>ErikEJ.EntityFramework.SqlServerCompact</PackageId>
-    <PackageVersion>6.4.0-preview1</PackageVersion>
+    <PackageVersion>6.4.0-alpha6</PackageVersion>
     <Authors>ErikEJ</Authors>
-    <Description>SQL Server Compact x64 provider for Entity Framework 6.4</Description>
+    <Description>SQL Server Compact provider for Entity Framework 6.4 on Windows</Description>
     <PackageProjectUrl>https://github.com/ErikEJ/EntityFramework6PowerTools</PackageProjectUrl>
     <PackageReleaseNotes>Initial preview</PackageReleaseNotes>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
@@ -108,8 +108,8 @@
 
 	<ItemGroup>
 		<PackageReference Include="EntityFramework" Version="6.4.0" />
-		<PackageReference Include="Microsoft.Windows.Compatibility" Version="3.1.2" />
-		<PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0" PrivateAssets="All"/>
+		<PackageReference Include="Microsoft.Windows.Compatibility" Version="5.0.2" />
+		<PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0" PrivateAssets="All" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -123,14 +123,48 @@
 		<None Include=".\Engine\System.Data.SqlServerCe.dll">
 			<Visible>true</Visible>
 			<Pack>true</Pack>
-			<PackagePath>lib\netstandard2.1</PackagePath>
-		</None>
-		<None Include=".\Engine\amd64\sqlceme40.dll">
-			<Visible>true</Visible>
-			<Pack>true</Pack>
-			<PackagePath>lib\netstandard2.1\amd64</PackagePath>
+			<PackagePath>lib\net5.0</PackagePath>
 		</None>
 		
+		<None Include=".\Engine\amd64\*.dll">
+			<Visible>true</Visible>
+			<Pack>true</Pack>
+			<PackagePath>build\amd64</PackagePath>
+		</None>
+		<None Include=".\Engine\amd64\Microsoft.VC90.CRT\Microsoft.VC90.CRT.manifest">
+			<Visible>true</Visible>
+			<Pack>true</Pack>
+			<PackagePath>build\amd64</PackagePath>
+		</None>
+		<None Include=".\Engine\amd64\Microsoft.VC90.CRT\msvcr90.dll">
+			<Visible>true</Visible>
+			<Pack>true</Pack>
+			<PackagePath>build\amd64</PackagePath>
+		</None>
+
+		<None Include=".\Engine\x86\*.dll">
+			<Visible>true</Visible>
+			<Pack>true</Pack>
+			<PackagePath>build\x86</PackagePath>
+		</None>
+
+		<None Include=".\Engine\x86\Microsoft.VC90.CRT\Microsoft.VC90.CRT.manifest">
+			<Visible>true</Visible>
+			<Pack>true</Pack>
+			<PackagePath>build\x86</PackagePath>
+		</None>
+		<None Include=".\Engine\x86\Microsoft.VC90.CRT\msvcr90.dll">
+			<Visible>true</Visible>
+			<Pack>true</Pack>
+			<PackagePath>build\x86</PackagePath>
+		</None>
+
+		<None Include=".\build\ErikEJ.EntityFramework.SqlServerCompact.targets">
+			<Visible>true</Visible>
+			<Pack>true</Pack>
+			<PackagePath>build</PackagePath>
+		</None>
+
 	</ItemGroup>
 
 </Project>
