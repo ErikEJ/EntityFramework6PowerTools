@@ -5,10 +5,6 @@
     <IsPackable>false</IsPackable>
   </PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <PlatformTarget>x64</PlatformTarget>
-  </PropertyGroup>
-
   <ItemGroup>
     <!--<PackageReference Include="ErikEJ.EntityFramework.SqlServer" Version="1.0.0-rc4" />-->
     <PackageReference Include="ErikEJ.EntityFramework.SqlServerCompact" Version="6.4.0-alpha6" />
