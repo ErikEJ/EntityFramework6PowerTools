@@ -74,6 +74,7 @@
   </ItemGroup>
 
   <ItemGroup>
+	<None Include="readme.md" Pack="true" PackagePath="\"/>  
     <None Update="Properties\Resources.SqlServerCompact.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>Resources.SqlServerCompact.cs</LastGenOutput>
