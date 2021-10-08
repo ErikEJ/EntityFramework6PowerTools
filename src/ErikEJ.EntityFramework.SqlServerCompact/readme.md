@@ -2,7 +2,21 @@
 
 This Entity Framework 6 provider enables you to use the SQL Server Compact embedded database. The package includes everything required to start creating and using a SQL Compact database with Entity Framework 6. 
 
-The latest preview build of this package is available from [this AppVeyor NuGet feed](https://ci.appveyor.com/nuget/entityframework6-erikej)
+## Daily builds
+
+The daily builds are not published to NuGet.org. Instead they can be pulled from a custom NuGet package source. To access this custom source, create a `NuGet.config` file in the same directory as your .NET solution or projects.
+
+For daily builds, `NuGet.config` should contain:
+
+```xml
+<?xml version="1.0" encoding="utf-8"?>
+<configuration>
+    <packageSources>
+        <add key="erikej" value="https://ci.appveyor.com/nuget/entityframework6-erikej" />
+        <add key="nuget.org" value="https://api.nuget.org/v3/index.json" />
+    </packageSources>
+</configuration>
+```
 
 ## Configuration
 
