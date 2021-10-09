@@ -115,7 +115,9 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Reference Include="System.Data.SqlServerCe">
+	  <Reference Include="System.Data.SqlServerCe" >
+		<SpecificVersion>true</SpecificVersion>
+		<FusionName>System.Data.SqlServerCe, Version=4.0.0.1, Culture=neutral, PublicKeyToken=89845dcd8080cc91</FusionName>
 	    <HintPath>Engine\System.Data.SqlServerCe.dll</HintPath>
 	  </Reference>
 	</ItemGroup>
