@@ -4,11 +4,19 @@ using System.Data.Entity;
 using System.Data.SqlServerCe;
 using System.Linq;
 using Xunit;
+using Xunit.Abstractions;
 
 namespace SqlProviderSmokeTest
 {
     public class Test1
     {
+        private readonly ITestOutputHelper output;
+
+        public Test1(ITestOutputHelper output)
+        {
+            this.output = output;
+        }
+
         [Fact]
         public void SmokeTest1()
         {
@@ -16,6 +24,7 @@ namespace SqlProviderSmokeTest
 
             using (var ctx = new SchoolContext(new SqlCeConnection(connectionString)))
             {
+                ctx.Database.Log = output.WriteLine;
                 ctx.Database.CreateIfNotExists();
 
                 ctx.Database.ExecuteSqlCommand("SELECT 1");

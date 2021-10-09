@@ -7,6 +7,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{2AE1B177
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ErikEJ.EntityFramework.SqlServerCompact", "src\ErikEJ.EntityFramework.SqlServerCompact\ErikEJ.EntityFramework.SqlServerCompact.csproj", "{76C0D518-DCD0-4D41-9B29-859680E2FFC7}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SqlCeProviderSmokeTestNetCore", "test\SqlCeProviderSmokeTextNetCore\SqlCeProviderSmokeTestNetCore.csproj", "{1C506093-F71F-4D06-B0D8-F4C227386D88}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -17,9 +19,16 @@ Global
 		{76C0D518-DCD0-4D41-9B29-859680E2FFC7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{76C0D518-DCD0-4D41-9B29-859680E2FFC7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{76C0D518-DCD0-4D41-9B29-859680E2FFC7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1C506093-F71F-4D06-B0D8-F4C227386D88}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1C506093-F71F-4D06-B0D8-F4C227386D88}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1C506093-F71F-4D06-B0D8-F4C227386D88}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1C506093-F71F-4D06-B0D8-F4C227386D88}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{1C506093-F71F-4D06-B0D8-F4C227386D88} = {2AE1B177-580C-44F1-9514-B3F23F4B1433}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {EE843F86-C2BD-4003-AD9C-632788EFDC1A}
