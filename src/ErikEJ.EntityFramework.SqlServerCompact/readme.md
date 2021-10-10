@@ -1,12 +1,12 @@
 # Entity Framework 6 SQL Server Compact provider for .NET 5 (and later)
 
-This Entity Framework 6 provider enables you to use the SQL Server Compact embedded database. The package includes everything required to start creating and using a SQL Compact database with Entity Framework 6. 
+This Entity Framework provider includes everything required to start creating and using a SQL Server Compact embedded database with Entity Framework 6. 
 
-## Daily builds
+You can read more about using the SQL Server Compact ADO.NET provider with .NET Core in [my blog post here](https://erikej.github.io/sqlce/2020/08/17/netcore-sql-compact.html)
 
-The daily builds are not published to NuGet.org. Instead they can be pulled from a custom NuGet package source. To access this custom source, create a `NuGet.config` file in the same directory as your .NET solution or projects.
+## Getting started
 
-For daily builds, `NuGet.config` should contain:
+Create a file called `NuGet.config` with the following contents in the same directory as your .NET solution or projects:
 
 ```xml
 <?xml version="1.0" encoding="utf-8"?>
@@ -26,22 +26,22 @@ Then add a PackageReference like this:
 </ItemGroup>
 ```
 
-## Configuration
+## Provider Configuration
 
 There are various ways to configure Entity Framework to use this provider.
 
 You can register the provider in code using an attribute:
 
 ````csharp
-    [DbConfigurationType(typeof(SqlCeDbConfiguration))]
-    public class SchoolContext : DbContext
+[DbConfigurationType(typeof(SqlCeDbConfiguration))]
+public class SchoolContext : DbContext
+{
+    public SchoolContext() : base()
     {
-        public SchoolContext() : base()
-        {
-        }
-
-        public DbSet<Student> Students { get; set; }
     }
+
+    public DbSet<Student> Students { get; set; }
+}
 ````
 If you have multiple classes inheriting from DbContext in your solution, add the DbConfigurationType attribute to all of them.
 
@@ -59,14 +59,14 @@ You can also use XML/App.Config based configuration:
 ````xml
 <?xml version="1.0" encoding="utf-8"?>
 <configuration>
-	<configSections>
-		<section name="entityFramework" type="System.Data.Entity.Internal.ConfigFile.EntityFrameworkSection, EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" requirePermission="false" />
-	</configSections>
-	<entityFramework>
-		<providers>		
-			<provider invariantName="System.Data.SqlServerCe.4.0" type="System.Data.Entity.SqlServer.SqlCeProviderServices, ErikEJ.EntityFramework.SqlServerCompact" />
-		</providers>
-	</entityFramework>
+  <configSections>
+    <section name="entityFramework" type="System.Data.Entity.Internal.ConfigFile.EntityFrameworkSection, EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" requirePermission="false" />
+  </configSections>
+  <entityFramework>
+    <providers>		
+      <provider invariantName="System.Data.SqlServerCe.4.0" type="System.Data.Entity.SqlServer.SqlCeProviderServices, ErikEJ.EntityFramework.SqlServerCompact" />
+    </providers>
+  </entityFramework>
 </configuration>
 ````
 If you use App.Config with a .NET Core / .NET 5 or later app, you must register the DbProviderFactory in code once:
