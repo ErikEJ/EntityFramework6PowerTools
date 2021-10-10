@@ -18,6 +18,14 @@ For daily builds, `NuGet.config` should contain:
 </configuration>
 ```
 
+Then add a PackageReference like this:
+
+```xml
+<ItemGroup>
+    <PackageReference Include="ErikEJ.EntityFramework.SqlServerCompact" Version="6.4.0-*" />
+</ItemGroup>
+```
+
 ## Configuration
 
 There are various ways to configure Entity Framework to use this provider.
