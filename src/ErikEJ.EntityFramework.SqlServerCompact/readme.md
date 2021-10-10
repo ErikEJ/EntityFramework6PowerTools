@@ -6,19 +6,7 @@ You can read more about using the SQL Server Compact ADO.NET provider with .NET 
 
 ## Getting started
 
-Create a file called `NuGet.config` with the following contents in the same directory as your .NET solution or projects:
-
-```xml
-<?xml version="1.0" encoding="utf-8"?>
-<configuration>
-    <packageSources>
-        <add key="erikej" value="https://ci.appveyor.com/nuget/entityframework6-erikej" />
-        <add key="nuget.org" value="https://api.nuget.org/v3/index.json" />
-    </packageSources>
-</configuration>
-```
-
-Then add a PackageReference like this:
+Add a PackageReference like this to use the latest preview build:
 
 ```xml
 <ItemGroup>
