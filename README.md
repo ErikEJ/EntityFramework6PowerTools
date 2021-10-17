@@ -20,11 +20,17 @@ When right-clicking a project, the following menu function is available:
 
 If you are looking for Reverse Engineering tools, I recommend using the ["Code First from Database" feature](http://www.entityframeworktutorial.net/code-first/code-first-from-existing-database.aspx) that is included with the standard Visual Studio tooling for EF 6.
 
-# Preview of EF6 SQL Server provider based on Microsoft.Data.SqlClient
+# Preview of EF6 SQL Server / Azure SQL Database provider based on Microsoft.Data.SqlClient
 
 This is a replacement provider for the built-in SQL Server provider.
 
 See the [dedicated readme](https://github.com/ErikEJ/EntityFramework6PowerTools/blob/community/src/ErikEJ.EntityFramework.SqlServer/readme.md) for more information.
+
+# Preview of EF6 SQL Server Compact provider for .NET 5
+
+This is an update of the SQL Server Compact provider, that runs under .NET 5 on Windows.
+
+See the [dedicated readme](https://github.com/ErikEJ/EntityFramework6PowerTools/blob/community/src/ErikEJ.EntityFramework.SqlServerCompact/readme.md) for more information.
 
 # Downloads/builds
 
