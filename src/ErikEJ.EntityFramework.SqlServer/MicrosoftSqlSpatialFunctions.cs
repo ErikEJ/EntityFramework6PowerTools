@@ -9,7 +9,7 @@ namespace System.Data.Entity.SqlServer
     /// <summary>
     /// Contains function stubs that expose SqlServer methods in Linq to Entities.
     /// </summary>
-    public static class SqlSpatialFunctions
+    public static class MicrosoftSqlSpatialFunctions
     {
         /// <summary>Constructs a geography instance representing a Point instance from its x and y values and a spatial reference ID (SRID). </summary>
         /// <returns>The constructed geography instance.</returns>

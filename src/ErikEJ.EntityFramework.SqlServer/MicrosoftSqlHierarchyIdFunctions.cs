@@ -9,7 +9,7 @@ namespace System.Data.Entity.SqlServer
     /// <summary>
     /// Contains function stubs that expose SqlServer methods in Linq to Entities.
     /// </summary>
-    public static class SqlHierarchyIdFunctions
+    public static class MicrosoftSqlHierarchyIdFunctions
     {
         /// <summary>Returns a hierarchyid representing the nth ancestor of this.</summary>
         /// <returns>A hierarchyid representing the nth ancestor of this.</returns>

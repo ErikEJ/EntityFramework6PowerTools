@@ -74,6 +74,8 @@ In order to use the provider in an existing solution, a few code changes are req
 
 `SqlAzureExecutionStrategy` => `MicrosoftSqlAzureExecutionStrategy`
 
+`SqlFunctions` => `MicrosoftSqlFunctions` 
+
 ## Feedback
 
 Please report any issues, questions and suggestions [here](https://github.com/ErikEJ/EntityFramework6PowerTools/issues)

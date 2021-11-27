@@ -11,7 +11,7 @@ namespace System.Data.Entity.SqlServer
     /// <summary>
     /// Contains function stubs that expose SqlServer methods in Linq to Entities.
     /// </summary>
-    public static class SqlFunctions
+    public static class MicrosoftSqlFunctions
     {
         /// <summary>Returns the checksum of the values in a collection. Null values are ignored.</summary>
         /// <returns>The checksum computed from the input collection.</returns>
