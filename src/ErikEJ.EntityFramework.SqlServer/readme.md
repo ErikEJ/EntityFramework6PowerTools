@@ -76,7 +76,7 @@ The following classes have been renamed to avoid conflicts with classes in the e
 
 `SqlAzureExecutionStrategy` => `MicrosoftSqlAzureExecutionStrategy`
 `SqlConnectionFactory` => `MicrosoftSqlConnectionFactory`
-`SqlDbConfiguration` => `SqlSqlDbConfiguration`
+`SqlDbConfiguration` => `MicrosoftSqlDbConfiguration`
 `SqlFunctions` => `MicrosoftSqlFunctions`
 `SqlHierarchyIdFunctions` => `MicrosoftSqlHierarchyIdFunctions`
 `SqlProviderServices` => `MicrosoftSqlProviderServices`
