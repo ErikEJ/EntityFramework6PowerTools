@@ -85,14 +85,23 @@ In order to use the provider in an existing solution, a few code changes are req
 The following classes have been renamed to avoid conflicts with classes in the existing SQL Server provider:
 
 `SqlAzureExecutionStrategy` => `MicrosoftSqlAzureExecutionStrategy`
+
 `SqlConnectionFactory` => `MicrosoftSqlConnectionFactory`
-`SqlDbConfiguration` => `SqlSqlDbConfiguration`
+
+`SqlDbConfiguration` => `MicrosoftSqlDbConfiguration`
+
 `SqlFunctions` => `MicrosoftSqlFunctions`
+
 `SqlHierarchyIdFunctions` => `MicrosoftSqlHierarchyIdFunctions`
+
 `SqlProviderServices` => `MicrosoftSqlProviderServices`
+
 `SqlFunctions` => `MicrosoftSqlFunctions`
+
 `SqlServerMigrationSqlGenerator` => `MicrosoftSqlServerMigrationSqlGenerator`
+
 `SqlSpatialFunctions` => `MicrosoftSqlSpatialFunctions`
+
 `SqlSpatialServices` => `MicrosoftSqlSpatialServices`
 
 ## Feedback
