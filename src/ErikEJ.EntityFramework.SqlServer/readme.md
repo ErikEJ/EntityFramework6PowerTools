@@ -66,6 +66,16 @@ If you use an EDMX file, update the `Provider` name:
       <Schema Namespace="ChinookModel.Store" Provider="Microsoft.Data.SqlClient" >
 ````
 
+and also update the provider name inside the EntityConnection connection string like this:
+
+````xml
+ <add 
+    name="Database" 
+    connectionString="metadata=res://*/EFModels.csdl|res://*/EFModels.ssdl|res://*/EFModels.msl;provider=Microsoft.Data.SqlClient;provider connection string=&quot;data source=server;initial catalog=mydb;integrated security=True;persist security info=True;" 
+    providerName="System.Data.EntityClient" 
+ />
+````
+
 ## Code changes
 
 In order to use the provider in an existing solution, a few code changes are required (as needed).
