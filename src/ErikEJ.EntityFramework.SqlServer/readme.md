@@ -104,6 +104,14 @@ The following classes have been renamed to avoid conflicts with classes in the e
 
 `SqlSpatialServices` => `MicrosoftSqlSpatialServices`
 
+## Known issues
+
+If an older version of EntityFramework.dll is installed in the .NET Framework GAC (Global Assembly Cache), you might get this error:
+
+`The 'PrimitiveTypeKind' attribute is invalid - The value 'HierarchyId' is invalid according to its datatype`
+
+Solution is to remove the .dll from the GAC, see [this for more info](https://github.com/ErikEJ/EntityFramework6PowerTools/issues/93#issuecomment-1063269072)
+
 ## Feedback
 
 Please report any issues, questions and suggestions [here](https://github.com/ErikEJ/EntityFramework6PowerTools/issues)
