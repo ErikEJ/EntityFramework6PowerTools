@@ -106,7 +106,11 @@ The following classes have been renamed to avoid conflicts with classes in the e
 
 ## Known issues
 
-If an older version of EntityFramework.dll is installed in the .NET Framework GAC (Global Assembly Cache), you might get this error:
+- Microsoft.SqlServer.Types not currently supported
+
+Use of DbGeography. DbGeometry and HierarchyId is not currently supported, see [discussion here](https://github.com/ErikEJ/EntityFramework6PowerTools/issues/94)
+
+- If an older version of EntityFramework.dll is installed in the .NET Framework GAC (Global Assembly Cache), you might get this error:
 
 `The 'PrimitiveTypeKind' attribute is invalid - The value 'HierarchyId' is invalid according to its datatype`
 
