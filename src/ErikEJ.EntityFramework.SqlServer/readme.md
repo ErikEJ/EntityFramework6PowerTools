@@ -57,6 +57,8 @@ If you use App.Config with a .NET Core / .NET 5 or later app, you must register 
 DbProviderFactories.RegisterFactory(MicrosoftSqlProviderServices.ProviderInvariantName, Microsoft.Data.SqlClient.SqlClientFactory.Instance);
 ````
 
+## EDMX usage
+
 If you use an EDMX file, update the `Provider` name:
 
 ````xml
@@ -66,7 +68,9 @@ If you use an EDMX file, update the `Provider` name:
       <Schema Namespace="ChinookModel.Store" Provider="Microsoft.Data.SqlClient" >
 ````
 
-and also update the provider name inside the EntityConnection connection string like this:
+> In order to use the EDMX file with the Visual Studio designer, you must switch the provider name back to `System.Data.SqlClient`
+
+Also update the provider name inside the EntityConnection connection string like this:
 
 ````xml
  <add 
