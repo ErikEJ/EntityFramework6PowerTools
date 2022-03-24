@@ -70,7 +70,7 @@ If you use an EDMX file, update the `Provider` name:
 
 > In order to use the EDMX file with the Visual Studio designer, you must switch the provider name back to `System.Data.SqlClient`
 
-Also update the provider name inside the EntityConnection connection string like this:
+Also update the provider name inside the EntityConnection connection string:
 
 ````xml
  <add 
