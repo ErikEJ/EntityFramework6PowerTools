@@ -40,9 +40,9 @@ The Power Tools will remain in "beta" status.
 
 Download the latest released version from [Visual Studio MarketPlace](https://marketplace.visualstudio.com/items?itemName=ErikEJ.EntityFramework6PowerToolsCommunityEdition)
 
-Or just install from Tools, Extensions and Updates in Visual Studio! ![](https://github.com/ErikEJ/SqlCeToolbox/blob/master/img/e86.August*Dail1 build**
+Or just install from Tools, Extensions and Updates in Visual Studio! ![](https://github.com/ErikEJ/SqlCeToolbox/blob/master/img/ext.png)
 
-You can download the daily build from [VSIX Gallery](https://www.vsixgallery.com/extensions/F0A7D01D-4834-44C3-99B2-5907A0701906/extension.vsix). 
+You can download the daily build from [VSIX Gallery](https://www.vsixgallery.com/extension/41521019-e4c7-480c-8ea8-fc4a2c6f50aa).
 
 Install the [VSIX Gallery Nightly builds extension](https://marketplace.visualstudio.com/items?itemName=MadsKristensen.VSIXGallery-nightlybuilds) to get the latest daily build automatically.
 
