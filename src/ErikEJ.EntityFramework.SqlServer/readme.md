@@ -49,6 +49,14 @@ You can also use XML/App.Config based configuration:
 			<provider invariantName="Microsoft.Data.SqlClient" type="System.Data.Entity.SqlServer.MicrosoftSqlProviderServices, ErikEJ.EntityFramework.SqlServer" />
 		</providers>
 	</entityFramework>
+    <system.data>
+		<DbProviderFactories>
+			<add name="SqlClient Data Provider"
+				invariant="Microsoft.Data.SqlClient"
+				description=".NET Framework Data Provider for SqlServer"
+				type="Microsoft.Data.SqlClient.SqlClientFactory, Microsoft.Data.SqlClient" />
+		</DbProviderFactories>
+	</system.data>
 </configuration>
 ````
 If you use App.Config with a .NET Core / .NET 5 or later app, you must register the DbProviderFactory in code once:

@@ -1,4 +1,5 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.Data.SqlClient;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -16,6 +17,12 @@ namespace SmokeTestNetFx
 
             using (var ctx = new SchoolContext(connectionString))
             {
+                ctx.Database.ExecuteSqlCommand("SELECT 1");
+
+                var students = ctx.Students.ToList();
+
+                Assert.IsTrue(ctx.Database.Connection as SqlConnection != null);
+
                 var stud = new Student() { StudentName = "Bill" };
 
                 ctx.Students.Add(stud);
@@ -27,6 +34,8 @@ namespace SmokeTestNetFx
                 var students = ctx.Students.ToList();
 
                 Assert.IsTrue(students.Count > 0);
+
+                Assert.IsTrue(ctx.Database.Connection as SqlConnection != null);
             }
         }
 
