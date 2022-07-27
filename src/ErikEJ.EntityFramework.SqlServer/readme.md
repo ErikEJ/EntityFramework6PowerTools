@@ -50,7 +50,7 @@ You can also use XML/App.Config based configuration:
 		</providers>
 	</entityFramework>
     <system.data>
-	    <DbProviderFactories>
+        <DbProviderFactories>
            <add name="SqlClient Data Provider"
              invariant="Microsoft.Data.SqlClient"
              description=".NET Framework Data Provider for SqlServer"
