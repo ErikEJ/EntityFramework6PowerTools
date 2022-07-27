@@ -41,14 +41,14 @@ You can also use XML/App.Config based configuration:
 ````xml
 <?xml version="1.0" encoding="utf-8"?>
 <configuration>
-	<configSections>
-		<section name="entityFramework" type="System.Data.Entity.Internal.ConfigFile.EntityFrameworkSection, EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" requirePermission="false" />
-	</configSections>
-	<entityFramework>
-		<providers>		
-			<provider invariantName="Microsoft.Data.SqlClient" type="System.Data.Entity.SqlServer.MicrosoftSqlProviderServices, ErikEJ.EntityFramework.SqlServer" />
-		</providers>
-	</entityFramework>
+    <configSections>
+        <section name="entityFramework" type="System.Data.Entity.Internal.ConfigFile.EntityFrameworkSection, EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" requirePermission="false" />    
+    </configSections>
+    <entityFramework>
+        <providers>		
+            <provider invariantName="Microsoft.Data.SqlClient" type="System.Data.Entity.SqlServer.MicrosoftSqlProviderServices, ErikEJ.EntityFramework.SqlServer" />
+        </providers>
+    </entityFramework>
     <system.data>
         <DbProviderFactories>
            <add name="SqlClient Data Provider"
