@@ -108,8 +108,6 @@ The following classes have been renamed to avoid conflicts with classes in the e
 
 `SqlProviderServices` => `MicrosoftSqlProviderServices`
 
-`SqlFunctions` => `MicrosoftSqlFunctions`
-
 `SqlServerMigrationSqlGenerator` => `MicrosoftSqlServerMigrationSqlGenerator`
 
 `SqlSpatialFunctions` => `MicrosoftSqlSpatialFunctions`
