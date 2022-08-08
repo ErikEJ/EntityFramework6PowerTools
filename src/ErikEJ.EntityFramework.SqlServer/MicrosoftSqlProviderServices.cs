@@ -40,9 +40,6 @@ namespace System.Data.Entity.SqlServer
     /// Requests for <see cref="MigrationSqlGenerator" /> for the invariant name "Microsoft.Data.SqlClient" are
     /// resolved to <see cref="MicrosoftSqlServerMigrationSqlGenerator" /> instances to provide default Migrations SQL
     /// generation for SQL Server.
-    /// Requests for <see cref="DbSpatialServices" /> for the invariant name "Microsoft.Data.SqlClient" are
-    /// resolved to a Singleton instance of <see cref="MicrosoftSqlSpatialServices" /> to provide default spatial
-    /// services for SQL Server.
     /// </remarks>
     [SuppressMessage("Microsoft.Maintainability", "CA1506:AvoidExcessiveClassCoupling")]
     public sealed class MicrosoftSqlProviderServices : DbProviderServices
@@ -75,24 +72,6 @@ namespace System.Data.Entity.SqlServer
             AddDependencyResolver(
                 new SingletonDependencyResolver<TableExistenceChecker>(
                     new SqlTableExistenceChecker(), ProviderInvariantName));
-
-            // Spatial provider will be returned if the key is null (meaning that a default provider was requested)
-            // or if a key was provided and the invariant name matches.
-            AddDependencyResolver(
-                new SingletonDependencyResolver<DbSpatialServices>(
-                    MicrosoftSqlSpatialServices.Instance,
-                    k =>
-                    {
-                        if (k == null)
-                        {
-                            return true;
-                        }
-
-                        var asSpatialKey = k as DbProviderInfo;
-                        return asSpatialKey != null
-                               && asSpatialKey.ProviderInvariantName == ProviderInvariantName
-                               && SupportsSpatial(asSpatialKey.ProviderManifestToken);
-                    }));
         }
 
         // <summary>
@@ -351,9 +330,6 @@ namespace System.Data.Entity.SqlServer
             Check.NotNull(parameter, "parameter");
             Check.NotNull(parameterType, "parameterType");
 
-            // Ensure a value that can be used with SqlParameter
-            value = EnsureSqlParameterValue(value);
-
             if (parameterType.IsPrimitiveType(PrimitiveTypeKind.String)
                 || parameterType.IsPrimitiveType(PrimitiveTypeKind.Binary))
             {
@@ -490,17 +466,7 @@ namespace System.Data.Entity.SqlServer
         /// <returns> The spatial data reader. </returns>
         protected override DbSpatialDataReader GetDbSpatialDataReader(DbDataReader fromReader, string versionHint)
         {
-            var underlyingReader = fromReader as SqlDataReader;
-            if (underlyingReader == null)
-            {
-                throw new ProviderIncompatibleException(Strings.SqlProvider_NeedSqlDataReader(fromReader.GetType()));
-            }
-
-            return SupportsSpatial(versionHint)
-                       ? new SqlSpatialDataReader(
-                             GetSpatialServices(new DbProviderInfo(ProviderInvariantName, versionHint)),
-                             new SqlDataReaderWrapper(underlyingReader))
-                       : null;
+            return null;
         }
 
         /// <summary>
@@ -512,9 +478,7 @@ namespace System.Data.Entity.SqlServer
             "Return DbSpatialServices from the GetService method. See http://go.microsoft.com/fwlink/?LinkId=260882 for more information.")]
         protected override DbSpatialServices DbGetSpatialServices(string versionHint)
         {
-            return SupportsSpatial(versionHint)
-                       ? MicrosoftSqlSpatialServices.Instance
-                       : null;
+            return null;
         }
 
         private static bool SupportsSpatial(string versionHint)
@@ -541,8 +505,6 @@ namespace System.Data.Entity.SqlServer
             byte? precision;
             byte? scale;
             string udtTypeName;
-
-            value = EnsureSqlParameterValue(value);
 
             var result = new SqlParameter(name, value);
 
@@ -646,50 +608,6 @@ namespace System.Data.Entity.SqlServer
                     Debug.Fail("unrecognized mode " + mode.ToString());
                     return default(ParameterDirection);
             }
-        }
-
-        // <summary>
-        // Validates that the specified value is compatible with SqlParameter and if not, attempts to return an appropriate value that is.
-        // Currently only spatial values (DbGeography/DbGeometry) may not be directly usable with SqlParameter. For these types, an instance
-        // of the corresponding SQL Server CLR spatial UDT will be manufactured based on the spatial data contained in
-        // <paramref name="value" />.
-        // If <paramref name="value" /> is an instance of DbGeography/DbGeometry that was read from SQL Server by this provider, then the wrapped
-        // CLR UDT value is available via the ProviderValue property (see SqlSpatialServices for the full conversion process from instances of
-        // DbGeography/DbGeometry to instances of the CLR SqlGeography/SqlGeometry UDTs)
-        // </summary>
-        internal static object EnsureSqlParameterValue(object value)
-        {
-            if (value != null
-                && value != DBNull.Value
-                && value.GetType().IsClass())
-            {
-                // If the parameter is being created based on an actual value (typically for constants found in DML expressions) then a DbGeography/DbGeometry
-                // value must be replaced by an appropriate Microsoft.SqlServer.Types.SqlGeography/SqlGeometry instance. Since the DbGeography/DbGeometry
-                // value may not have been originally created by this SqlClient provider services implementation, just using the ProviderValue is not sufficient.
-                var geographyValue = value as DbGeography;
-                if (geographyValue != null)
-                {
-                    value = SqlTypesAssemblyLoader.DefaultInstance.GetSqlTypesAssembly().ConvertToSqlTypesGeography(geographyValue);
-                }
-                else
-                {
-                    var geometryValue = value as DbGeometry;
-                    if (geometryValue != null)
-                    {
-                        value = SqlTypesAssemblyLoader.DefaultInstance.GetSqlTypesAssembly().ConvertToSqlTypesGeometry(geometryValue);
-                    }
-                    else
-                    {
-                        var hierarchyIdValue = value as HierarchyId;
-                        if (hierarchyIdValue != null)
-                        {
-                            value = SqlTypesAssemblyLoader.DefaultInstance.GetSqlTypesAssembly().ConvertToSqlTypesHierarchyId(hierarchyIdValue);
-                        }
-                    }
-                }
-            }
-
-            return value;
         }
 
         // <summary>

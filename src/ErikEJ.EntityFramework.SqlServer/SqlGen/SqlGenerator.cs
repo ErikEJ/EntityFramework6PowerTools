@@ -952,14 +952,6 @@ namespace System.Data.Entity.SqlServer.SqlGen
                         }
                         break;
 
-                    case PrimitiveTypeKind.Geography:
-                        AppendSpatialConstant(result, ((DbGeography)e.Value).AsSpatialValue());
-                        break;
-
-                    case PrimitiveTypeKind.Geometry:
-                        AppendSpatialConstant(result, ((DbGeometry)e.Value).AsSpatialValue());
-                        break;
-
                     case PrimitiveTypeKind.Guid:
                         WrapWithCastIfNeeded(true, EscapeSingleQuote(e.Value.ToString(), false /* IsUnicode */), "uniqueidentifier", result);
                         break;
@@ -1019,58 +1011,6 @@ namespace System.Data.Entity.SqlServer.SqlGen
             result.Append("cast(");
             result.Append(EscapeSingleQuote(hierarchyId.ToString(), false /* IsUnicode */));
             result.Append(" as hierarchyid)");
-        }
-
-        private void AppendSpatialConstant(SqlBuilder result, IDbSpatialValue spatialValue)
-        {
-            DebugCheck.NotNull(result);
-            DebugCheck.NotNull(spatialValue);
-
-            // Spatial constants are represented by calls to a static constructor function. The attempt is made to extract an
-            // appropriate representation from the value (which may not implement the required methods). If an SRID value and
-            // a text, binary or GML representation of the spatial value can be extracted, the corresponding function call
-            // expression is built and processed.
-            DbFunctionExpression functionExpression = null;
-            var srid = spatialValue.CoordinateSystemId;
-            if (srid.HasValue)
-            {
-                var wellKnownText = spatialValue.WellKnownText;
-                if (wellKnownText != null)
-                {
-                    functionExpression = (spatialValue.IsGeography
-                                              ? SpatialEdmFunctions.GeographyFromText(wellKnownText, srid.Value)
-                                              : SpatialEdmFunctions.GeometryFromText(wellKnownText, srid.Value));
-                }
-                else
-                {
-                    var wellKnownBinary = spatialValue.WellKnownBinary;
-                    if (wellKnownBinary != null)
-                    {
-                        functionExpression = (spatialValue.IsGeography
-                                                  ? SpatialEdmFunctions.GeographyFromBinary(wellKnownBinary, srid.Value)
-                                                  : SpatialEdmFunctions.GeometryFromBinary(wellKnownBinary, srid.Value));
-                    }
-                    else
-                    {
-                        var gmlString = spatialValue.GmlString;
-                        if (gmlString != null)
-                        {
-                            functionExpression = (spatialValue.IsGeography
-                                                      ? SpatialEdmFunctions.GeographyFromGml(gmlString, srid.Value)
-                                                      : SpatialEdmFunctions.GeometryFromGml(gmlString, srid.Value));
-                        }
-                    }
-                }
-            }
-
-            if (functionExpression != null)
-            {
-                result.Append(SqlFunctionCallHandler.GenerateFunctionCallSql(this, functionExpression));
-            }
-            else
-            {
-                throw spatialValue.NotSqlCompatible();
-            }
         }
 
         // <summary>
