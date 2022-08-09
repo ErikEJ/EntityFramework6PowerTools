@@ -123,3 +123,14 @@ Solution is to remove the .dll from the GAC, see [this for more info](https://gi
 ## Feedback
 
 Please report any issues, questions and suggestions [here](https://github.com/ErikEJ/EntityFramework6PowerTools/issues)
+
+## Release notes
+
+### 6.5.x
+
+- Uses Microsoft.Data.SqlClient 4.0.1
+- Removed spatial and MicrosoftSqlFunctions classes
+
+### 6.4.x
+
+- Uses Microsoft.Data.SqlClient 2.1.4
