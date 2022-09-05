@@ -102,8 +102,6 @@ The following classes have been renamed to avoid conflicts with classes in the e
 
 `SqlDbConfiguration` => `MicrosoftSqlDbConfiguration`
 
-`SqlFunctions` => `MicrosoftSqlFunctions`
-
 `SqlHierarchyIdFunctions` => `MicrosoftSqlHierarchyIdFunctions`
 
 `SqlProviderServices` => `MicrosoftSqlProviderServices`

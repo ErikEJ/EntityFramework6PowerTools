@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.Data.Entity.SqlServer;
 using System.Linq;
 using Xunit;
 
@@ -18,7 +19,7 @@ namespace SqlProviderSmokeTest
             {
                 ctx.Database.ExecuteSqlCommand("SELECT 1");
 
-                var students = ctx.Students.ToList();
+                var students = ctx.Students.Where(s => "erik" == SqlFunctions.UserName()).ToList();
 
                 Assert.True(ctx.Database.Connection as SqlConnection != null);
 
