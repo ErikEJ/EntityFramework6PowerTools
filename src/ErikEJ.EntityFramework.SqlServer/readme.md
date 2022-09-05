@@ -110,10 +110,6 @@ The following classes have been renamed to avoid conflicts with classes in the e
 
 ## Known issues
 
-**Microsoft.SqlServer.Types not currently supported**
-
-Use of DbGeography, DbGeometry and HierarchyId is not currently supported, see [discussion here](https://github.com/ErikEJ/EntityFramework6PowerTools/issues/94)
-
 **EntityFramework.dll installed in GAC**
 
 If an older version of EntityFramework.dll is installed in the .NET Framework GAC (Global Assembly Cache), you might get this error:
@@ -128,10 +124,15 @@ Please report any issues, questions and suggestions [here](https://github.com/Er
 
 ## Release notes
 
-### 6.5.x
+### 6.6.x
+
+- Uses Microsoft.Data.SqlClient 5.0.0
+- Added support for spatial with new Microsoft.SqlServer.Types package
+
+### 6.5.0
 
 - Uses Microsoft.Data.SqlClient 4.0.1
-- Removed spatial and MicrosoftSqlFunctions classes
+- Removed duplicate spatial and Sql functions classes
 
 ### 6.4.x
 
