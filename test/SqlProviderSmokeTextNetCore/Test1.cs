@@ -13,7 +13,7 @@ namespace SqlProviderSmokeTest
         [Fact]
         public void SmokeTest1()
         {
-            var connectionString = "Data Source=.\\SQLEXPRESS;Initial Catalog=School;Integrated Security=True";
+            var connectionString = "Data Source=.\\SQLEXPRESS;Initial Catalog=School;Integrated Security=True;Encrypt=false";
 
             using (var ctx = new SchoolContext(new SqlConnection(connectionString)))
             {

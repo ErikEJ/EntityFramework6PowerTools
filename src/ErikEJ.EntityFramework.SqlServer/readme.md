@@ -102,13 +102,9 @@ The following classes have been renamed to avoid conflicts with classes in the e
 
 `SqlDbConfiguration` => `MicrosoftSqlDbConfiguration`
 
-`SqlHierarchyIdFunctions` => `MicrosoftSqlHierarchyIdFunctions`
-
 `SqlProviderServices` => `MicrosoftSqlProviderServices`
 
 `SqlServerMigrationSqlGenerator` => `MicrosoftSqlServerMigrationSqlGenerator`
-
-`SqlSpatialFunctions` => `MicrosoftSqlSpatialFunctions`
 
 `SqlSpatialServices` => `MicrosoftSqlSpatialServices`
 
