@@ -12,7 +12,7 @@
     <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>key.snk</AssemblyOriginatorKeyFile>
 	<PackageId>ErikEJ.EntityFramework.SqlServer</PackageId>
-	<PackageVersion>6.5.0</PackageVersion>
+	<PackageVersion>6.4.3</PackageVersion>
 	<Authors>ErikEJ</Authors>
 	<Description>SQL Server provider for Entity Framework 6.4, using the Microsoft.Data.SqlClient ADO.NET provider.</Description>
 	<PackageProjectUrl>https://github.com/ErikEJ/EntityFramework6PowerTools</PackageProjectUrl>
