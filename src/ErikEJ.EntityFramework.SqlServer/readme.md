@@ -124,10 +124,14 @@ Please report any issues, questions and suggestions [here](https://github.com/Er
 
 ## Release notes
 
-### 6.6.x
+### 6.6.1
+
+- Uses Microsoft.Data.SqlClient 5.0.1
+
+### 6.6.0
 
 - Uses Microsoft.Data.SqlClient 5.0.0
-- Added support for spatial with new Microsoft.SqlServer.Types package
+- Added support for spatial on .NET (Core) with new Microsoft.SqlServer.Types package
 
 ### 6.5.0
 
