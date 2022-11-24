@@ -14,7 +14,7 @@
     <IsPackable>True</IsPackable>
     <PackageTags>$(PackageTags);SQL Compact;CE</PackageTags>
     <PackageId>ErikEJ.EntityFramework.SqlServerCompact</PackageId>
-    <PackageVersion>6.4.0-beta2</PackageVersion>
+    <PackageVersion>6.4.0-beta3</PackageVersion>
     <Authors>ErikEJ</Authors>
     <Description>SQL Server Compact provider for Entity Framework 6.4 on Windows</Description>
     <PackageProjectUrl>https://github.com/ErikEJ/EntityFramework6PowerTools</PackageProjectUrl>
