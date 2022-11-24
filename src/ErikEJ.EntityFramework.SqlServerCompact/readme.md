@@ -1,4 +1,4 @@
-# Entity Framework 6 SQL Server Compact provider for .NET 5 (and later)
+# Entity Framework 6 SQL Server Compact provider for .NET 6 (and later)
 
 This Entity Framework provider includes everything required to start creating and using a SQL Server Compact embedded database with Entity Framework 6. 
 
@@ -57,7 +57,7 @@ You can also use XML/App.Config based configuration:
   </entityFramework>
 </configuration>
 ````
-If you use App.Config with a .NET Core / .NET 5 or later app, you must register the DbProviderFactory in code once:
+If you use App.Config with a .NET app, you must register the DbProviderFactory in code once:
 
 ````csharp
 DbProviderFactories.RegisterFactory(SqlCeProviderServices.ProviderInvariantName, SqlServerCe.SqlCeProviderFactory.Instance);
