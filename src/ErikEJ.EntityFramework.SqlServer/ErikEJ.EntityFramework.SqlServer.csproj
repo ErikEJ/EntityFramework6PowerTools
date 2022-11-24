@@ -4,7 +4,7 @@
     <RootNamespace>System.Data.Entity.SqlServer</RootNamespace>
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
 	<GenerateAssemblyInfo>false</GenerateAssemblyInfo>
-    <TargetFrameworks>net461;netstandard2.1</TargetFrameworks>
+    <TargetFrameworks>net462;netstandard2.1</TargetFrameworks>
     <Description>ErikEJ.EntityFramework.SqlServer.dll</Description>
     <AssemblyVersion>6.0.0.0</AssemblyVersion>
 	<AssemblyName>ErikEJ.EntityFramework.SqlServer</AssemblyName>
@@ -12,11 +12,11 @@
     <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>key.snk</AssemblyOriginatorKeyFile>
 	<PackageId>ErikEJ.EntityFramework.SqlServer</PackageId>
-	<PackageVersion>6.6.1</PackageVersion>
+	<PackageVersion>6.6.2</PackageVersion>
 	<Authors>ErikEJ</Authors>
 	<Description>SQL Server provider for Entity Framework 6.4, using the Microsoft.Data.SqlClient ADO.NET provider.</Description>
 	<PackageProjectUrl>https://github.com/ErikEJ/EntityFramework6PowerTools</PackageProjectUrl>
-	<PackageReleaseNotes>Enable spatial support, update to M.D.S. 5.0.1</PackageReleaseNotes>
+	<PackageReleaseNotes>Enable spatial support RTM, update to M.D.S. 5.0.1</PackageReleaseNotes>
 	<PackageLicenseExpression>MIT</PackageLicenseExpression>
 	<MinClientVersion>5.0</MinClientVersion>
 	<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
@@ -122,7 +122,7 @@
 
   <ItemGroup Condition="'$(TargetFramework)' == 'netstandard2.1'">
     <PackageReference Include="Microsoft.SqlServer.Types">
-      <Version>160.900.6-rc0</Version>
+      <Version>160.1000.6</Version>
     </PackageReference>
   </ItemGroup>
 	
