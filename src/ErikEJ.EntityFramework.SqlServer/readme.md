@@ -126,6 +126,10 @@ Please report any issues, questions and suggestions [here](https://github.com/Er
 
 ### 6.6.2
 
+- Uses Microsoft.Data.SqlClient 5.1.0
+
+### 6.6.2
+
 - Uses Microsoft.SqlServer.Types 160.1000.6
 - Requires .NET Framework 4.6.2
 
