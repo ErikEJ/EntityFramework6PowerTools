@@ -15,6 +15,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SmokeTestNetCore", "test\Sm
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmokeTestNetFx", "test\SmokeTestNetFx\SmokeTestNetFx.csproj", "{0D4EBAB7-0F71-46F2-90D4-068DAC7878E1}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CoreConsoleApp", "test\CoreConsoleApp\CoreConsoleApp.csproj", "{2BC03762-39EE-489C-B786-47CE13E422BC}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -41,6 +43,10 @@ Global
 		{0D4EBAB7-0F71-46F2-90D4-068DAC7878E1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0D4EBAB7-0F71-46F2-90D4-068DAC7878E1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0D4EBAB7-0F71-46F2-90D4-068DAC7878E1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2BC03762-39EE-489C-B786-47CE13E422BC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2BC03762-39EE-489C-B786-47CE13E422BC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2BC03762-39EE-489C-B786-47CE13E422BC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2BC03762-39EE-489C-B786-47CE13E422BC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -50,6 +56,7 @@ Global
 		{7C4A94D0-2D27-4236-B811-737F0BECAB47} = {2AE1B177-580C-44F1-9514-B3F23F4B1433}
 		{CDDFB3F7-5131-4172-9639-F7C8D565E9AD} = {2AE1B177-580C-44F1-9514-B3F23F4B1433}
 		{0D4EBAB7-0F71-46F2-90D4-068DAC7878E1} = {2AE1B177-580C-44F1-9514-B3F23F4B1433}
+		{2BC03762-39EE-489C-B786-47CE13E422BC} = {2AE1B177-580C-44F1-9514-B3F23F4B1433}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {EE843F86-C2BD-4003-AD9C-632788EFDC1A}
