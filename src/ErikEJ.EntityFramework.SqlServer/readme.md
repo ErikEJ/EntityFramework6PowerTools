@@ -59,7 +59,7 @@ You can also use XML/App.Config based configuration:
     </system.data>
 </configuration>
 ````
-If you use App.Config with a .NET Core / .NET 5 or later app, you must register the DbProviderFactory in code once:
+If you use App.Config with a .NET Core / .NET 5 or later app, you must remove the `<system.data>` section above and register the DbProviderFactory in code once:
 
 ````csharp
 DbProviderFactories.RegisterFactory(MicrosoftSqlProviderServices.ProviderInvariantName, Microsoft.Data.SqlClient.SqlClientFactory.Instance);
