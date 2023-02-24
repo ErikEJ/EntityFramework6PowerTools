@@ -67,7 +67,7 @@ DbProviderFactories.RegisterFactory(MicrosoftSqlProviderServices.ProviderInvaria
 
 ## EDMX usage
 
-If you use an EDMX file, update the `Provider` name:
+If you use an EDMX file, update the `Provider` name in the EDMX file:
 
 ````xml
 <edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
@@ -76,17 +76,32 @@ If you use an EDMX file, update the `Provider` name:
       <Schema Namespace="ChinookModel.Store" Provider="Microsoft.Data.SqlClient" >
 ````
 
-> In order to use the EDMX file with the Visual Studio designer, you must switch the provider name back to `System.Data.SqlClient`
-
-Also update the provider name inside the EntityConnection connection string:
+Also update the provider name inside the EntityConnection connection string - sample of working App.Config file:
 
 ````xml
- <add 
-    name="Database" 
-    connectionString="metadata=res://*/EFModels.csdl|res://*/EFModels.ssdl|res://*/EFModels.msl;provider=Microsoft.Data.SqlClient;provider connection string=&quot;data source=server;initial catalog=mydb;integrated security=True;persist security info=True;" 
-    providerName="System.Data.EntityClient" 
- />
+<?xml version="1.0" encoding="utf-8"?>
+<configuration>
+  <configSections>
+    <!-- For more information on Entity Framework configuration, visit http://go.microsoft.com/fwlink/?LinkID=237468 -->
+    <section name="entityFramework" type="System.Data.Entity.Internal.ConfigFile.EntityFrameworkSection, EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" requirePermission="false" />
+  </configSections>
+  <entityFramework>
+    <providers>
+      <provider invariantName="Microsoft.Data.SqlClient" type="System.Data.Entity.SqlServer.MicrosoftSqlProviderServices, ErikEJ.EntityFramework.SqlServer" />
+    </providers>
+  </entityFramework>
+  <system.data>
+    <DbProviderFactories>
+      <add name="SqlClient Data Provider" invariant="Microsoft.Data.SqlClient" description=".NET Framework Data Provider for SqlServer" type="Microsoft.Data.SqlClient.SqlClientFactory, Microsoft.Data.SqlClient" />
+    </DbProviderFactories>
+  </system.data>
+  <connectionStrings>
+    <add name="ChinookEntities" connectionString="metadata=res://*/Model1.csdl|res://*/Model1.ssdl|res://*/Model1.msl;provider=Microsoft.Data.SqlClient;provider connection string=&quot;data source=.\SQLEXPRESS;initial catalog=Chinook;integrated security=True;MultipleActiveResultSets=True;App=EntityFramework&quot;" providerName="System.Data.EntityClient" />
+  </connectionStrings>
+</configuration>
 ````
+
+> In order to use the EDMX file with the Visual Studio designer, use Visual Studio 17.5 or later
 
 ## Code changes
 
