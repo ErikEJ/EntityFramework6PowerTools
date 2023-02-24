@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="be60c40eaef24f0fb71eefc21f69b90e" Name="Diagram1">
+        <EntityTypeShape EntityType="ChinookModel.Album" Width="1.5" PointX="3" PointY="1.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="ChinookModel.Artist" Width="1.5" PointX="0.75" PointY="2.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="ChinookModel.Customer" Width="1.5" PointX="3" PointY="13" IsExpanded="true" />
+        <EntityTypeShape EntityType="ChinookModel.Employee" Width="1.5" PointX="0.75" PointY="12.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ChinookModel.Genre" Width="1.5" PointX="3" PointY="5.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="ChinookModel.Invoice" Width="1.5" PointX="5.25" PointY="13.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="ChinookModel.InvoiceLine" Width="1.5" PointX="7.5" PointY="1.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="ChinookModel.MediaType" Width="1.5" PointX="3" PointY="7.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="ChinookModel.Playlist" Width="1.5" PointX="3" PointY="9.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="ChinookModel.Track" Width="1.5" PointX="5.25" PointY="1" IsExpanded="true" />
+        <AssociationConnector Association="ChinookModel.FK_AlbumArtistId" ManuallyRouted="false" />
+        <AssociationConnector Association="ChinookModel.FK_TrackAlbumId" ManuallyRouted="false" />
+        <AssociationConnector Association="ChinookModel.FK_CustomerSupportRepId" ManuallyRouted="false" />
+        <AssociationConnector Association="ChinookModel.FK_InvoiceCustomerId" ManuallyRouted="false" />
+        <AssociationConnector Association="ChinookModel.FK_EmployeeReportsTo" ManuallyRouted="false" />
+        <AssociationConnector Association="ChinookModel.FK_TrackGenreId" ManuallyRouted="false" />
+        <AssociationConnector Association="ChinookModel.FK_InvoiceLineInvoiceId" ManuallyRouted="false" />
+        <AssociationConnector Association="ChinookModel.FK_InvoiceLineTrackId" ManuallyRouted="false" />
+        <AssociationConnector Association="ChinookModel.FK_TrackMediaTypeId" ManuallyRouted="false" />
+        <AssociationConnector Association="ChinookModel.PlaylistTrack" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
