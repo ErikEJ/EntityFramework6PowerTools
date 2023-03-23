@@ -101,7 +101,7 @@ Also update the provider name inside the EntityConnection connection string - sa
 </configuration>
 ````
 
-> In order to use the EDMX file with the Visual Studio designer, use Visual Studio 17.5 or later
+> In order to use the EDMX file with the Visual Studio designer, use Visual Studio 17.5.3 or later
 
 ## Code changes
 
@@ -141,8 +141,7 @@ Please report any issues, questions and suggestions [here](https://github.com/Er
 
 ### 6.6.4
 
-- Fix wrong resource reference (to old provider assembly)
-
+- Fix wrong resource reference (to legacy provider assembly)
 
 ### 6.6.3
 
