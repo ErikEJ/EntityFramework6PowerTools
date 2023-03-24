@@ -96,12 +96,13 @@ Also update the provider name inside the EntityConnection connection string - sa
     </DbProviderFactories>
   </system.data>
   <connectionStrings>
-    <add name="ChinookEntities" connectionString="metadata=res://*/Model1.csdl|res://*/Model1.ssdl|res://*/Model1.msl;provider=Microsoft.Data.SqlClient;provider connection string=&quot;data source=.\SQLEXPRESS;initial catalog=Chinook;integrated security=True;MultipleActiveResultSets=True;App=EntityFramework&quot;" providerName="System.Data.EntityClient" />
+    <add name="ChinookEntities" connectionString="metadata=res://*/Model1.csdl|res://*/Model1.ssdl|res://*/Model1.msl;provider=Microsoft.Data.SqlClient;provider connection string=&quot;data source=.\SQLEXPRESS;initial catalog=Chinook;integrated security=True;App=EntityFramework&quot;" providerName="System.Data.EntityClient" />
   </connectionStrings>
 </configuration>
 ````
 
-> In order to use the EDMX file with the Visual Studio designer, use Visual Studio 17.5.3 or later
+> In order to use the EDMX file with the Visual Studio designer, use Visual Studio 17.5 or later. Make sure to restore packages and build before opening the designer.
+
 
 ## Code changes
 
