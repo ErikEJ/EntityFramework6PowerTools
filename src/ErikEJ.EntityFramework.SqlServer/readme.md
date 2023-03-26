@@ -101,7 +101,7 @@ Also update the provider name inside the EntityConnection connection string - sa
 </configuration>
 ````
 
-> In order to use the EDMX file with the Visual Studio designer, use Visual Studio 17.5 or later. Make sure to restore packages and build before opening the designer.
+> In order to use the EDMX file with the Visual Studio designer, use Visual Studio 17.5 or later. Make sure to restore packages and build before opening the designer. You may need to restart Visual Studio after building for the first time.
 
 
 ## Code changes
@@ -128,7 +128,7 @@ The following classes have been renamed to avoid conflicts with classes in the e
 
 **EntityFramework.dll installed in GAC**
 
-If an older version of EntityFramework.dll is installed in the .NET Framework GAC (Global Assembly Cache), you might get this error:
+If an older version of EntityFramework.dll is installed in the .NET Framework GAC (Global Assembly Cache), you might get this runtime error:
 
 `The 'PrimitiveTypeKind' attribute is invalid - The value 'HierarchyId' is invalid according to its datatype`
 
