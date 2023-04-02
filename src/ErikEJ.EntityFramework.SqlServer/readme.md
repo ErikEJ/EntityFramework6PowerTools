@@ -2,7 +2,7 @@
 
 This Entity Framework 6 provider is a replacement provider for the built-in SQL Server provider. 
 
-This provider depends on the modern Microsoft.Data.SqlClient ADO.NET provider, see my [blog post here](https://erikej.github.io/ef6/sqlserver/2021/08/08/ef6-microsoft-data-sqlclient.html) for why that can be desirable.
+This provider depends on the modern Microsoft.Data.SqlClient ADO.NET provider, see my [blog post here](https://erikej.github.io/ef6/sqlserver/2021/08/08/ef6-microsoft-data-sqlclient.html) for why that can be desirable. One of the main reasons is the additional Azure Active Directory authentication methods [that are now available.](https://learn.microsoft.com/sql/connect/ado-net/sql/azure-active-directory-authentication)
 
 The latest build of this package is available from [NuGet](https://www.nuget.org/packages/ErikEJ.EntityFramework.SqlServer/)
 
