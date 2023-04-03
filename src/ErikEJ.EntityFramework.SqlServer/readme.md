@@ -140,6 +140,10 @@ Please report any issues, questions and suggestions [here](https://github.com/Er
 
 ## Release notes
 
+### 6.6.5
+
+- Uses Microsoft.Data.SqlClient 5.1.1
+
 ### 6.6.4
 
 - Fix wrong resource reference (to legacy provider assembly)
