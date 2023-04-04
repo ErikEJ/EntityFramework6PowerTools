@@ -12,11 +12,11 @@
     <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>key.snk</AssemblyOriginatorKeyFile>
 	<PackageId>ErikEJ.EntityFramework.SqlServer</PackageId>
-	<PackageVersion>6.6.4</PackageVersion>
+	<PackageVersion>6.6.5</PackageVersion>
 	<Authors>ErikEJ</Authors>
 	<Description>SQL Server provider for Entity Framework 6.4, using the Microsoft.Data.SqlClient ADO.NET provider.</Description>
 	<PackageProjectUrl>https://github.com/ErikEJ/EntityFramework6PowerTools</PackageProjectUrl>
-	<PackageReleaseNotes>Fix wrong resource reference</PackageReleaseNotes>
+	<PackageReleaseNotes>Update to M.D.S 5.1.1</PackageReleaseNotes>
 	<PackageLicenseExpression>MIT</PackageLicenseExpression>
 	<MinClientVersion>5.0</MinClientVersion>
 	<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
@@ -113,7 +113,7 @@
   <ItemGroup>
 	<PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1" PrivateAssets="All" />	  
     <PackageReference Include="EntityFramework" Version="6.4.4" />
-    <PackageReference Include="Microsoft.Data.SqlClient" Version="5.1.0" />
+    <PackageReference Include="Microsoft.Data.SqlClient" Version="5.1.1" />
   </ItemGroup>
 
   <ItemGroup>
