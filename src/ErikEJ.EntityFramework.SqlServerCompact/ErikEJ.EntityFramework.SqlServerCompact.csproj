@@ -4,13 +4,12 @@
     <RootNamespace>System.Data.Entity.SqlServerCompact</RootNamespace>
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
   	<GenerateAssemblyInfo>false</GenerateAssemblyInfo>  
-	  <AssemblyName>ErikEJ.EntityFramework.SqlServerCompact</AssemblyName>
+	<AssemblyName>ErikEJ.EntityFramework.SqlServerCompact</AssemblyName>
     <TargetFramework>net6.0</TargetFramework>
     <Description>Allows SQL Server Compact 4.0 to be used with Entity Framework.</Description>
     <AssemblyVersion>6.0.0.0</AssemblyVersion>
     <DefineConstants>$(DefineConstants);SQLSERVERCOMPACT;INTERNALS_INVISIBLE</DefineConstants>
     <MinClientVersion>5.0</MinClientVersion>
-
     <IsPackable>True</IsPackable>
     <PackageTags>$(PackageTags);SQL Compact;CE</PackageTags>
     <PackageId>ErikEJ.EntityFramework.SqlServerCompact</PackageId>
@@ -20,16 +19,13 @@
     <PackageProjectUrl>https://github.com/ErikEJ/EntityFramework6PowerTools</PackageProjectUrl>
     <PackageReleaseNotes>Initial preview</PackageReleaseNotes>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
-  	<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-	  <PackageReadmeFile>readme.md</PackageReadmeFile>
-	  
-	  <SignAssembly>true</SignAssembly>
-	  <AssemblyOriginatorKeyFile>Key.snk</AssemblyOriginatorKeyFile>
-
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <PackageReadmeFile>readme.md</PackageReadmeFile>	  
+    <SignAssembly>true</SignAssembly>
+    <AssemblyOriginatorKeyFile>Key.snk</AssemblyOriginatorKeyFile>
     <PublishRepositoryUrl>true</PublishRepositoryUrl>
-	  <EmbedUntrackedSources>true</EmbedUntrackedSources>
-	  <DebugType>embedded</DebugType>
-	   
+    <EmbedUntrackedSources>true</EmbedUntrackedSources>
+	<DebugType>embedded</DebugType>
   </PropertyGroup>
 
 	<PropertyGroup Condition="'$(CI)' == 'True'">
