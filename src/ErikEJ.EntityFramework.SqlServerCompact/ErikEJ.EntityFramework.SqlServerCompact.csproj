@@ -13,7 +13,7 @@
     <IsPackable>True</IsPackable>
     <PackageTags>$(PackageTags);SQL Compact;CE</PackageTags>
     <PackageId>ErikEJ.EntityFramework.SqlServerCompact</PackageId>
-    <PackageVersion>6.4.0-beta4</PackageVersion>
+    <PackageVersion>6.4.0-beta5</PackageVersion>
     <Authors>ErikEJ</Authors>
     <Description>SQL Server Compact provider for Entity Framework 6.4 on Windows</Description>
     <PackageProjectUrl>https://github.com/ErikEJ/EntityFramework6PowerTools</PackageProjectUrl>
@@ -70,7 +70,7 @@
   </ItemGroup>
 
   <ItemGroup>
-	<None Include="readme.md" Pack="true" PackagePath="\"/>  
+	<None Include="readme.md" Pack="true" PackagePath="\" />  
     <None Update="Properties\Resources.SqlServerCompact.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>Resources.SqlServerCompact.cs</LastGenOutput>
@@ -105,13 +105,13 @@
   </ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="EntityFramework" Version="6.4.0" />
-		<PackageReference Include="Microsoft.Windows.Compatibility" Version="5.0.2" />
-		<PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0" PrivateAssets="All" />
+		<PackageReference Include="EntityFramework" Version="6.4.4" />
+		<PackageReference Include="Microsoft.Windows.Compatibility" Version="6.0.3" />
+		<PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1" PrivateAssets="All" />
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Reference Include="System.Data.SqlServerCe, Version=4.0.0.1" >
+	  <Reference Include="System.Data.SqlServerCe, Version=4.0.0.1">
 		<SpecificVersion>true</SpecificVersion>
 		<FusionName>System.Data.SqlServerCe, Version=4.0.0.1, Culture=neutral, PublicKeyToken=89845dcd8080cc91</FusionName>
 	    <HintPath>Engine\System.Data.SqlServerCe.dll</HintPath>
