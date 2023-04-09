@@ -1,6 +1,6 @@
 # Entity Framework 6 Power Tools Community Edition
 
-This is a fork of the "official" [EF 6 repository](https://github.com/aspnet/entityFramework6/), which hosts the Visual Studio 2017 and later version of EF Power Tools and also an EF 6 SQL Server provider, that uses the Microsoft.Data.SqlClient ADO.NET provider.  
+This is a fork of the "official" [EF 6 repository](https://github.com/aspnet/entityFramework6/), which hosts the Visual Studio 2017 and 2019 versions of EF Power Tools and also a modern EF 6 SQL Server provider, that uses the Microsoft.Data.SqlClient ADO.NET provider.  
 
 # What are the Power Tools?
 
@@ -26,9 +26,9 @@ This is a replacement provider for the built-in SQL Server provider.
 
 See the [dedicated readme](https://github.com/ErikEJ/EntityFramework6PowerTools/blob/community/src/ErikEJ.EntityFramework.SqlServer/readme.md) for more information.
 
-# Preview of EF6 SQL Server Compact provider for .NET 5
+# Preview of EF6 SQL Server Compact provider for .NET 6
 
-This is an update of the SQL Server Compact provider, that runs under .NET 5 on Windows.
+This is an update of the SQL Server Compact provider, that runs under .NET 6 on Windows.
 
 See the [dedicated readme](https://github.com/ErikEJ/EntityFramework6PowerTools/blob/community/src/ErikEJ.EntityFramework.SqlServerCompact/readme.md) for more information.
 
