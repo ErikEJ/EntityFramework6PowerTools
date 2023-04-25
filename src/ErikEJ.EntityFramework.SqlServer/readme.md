@@ -101,7 +101,7 @@ Also update the provider name inside the EntityConnection connection string - sa
 </configuration>
 ````
 
-> In order to use the EDMX file with the Visual Studio designer, use Visual Studio 17.6 or later. Make sure to restore packages and build before opening the designer. You may need to restart Visual Studio after building for the first time.
+> In order to use the EDMX file with the Visual Studio designer, use Visual Studio 17.6 or later. Make sure to restore packages and build before opening the designer. You may need to restart Visual Studio after building for the first time. For designer issues, report [here](https://developercommunity.visualstudio.com/).
 
 
 ## Code changes
