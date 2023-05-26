@@ -15,6 +15,8 @@ namespace CoreConsoleApp
 
             using (var ctx = new SchoolContext(new SqlConnection(connectionString)))
             {
+                ctx.Database.Log = Console.WriteLine;
+
                 ctx.Database.ExecuteSqlCommand("SELECT 1");
 
                 var students = ctx.Students.Where(s => "erik" == SqlFunctions.UserName()).ToList();
