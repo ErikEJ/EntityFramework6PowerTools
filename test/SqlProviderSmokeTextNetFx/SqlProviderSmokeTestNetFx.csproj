@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <Compile Include="..\SqlProviderSmokeTextNetCore\Test1.cs" Link="Test1.cs" />
+    <Compile Include="..\SqlProviderSmokeTextNetCore\Test2.cs" Link="Test2.cs" />
   </ItemGroup>
 
   <ItemGroup>
