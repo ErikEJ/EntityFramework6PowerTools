@@ -152,8 +152,13 @@ namespace <#= outputNamespace #>.Resources
 
         private EntityRes()
         {
+#if NETSTANDARD2_1_OR_GREATER
             resources = new ResourceManager(
-                "System.Data.Entity.SqlServer.Properties.<#= Path.GetFileNameWithoutExtension(Host.TemplateFile) #>", typeof(System.Data.Entity.SqlServer.SqlProviderServices).Assembly());
+                "System.Data.Entity.SqlServer.Resources.Strings", typeof(System.Data.Entity.SqlServer.MicrosoftSqlProviderServices).Assembly());
+#else
+            resources = new ResourceManager(
+                "System.Data.Entity.SqlServer.Properties.<#= Path.GetFileNameWithoutExtension(Host.TemplateFile) #>", typeof(System.Data.Entity.SqlServer.MicrosoftSqlProviderServices).Assembly());
+#endif
         }
 
         private static EntityRes GetLoader()
