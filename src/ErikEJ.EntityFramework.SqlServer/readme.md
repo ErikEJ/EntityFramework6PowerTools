@@ -140,6 +140,10 @@ Please report any issues, questions and suggestions [here](https://github.com/Er
 
 ## Release notes
 
+### 6.6.6
+
+- Fix for .NET resource load issue
+
 ### 6.6.5
 
 - Uses Microsoft.Data.SqlClient 5.1.1
