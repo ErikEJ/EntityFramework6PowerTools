@@ -3,6 +3,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.Data.Entity.Core;
 using System.Linq;
 
 namespace SmokeTestNetFx
@@ -36,6 +37,21 @@ namespace SmokeTestNetFx
                 Assert.IsTrue(students.Count > 0);
 
                 Assert.IsTrue(ctx.Database.Connection as SqlConnection != null);
+            }
+        }
+
+        [TestMethod]
+        public void SmokeTest2()
+        {
+            var connectionString = "Data Source=.\\SQLEXPRESS;Initial Catalog=School;Integrated Security=True;Encrypt=false";
+
+            using (var ctx = new SchoolContext(connectionString))
+            {
+                string sql = "RAISERROR(49918, 16, 1, 'Cannot process request. Not enough resources to process request.');";
+
+                var ex = Assert.ThrowsException<EntityException>(() => ctx.Database.ExecuteSqlCommand(sql));
+
+                Assert.IsTrue(ex.InnerException is SqlException);
             }
         }
 

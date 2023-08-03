@@ -53,14 +53,14 @@
       <HintPath>..\..\packages\EntityFramework.6.4.4\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
     <Reference Include="ErikEJ.EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=3f85300590faaa00, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\ErikEJ.EntityFramework.SqlServer.6.6.4\lib\net462\ErikEJ.EntityFramework.SqlServer.dll</HintPath>
+      <HintPath>..\..\packages\ErikEJ.EntityFramework.SqlServer.6.6.6-preview2\lib\net462\ErikEJ.EntityFramework.SqlServer.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Bcl.AsyncInterfaces, Version=1.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Microsoft.Bcl.AsyncInterfaces.1.1.1\lib\net461\Microsoft.Bcl.AsyncInterfaces.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Microsoft.Data.SqlClient, Version=5.0.0.0, Culture=neutral, PublicKeyToken=23ec7fc2d6eaa4a5, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Microsoft.Data.SqlClient.5.1.0\lib\net462\Microsoft.Data.SqlClient.dll</HintPath>
+      <HintPath>..\..\packages\Microsoft.Data.SqlClient.5.1.1\lib\net462\Microsoft.Data.SqlClient.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Identity.Client, Version=4.47.2.0, Culture=neutral, PublicKeyToken=0a613f4dd989e8ae, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Microsoft.Identity.Client.4.47.2\lib\net461\Microsoft.Identity.Client.dll</HintPath>
