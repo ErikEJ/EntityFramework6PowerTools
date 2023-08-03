@@ -508,8 +508,13 @@ namespace System.Data.Entity.SqlServer.Resources
 
         private EntityRes()
         {
+#if NETSTANDARD2_1_OR_GREATER
+            resources = new ResourceManager(
+                "System.Data.Entity.SqlServer.Resources.Strings", typeof(System.Data.Entity.SqlServer.MicrosoftSqlProviderServices).Assembly());
+#else
             resources = new ResourceManager(
                 "System.Data.Entity.SqlServer.Properties.Resources.SqlServer", typeof(System.Data.Entity.SqlServer.MicrosoftSqlProviderServices).Assembly());
+#endif
         }
 
         private static EntityRes GetLoader()
