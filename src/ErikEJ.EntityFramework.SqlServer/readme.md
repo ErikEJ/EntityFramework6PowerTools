@@ -142,7 +142,7 @@ Please report any issues, questions and suggestions [here](https://github.com/Er
 
 ### 6.6.6
 
-- Fix for .NET resource load issue
+- Fix for .NET resource load bug
 
 ### 6.6.5
 
