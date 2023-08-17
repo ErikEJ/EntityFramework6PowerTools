@@ -1,6 +1,6 @@
 # Entity Framework 6 Power Tools Community Edition
 
-This is a fork of the "official" [EF 6 repository](https://github.com/aspnet/entityFramework6/), which hosts the Visual Studio 2017 and 2019 versions of EF Power Tools and also a modern EF 6 SQL Server provider, that uses the Microsoft.Data.SqlClient ADO.NET provider.  
+This is a fork of the "official" [EF 6 repository](https://github.com/aspnet/entityFramework6/), which hosts the Visual Studio 2017 and 2019 versions of EF Power Tools and also a modern EF 6 SQL Server runtime provider, that uses the modern Microsoft.Data.SqlClient ADO.NET provider.  
 
 # What are the Power Tools?
 
@@ -13,16 +13,16 @@ When right-clicking on a file containing a derived DbContext class, the followin
 4. Generate Views 
 
 When right-clicking on an Entity Data Model .edmx  file, the following context menu function is available: 
-1. Generate Views.
+- Generate Views.
 
 When right-clicking a project, the following menu function is available:
-1. Customize Reverse Engineer Templates
+- Customize Reverse Engineer Templates
 
 If you are looking for Reverse Engineering tools, I recommend using the ["Code First from Database" feature](http://www.entityframeworktutorial.net/code-first/code-first-from-existing-database.aspx) that is included with the standard Visual Studio tooling for EF 6.
 
 # EF6 SQL Server / Azure SQL Database provider based on Microsoft.Data.SqlClient
 
-This is a replacement provider for the built-in SQL Server provider.
+This is a replacement runtime provider for the built-in SQL Server provider.
 
 See the [dedicated readme](https://github.com/ErikEJ/EntityFramework6PowerTools/blob/community/src/ErikEJ.EntityFramework.SqlServer/readme.md) for more information.
 
@@ -36,7 +36,7 @@ See the [dedicated readme](https://github.com/ErikEJ/EntityFramework6PowerTools/
 
 **Release**
 
-The Power Tools will remain in "beta" status.
+The Power Tools will remain in "beta" status, and will not be ported to Visual Studio 2022 or later.
 
 Download the latest released version from [Visual Studio MarketPlace](https://marketplace.visualstudio.com/items?itemName=ErikEJ.EntityFramework6PowerToolsCommunityEdition)
 
