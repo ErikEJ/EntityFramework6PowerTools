@@ -1,6 +1,6 @@
 # Entity Framework 6 SQL Server provider based on Microsoft.Data.SqlClient
 
-This Entity Framework 6 provider is a replacement provider for the built-in SQL Server provider. 
+This Entity Framework 6 provider is a runtime replacement provider for the built-in SQL Server provider. 
 
 This provider depends on the modern Microsoft.Data.SqlClient ADO.NET provider, see my [blog post here](https://erikej.github.io/ef6/sqlserver/2021/08/08/ef6-microsoft-data-sqlclient.html) for why that can be desirable. One of the main reasons is the additional Azure Active Directory authentication methods [that are now available.](https://learn.microsoft.com/sql/connect/ado-net/sql/azure-active-directory-authentication)
 
@@ -101,7 +101,7 @@ Also update the provider name inside the EntityConnection connection string - sa
 </configuration>
 ````
 
-> In order to use the EDMX file with the Visual Studio designer, use Visual Studio 17.6 or later. Make sure to restore packages and build before opening the designer. You may need to restart Visual Studio after building for the first time. For designer issues, report [here](https://developercommunity.visualstudio.com/). An interesting hack for some designer issues [is described here](https://github.com/dotnet/SqlClient/issues/2020#issuecomment-1528907830).
+> In order to use the EDMX file with the Visual Studio designer, use Visual Studio 17.6 or later. Your project must be a "classic" .NET Framework project. Make sure to restore packages and build before opening the designer. You may need to restart Visual Studio after building for the first time. For designer issues, report [here](https://developercommunity.visualstudio.com/). An interesting hack for some designer issues [is described here](https://github.com/dotnet/SqlClient/issues/2020#issuecomment-1528907830).
 
 
 ## Code changes

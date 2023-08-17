@@ -14,7 +14,7 @@
 	<PackageId>ErikEJ.EntityFramework.SqlServer</PackageId>
 	<PackageVersion>6.6.6</PackageVersion>
 	<Authors>ErikEJ</Authors>
-	<Description>SQL Server provider for Entity Framework 6.4, using the Microsoft.Data.SqlClient ADO.NET provider.</Description>
+	<Description>SQL Server runtime provider for Entity Framework 6.4, using the Microsoft.Data.SqlClient ADO.NET provider.</Description>
 	<PackageProjectUrl>https://github.com/ErikEJ/EntityFramework6PowerTools</PackageProjectUrl>
 	<PackageReleaseNotes>Fix .NET Standard resource loader issue</PackageReleaseNotes>
 	<PackageLicenseExpression>MIT</PackageLicenseExpression>
