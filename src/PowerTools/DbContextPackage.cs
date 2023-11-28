@@ -506,7 +506,7 @@ namespace Microsoft.DbContextPackage
                             return false;
                         }
 
-                        return fullName == startupProjectPath;
+                        return fullName.ToUpper() == startupProjectPath.ToUpper();
                     });
             }
 
