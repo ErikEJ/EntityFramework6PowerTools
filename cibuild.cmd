@@ -1,6 +1,6 @@
 .nuget\nuget restore .\ErikEJ.EntityFramework.SqlServer.sln -DisableParallelProcessing -NonInteractive -Verbosity quiet -Source https://api.nuget.org/v3/index.json
 
-SET CI=True
+SET CILOCAL=True
 
 msbuild ErikEJ.EntityFramework.SqlServer.sln /p:configuration=Release /v:m
 

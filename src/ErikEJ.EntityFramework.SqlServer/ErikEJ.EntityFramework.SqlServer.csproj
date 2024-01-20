@@ -126,7 +126,7 @@
     </PackageReference>
   </ItemGroup>
 
-    <Target Name="SignAssemblies" Condition="'$(CI)' == 'True'" BeforeTargets="CopyFilesToOutputDirectory" DependsOnTargets="ComputeIntermediateSatelliteAssemblies">
+    <Target Name="SignAssemblies" Condition="'$(CILOCAL)' == 'True'" BeforeTargets="CopyFilesToOutputDirectory" DependsOnTargets="ComputeIntermediateSatelliteAssemblies">
 	    <PropertyGroup>
 		    <SignToolPath>C:\temp\signtool.exe</SignToolPath>
 		    <SignToolPath Condition="!Exists($(SignToolPath))">signtool.exe</SignToolPath>
