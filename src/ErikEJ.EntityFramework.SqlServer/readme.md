@@ -140,6 +140,10 @@ Please report any issues, questions and suggestions [here](https://github.com/Er
 
 ## Release notes
 
+### 6.6.9
+
+- Uses Microsoft.Data.SqlClient 5.1.5
+
 ### 6.6.7
 
 - Uses Microsoft.Data.SqlClient 5.1.4
