@@ -112,6 +112,8 @@ In order to use the provider in an existing solution, a few code changes are req
 
 `using System.Data.SqlClient;` => `using Microsoft.Data.SqlClient;`
 
+`using Microsoft.SqlServer.Server;` => `using Microsoft.Data.SqlClient.Server;`
+
 The following classes have been renamed to avoid conflicts with classes in the existing SQL Server provider:
 
 `SqlAzureExecutionStrategy` => `MicrosoftSqlAzureExecutionStrategy`
