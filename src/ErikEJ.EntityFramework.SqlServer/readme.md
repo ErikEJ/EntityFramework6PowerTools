@@ -1,5 +1,5 @@
 # ErikEJ.EntityFramework.SqlServer
-[![latest version](https://img.shields.io/nuget/v/ErikEJ.EntityFramework.SqlServer)](https://www.nuget.org/packages/ErikEJ.EntityFramework.SqlServer) [![downloads](https://img.shields.io/nuget/dt/ErikEJ.EntityFramework.SqlServer)](https://www.nuget.org/packages/ErikEJ.EntityFramework.SqlServer.DateOnlyTimeOnly)
+[![latest version](https://img.shields.io/nuget/v/ErikEJ.EntityFramework.SqlServer)](https://www.nuget.org/packages/ErikEJ.EntityFramework.SqlServer) [![downloads](https://img.shields.io/nuget/dt/ErikEJ.EntityFramework.SqlServer)](https://www.nuget.org/packages/ErikEJ.EntityFramework.SqlServer)
 
 
 This Entity Framework 6 provider is a runtime replacement provider for the built-in SQL Server provider. 
