@@ -24,6 +24,8 @@ If you are looking for Reverse Engineering tools, I recommend using the ["Code F
 
 This is a replacement runtime provider for the built-in SQL Server provider.
 
+**UPDATE** An [official Microsoft package](https://www.nuget.org/packages/Microsoft.EntityFramework.SqlServer/) based on this package has just been published.
+
 See the [dedicated readme](https://github.com/ErikEJ/EntityFramework6PowerTools/blob/community/src/ErikEJ.EntityFramework.SqlServer/readme.md) for more information.
 
 # Preview of EF6 SQL Server Compact provider for .NET 6
