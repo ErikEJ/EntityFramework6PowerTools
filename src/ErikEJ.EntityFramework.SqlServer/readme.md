@@ -8,6 +8,8 @@ This provider depends on the modern Microsoft.Data.SqlClient ADO.NET provider, s
 
 The latest build of this package is available from [NuGet](https://www.nuget.org/packages/ErikEJ.EntityFramework.SqlServer/)
 
+**UPDATE** An [official Microsoft package](https://www.nuget.org/packages/Microsoft.EntityFramework.SqlServer/) based on this package has been published.
+
 ## Configuration
 
 There are various ways to configure Entity Framework to use this provider.
