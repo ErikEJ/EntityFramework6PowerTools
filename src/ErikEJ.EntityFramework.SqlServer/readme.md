@@ -146,6 +146,11 @@ Please report any issues, questions and suggestions [here](https://github.com/Er
 
 ## Release notes
 
+### 6.6.10
+
+- Uses Microsoft.Data.SqlClient 5.2.0
+- Work around issue https://github.com/dotnet/SqlClient/issues/2524 in CloneDbConnection
+
 ### 6.6.9
 
 - Uses Microsoft.Data.SqlClient 5.1.5

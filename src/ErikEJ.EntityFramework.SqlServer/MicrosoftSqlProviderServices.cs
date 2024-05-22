@@ -1543,7 +1543,7 @@ namespace System.Data.Entity.SqlServer
             if (connection is SqlConnection sqlConnection && sqlConnection.AccessTokenCallback != null)
             {
                 // SqlConnection.Clone doesn't handle this case, so we special-case it here, if later it's fixed in
-                // Microsoft.Data.SqlCLient, we can remove this code piece.
+                // Microsoft.Data.SqlCLient, we can remove this code piece. See https://github.com/dotnet/SqlClient/issues/2524
                 return new SqlConnection(sqlConnection.ConnectionString)
                 {
                     AccessTokenCallback = sqlConnection.AccessTokenCallback,
