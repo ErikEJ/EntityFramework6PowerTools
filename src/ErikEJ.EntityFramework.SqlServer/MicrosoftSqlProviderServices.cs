@@ -45,7 +45,7 @@ namespace System.Data.Entity.SqlServer
     /// services for SQL Server.
     /// </remarks>
     [SuppressMessage("Microsoft.Maintainability", "CA1506:AvoidExcessiveClassCoupling")]
-    public sealed class MicrosoftSqlProviderServices : DbProviderServices
+    public class MicrosoftSqlProviderServices : DbProviderServices
     {
         /// <summary>
         /// This is the well-known string using in configuration files and code-based configuration as
