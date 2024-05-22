@@ -113,6 +113,11 @@ namespace System.Data.Entity.SqlServer
         }
 
         /// <summary>
+        /// Set to intercept CloneDbConnection method. If null is returned, original cloning logic remains.
+        /// </summary>
+        public static Func<DbConnection, DbConnection> CustomClone { get; set; }
+
+        /// <summary>
         /// Set to the full name of the Microsoft.SqlServer.Types assembly to override the default selection
         /// </summary>
         public static string SqlServerTypesAssemblyName { get; set; }
@@ -1539,6 +1544,12 @@ namespace System.Data.Entity.SqlServer
         {
             DebugCheck.NotNull(connection);
             DebugCheck.NotNull(factory);
+
+            var customCloned = CustomClone?.Invoke(connection);
+            if (customCloned != null)
+            {
+                return customCloned;
+            }
 
             var clonableConnection = connection as ICloneable;
             if (clonableConnection != null)
