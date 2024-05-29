@@ -132,6 +132,26 @@ The following classes have been renamed to avoid conflicts with classes in the e
 
 ## Known issues
 
+**Azure App Service with .NET Framework and connection strings configuration**
+
+If you use Azure App Service with .NET Framework and the [connection strings configuration feature](https://learn.microsoft.com/azure/app-service/configure-common?tabs=portal#configure-connection-strings), you can encounter runtime issues, as the `ProviderName` connection string setting in this scenario is hardcoded to `System.Data.SqlClient`.
+
+Solution is to use a derived MicrosoftSqlDbConfiguration class like this:
+
+```csharp
+public class AppServiceConfiguration : MicrosoftSqlDbConfiguration
+{
+    public AppServiceConfiguration()
+    {
+        SetProviderFactory("System.Data.SqlClient", Microsoft.Data.SqlClient.SqlClientFactory.Instance);
+        SetProviderServices("System.Data.SqlClient", MicrosoftSqlProviderServices.Instance);
+        SetExecutionStrategy("System.Data.SqlClient", () => new MicrosoftSqlAzureExecutionStrategy());
+    }
+}
+```
+
+Then use this derived class in the code-based configuration described above.
+
 **EntityFramework.dll installed in GAC**
 
 If an older version of EntityFramework.dll is installed in the .NET Framework GAC (Global Assembly Cache), you might get this runtime error:
@@ -145,6 +165,11 @@ Solution is to remove the .dll from the GAC, see [this for more info](https://gi
 Please report any issues, questions and suggestions [here](https://github.com/ErikEJ/EntityFramework6PowerTools/issues)
 
 ## Release notes
+
+### 6.6.11
+
+- Uses Microsoft.Data.SqlClient 5.2.1
+- Removed work around for issue https://github.com/dotnet/SqlClient/issues/2524
 
 ### 6.6.10
 
