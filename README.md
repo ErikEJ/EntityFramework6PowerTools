@@ -1,6 +1,6 @@
 # Entity Framework 6 Power Tools Community Edition
 
-This is a fork of the "official" [EF 6 repository](https://github.com/aspnet/entityFramework6/), which hosts the Visual Studio 2017 and 2019 versions of EF Power Tools and also a modern EF 6 SQL Server runtime provider, that uses the modern Microsoft.Data.SqlClient ADO.NET provider.  
+This is a fork of the "official" [EF 6 repository](https://github.com/aspnet/entityFramework6/), which hosts the Visual Studio 2017, 2019 and 2026 versions of EF Power Tools and also a modern EF 6 SQL Server runtime provider, that uses the modern Microsoft.Data.SqlClient ADO.NET provider.  
 
 # What are the Power Tools?
 
@@ -38,7 +38,7 @@ See the [dedicated readme](https://github.com/ErikEJ/EntityFramework6PowerTools/
 
 **Release**
 
-The Power Tools will remain in "beta" status, and will not be ported to Visual Studio 2022 or later.
+The Power Tools will remain in "beta" status, and will not be ported to Visual Studio 2022.
 
 Download the latest released version from [Visual Studio MarketPlace](https://marketplace.visualstudio.com/items?itemName=ErikEJ.EntityFramework6PowerToolsCommunityEdition)
 
@@ -55,6 +55,10 @@ There are lots of ways to contribute, including testing out nighty builds, repor
 If you encounter a bug or have a feature request, please use the [Issue Tracker](https://github.com/ErikEJ/EntityFramework6PowerTools/issues/new).
 
 # Release Notes
+
+## Release 0.9.127
+
+* Added support for Visual Studio 2026
 
 ## Release 0.9.126 (September, 2021)
 
