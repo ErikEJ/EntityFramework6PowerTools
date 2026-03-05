@@ -3,18 +3,9 @@
     <Metadata>
         <Identity Id="F0A7D01D-4834-44C3-99B2-5907A0701906" Version="0.9.5.0" Language="en-US" Publisher="ErikEJ" />
         <DisplayName>Entity Framework 6 Power Tools Community Edition</DisplayName>
-        <Description xml:space="preserve">Useful design-time utilities for EF 6, accessible through the Visual Studio Solution Explorer context menu.
+        <Description xml:space="preserve">Design-time utility for EF 6, accessible through the Visual Studio Solution Explorer context menu.
 
-When right-clicking on a file containing a derived DbContext class, the following context menu functions are supported:
-1) View Entity Data Model (Read-only)
-2) View Entity Data Model XML
-3) View Entity Data Model DDL SQL
-4) Generate Views
-
-When right-clicking on a project, the following context menu functions are supported:
-1) Customize Reverse Engineer Templates
-
-When right-clicking on an Entity Data Model (*.edmx) file, the following context menu function is supported:
+When right-clicking on a file containing a derived DbContext class or an Entity Data Model (*.edmx) file, the following context menu function is supported:
 1) Generate Views</Description>
         <MoreInfo>http://go.microsoft.com/fwlink/?LinkId=327691</MoreInfo>
         <License>License.rtf</License>

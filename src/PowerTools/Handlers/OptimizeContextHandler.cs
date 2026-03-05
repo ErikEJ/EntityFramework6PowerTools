@@ -175,6 +175,7 @@ namespace Microsoft.DbContextPackage.Handlers
 
                 // TODO: rewrite using async/await
 
+#pragma warning disable VSTHRD110 // Observe result of async calls
 #pragma warning disable VSTHRD105 // Avoid method overloads that assume TaskScheduler.Current
                 Task.Factory.StartNew(
 #pragma warning restore VSTHRD105 // Avoid method overloads that assume TaskScheduler.Current
@@ -182,9 +183,7 @@ namespace Microsoft.DbContextPackage.Handlers
                         {
                             generateAction(viewsPath);
                         })
-#pragma warning disable VSTHRD110 // Observe result of async calls
                     .ContinueWith(
-#pragma warning restore VSTHRD110 // Observe result of async calls
                         t =>
                         {
                             VisualStudio.Shell.ThreadHelper.ThrowIfNotOnUIThread();
@@ -204,6 +203,7 @@ namespace Microsoft.DbContextPackage.Handlers
                             _package.DTE2.StatusBar.Text = Strings.Optimize_End(baseFileName, Path.GetFileName(viewsPath));
                         },
                         TaskScheduler.FromCurrentSynchronizationContext());
+#pragma warning restore VSTHRD110 // Observe result of async calls
             }
             catch
             {

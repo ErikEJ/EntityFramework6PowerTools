@@ -98,6 +98,7 @@ namespace Microsoft.DbContextPackage.Extensions
 
         public static bool IsWebProject(this Project project)
         {
+            ThreadHelper.ThrowIfNotOnUIThread();
             DebugCheck.NotNull(project);
 
             return project.GetProjectTypes().Any(

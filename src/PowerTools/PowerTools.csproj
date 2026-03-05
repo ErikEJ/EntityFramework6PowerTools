@@ -70,9 +70,6 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Dialogs\AboutDialog.xaml.cs">
-      <DependentUpon>AboutDialog.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Extensions\EdmSchemaErrorException.cs" />
     <Compile Include="Extensions\IComponentModelExtensions.cs" />
     <Compile Include="Extensions\IEnumerableOfEdmSchemaErrorExtensions.cs" />
@@ -82,11 +79,7 @@
     <Compile Include="Extensions\SourceControlExtenstions.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="Extensions\XContainerExtensions.cs" />
-    <Compile Include="Handlers\AboutHandler.cs" />
-    <Compile Include="Handlers\AddCustomTemplatesHandler.cs" />
     <Compile Include="Handlers\OptimizeContextHandler.cs" />
-    <Compile Include="Handlers\ViewContextHandler.cs" />
-    <Compile Include="Handlers\ViewDdlHandler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\InternalsVisibleTo.cs" />
     <Compile Include="Properties\Resources.cs">
@@ -132,11 +125,7 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <IncludeInVSIX>true</IncludeInVSIX>
     </Content>
-    <Resource Include="Resources\h.png" />
-    <Resource Include="Resources\1.png" />
-    <Resource Include="Resources\2.png" />
     <Resource Include="Resources\3.png" />
-    <Resource Include="Resources\4.png" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Properties\Resources.resx">
@@ -152,18 +141,6 @@
     <None Include="app.config">
       <SubType>Designer</SubType>
     </None>
-    <Content Include="CodeTemplates\EFModelFromDatabase\Context.cs.t4">
-      <IncludeInVSIX>true</IncludeInVSIX>
-    </Content>
-    <Content Include="CodeTemplates\EFModelFromDatabase\EntityType.cs.t4">
-      <IncludeInVSIX>true</IncludeInVSIX>
-    </Content>
-    <Content Include="CodeTemplates\EFModelFromDatabase\Context.vb.t4">
-      <IncludeInVSIX>true</IncludeInVSIX>
-    </Content>
-    <Content Include="CodeTemplates\EFModelFromDatabase\EntityType.vb.t4">
-      <IncludeInVSIX>true</IncludeInVSIX>
-    </Content>
     <None Include="Properties\Resources.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>Resources.cs</LastGenOutput>
@@ -188,12 +165,6 @@
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
-  </ItemGroup>
-  <ItemGroup>
-    <Page Include="Dialogs\AboutDialog.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.VisualStudio.SDK" Version="17.6.36389" />

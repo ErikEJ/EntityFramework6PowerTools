@@ -35,10 +35,6 @@ namespace Microsoft.DbContextPackage
     public sealed class DbContextPackage : AsyncPackage
     {
         private readonly OptimizeContextHandler _optimizeContextHandler;
-        private readonly ViewContextHandler _viewContextHandler;
-        private readonly ViewDdlHandler _viewDdlHandler;
-        private readonly AboutHandler _aboutHandler;
-        private readonly AddCustomTemplatesHandler _addCustomTemplatesHandler;
         private HashSet<string> _tempFileNames;
 
         private DTE2 _dte2;
@@ -46,10 +42,6 @@ namespace Microsoft.DbContextPackage
         public DbContextPackage()
         {
             _optimizeContextHandler = new OptimizeContextHandler(this);
-            _viewContextHandler = new ViewContextHandler(this);
-            _viewDdlHandler = new ViewDdlHandler(this);
-            _addCustomTemplatesHandler = new AddCustomTemplatesHandler(this);
-            _aboutHandler = new AboutHandler(this);
             _tempFileNames = new HashSet<string>();
         }
 
@@ -64,6 +56,8 @@ namespace Microsoft.DbContextPackage
         {
             await base.InitializeAsync(cancellationToken, progress);
 
+            await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync(cancellationToken);
+
             _dte2 = await GetServiceAsync(typeof(DTE)) as DTE2;
             Assumes.Present(_dte2);
             if (_dte2 == null)
@@ -74,74 +68,13 @@ namespace Microsoft.DbContextPackage
             var oleMenuCommandService
                 = await GetServiceAsync(typeof(IMenuCommandService)) as OleMenuCommandService;
 
-            await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
-
             if (oleMenuCommandService != null)
             {
-                var menuCommandID1 = new CommandID(GuidList.guidDbContextPackageCmdSet, (int)PkgCmdIDList.cmdidViewEntityDataModel);
-                var menuItem1 = new OleMenuCommand(OnItemContextMenuInvokeHandler, null, OnItemMenuBeforeQueryStatus, menuCommandID1);
-
-                oleMenuCommandService.AddCommand(menuItem1);
-
-                var menuCommandID2 = new CommandID(GuidList.guidDbContextPackageCmdSet, (int)PkgCmdIDList.cmdidViewEntityDataModelXml);
-                var menuItem2 = new OleMenuCommand(OnItemContextMenuInvokeHandler, null, OnItemMenuBeforeQueryStatus, menuCommandID2);
-
-                oleMenuCommandService.AddCommand(menuItem2);
-
                 var menuCommandID3 = new CommandID(GuidList.guidDbContextPackageCmdSet, (int)PkgCmdIDList.cmdidPrecompileEntityDataModelViews);
                 var menuItem3 = new OleMenuCommand(OnOptimizeContextInvokeHandler, null, OnOptimizeContextBeforeQueryStatus, menuCommandID3);
 
                 oleMenuCommandService.AddCommand(menuItem3);
-
-                var menuCommandID4 = new CommandID(GuidList.guidDbContextPackageCmdSet, (int)PkgCmdIDList.cmdidViewEntityModelDdl);
-                var menuItem4 = new OleMenuCommand(OnItemContextMenuInvokeHandler, null, OnItemMenuBeforeQueryStatus, menuCommandID4);
-
-                oleMenuCommandService.AddCommand(menuItem4);
-
-                var menuCommandID5 = new CommandID(GuidList.guidDbContextPackageCmdSet, (int)PkgCmdIDList.cmdidAbout);
-                var menuItem5 = new OleMenuCommand(OnItemContextMenuInvokeHandler, null, OnItemMenuBeforeQueryStatus, menuCommandID5);
-
-                oleMenuCommandService.AddCommand(menuItem5);
-
-                var menuCommandID6 = new CommandID(GuidList.guidDbContextPackageCmdSet, (int)PkgCmdIDList.cmdidCustomizeReverseEngineerTemplates);
-                var menuItem6 = new OleMenuCommand(OnProjectContextMenuInvokeHandler, null, OnProjectMenuBeforeQueryStatus, menuCommandID6);
-
-                oleMenuCommandService.AddCommand(menuItem6);
             }
-        }
-
-        private void OnProjectMenuBeforeQueryStatus(object sender, EventArgs e)
-        {
-            ThreadHelper.ThrowIfNotOnUIThread();
-
-            var menuCommand = sender as MenuCommand;
-
-            if (menuCommand == null)
-            {
-                return;
-            }
-
-            if (_dte2.SelectedItems.Count != 1)
-            {
-                return;
-            }
-
-            var project = _dte2.SelectedItems.Item(1).Project;
-
-            if (project == null)
-            {
-                return;
-            }
-
-            menuCommand.Visible = project.IsCSharpProject() || project.IsVBProject();
-        }
-
-        private void OnItemMenuBeforeQueryStatus(object sender, EventArgs e)
-        {
-            ThreadHelper.ThrowIfNotOnUIThread();
-            OnItemMenuBeforeQueryStatus(
-                sender,
-                new[] { FileExtensions.CSharp, FileExtensions.VisualBasic });
         }
 
         private void OnOptimizeContextBeforeQueryStatus(object sender, EventArgs e)
@@ -194,27 +127,6 @@ namespace Microsoft.DbContextPackage
             return (string)extension.Value;
         }
 
-        private void OnProjectContextMenuInvokeHandler(object sender, EventArgs e)
-        {
-            ThreadHelper.ThrowIfNotOnUIThread();
-
-            var menuCommand = sender as MenuCommand;
-            if (menuCommand == null || _dte2.SelectedItems.Count != 1)
-            {
-                return;
-            }
-
-            var project = _dte2.SelectedItems.Item(1).Project;
-            if (project == null)
-            {
-                return;
-            }
-            else if (menuCommand.CommandID.ID == PkgCmdIDList.cmdidCustomizeReverseEngineerTemplates)
-            {
-                _addCustomTemplatesHandler.AddCustomTemplates(project);
-            }
-        }
-
         private void OnItemContextMenuInvokeHandler(object sender, EventArgs e)
         {
             ThreadHelper.ThrowIfNotOnUIThread();
@@ -222,12 +134,6 @@ namespace Microsoft.DbContextPackage
 
             if (menuCommand == null)
             {
-                return;
-            }
-
-            if (menuCommand.CommandID.ID == PkgCmdIDList.cmdidAbout)
-            {
-                _aboutHandler.ShowDialog();
                 return;
             }
 
@@ -243,18 +149,7 @@ namespace Microsoft.DbContextPackage
 
                 if (context != null)
                 {
-                    if (menuCommand.CommandID.ID == PkgCmdIDList.cmdidPrecompileEntityDataModelViews)
-                    {
-                        _optimizeContextHandler.OptimizeContext(context);
-                    }
-                    else if (menuCommand.CommandID.ID == PkgCmdIDList.cmdidViewEntityModelDdl)
-                    {
-                        _viewDdlHandler.ViewDdl(context);
-                    }
-                    else
-                    {
-                        _viewContextHandler.ViewContext(menuCommand, context, systemContextType);
-                    }
+                    _optimizeContextHandler.OptimizeContext(context);
                 }
             }
             catch (TargetInvocationException ex)
@@ -584,6 +479,7 @@ namespace Microsoft.DbContextPackage
 
         private static void SetDataDirectory(Project project)
         {
+            ThreadHelper.ThrowIfNotOnUIThread();
             DebugCheck.NotNull(project);
 
             AppDomain.CurrentDomain.SetData(
